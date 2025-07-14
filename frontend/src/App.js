@@ -661,14 +661,32 @@ function App() {
     const created = new Date(createdAt);
     const diffInMinutes = Math.floor((now - created) / (1000 * 60));
     
-    if (diffInMinutes < 1) return 'Az önce';
-    if (diffInMinutes === 1) return '1 dk geçti';
-    if (diffInMinutes < 180) return `${diffInMinutes} dk geçti`;
+    // Format timestamp for display
+    const timeStamp = created.toLocaleString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
     
-    // 180 dakikadan sonra saat olarak göster
-    const hours = Math.floor(diffInMinutes / 60);
-    if (hours === 1) return '1 sa geçti';
-    return `${hours} sa geçti`;
+    let timeText = '';
+    if (diffInMinutes < 1) {
+      timeText = 'Az önce';
+    } else if (diffInMinutes === 1) {
+      timeText = '1 dk geçti';
+    } else if (diffInMinutes < 180) {
+      timeText = `${diffInMinutes} dk geçti`;
+    } else {
+      // 180 dakikadan sonra saat olarak göster
+      const hours = Math.floor(diffInMinutes / 60);
+      if (hours === 1) {
+        timeText = '1 sa geçti';
+      } else {
+        timeText = `${hours} sa geçti`;
+      }
+    }
+    
+    return `${timeText} (${timeStamp})`;
   };
 
   const RankBadge = ({ rank, size = 'md' }) => {
