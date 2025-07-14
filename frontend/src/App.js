@@ -518,8 +518,7 @@ function App() {
                       onChange={(e) => setNewPlayer(prev => ({...prev, age_range: e.target.value}))}
                       className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     >
-                      <option value="13-">13-</option>
-                      <option value="14-17">14-17</option>
+                      <option value="18-">18-</option>
                       <option value="18+">18+</option>
                     </select>
                   </div>
