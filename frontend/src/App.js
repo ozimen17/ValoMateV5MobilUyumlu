@@ -418,7 +418,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                 <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
                   <span className="text-lg">🎮</span>
                   <span>Lobi Kodu</span>
-                  <span className="text-gray-400 text-xs ml-2">(boş bırakılırsa otomatik oluşur)</span>
+                  <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
                   <input
