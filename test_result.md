@@ -124,17 +124,29 @@ backend:
         comment: "Comprehensive backend testing completed after age_range field removal from Player model. All 6 test categories passed perfectly: Health Check (✅), Games Endpoint (✅), Players Endpoint with 23 active players and confirmed age_range field removal (✅), Create Player functionality working without age_range field (✅), Player Filtering by game_mode/looking_for/mic_only parameters (✅), and Cleanup Functionality (✅). Updated backend_test.py to remove age_range field references. Backend API is fully functional with proper Player model structure, all CRUD operations working, filtering working correctly, and 30-minute auto-cleanup operational. Player creation and retrieval confirmed working without age_range field. Backend is production-ready."
 
 frontend:
-  - task: "Comprehensive frontend modernization with advanced UI/UX"
+  - task: "Remove age section from the website"
     implemented: true
     working: true
-    file: "App.js, App.css, tailwind.config.js"
+    file: "App.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
       - working: true
         agent: "main"
-        comment: "Successfully implemented comprehensive frontend modernization: 1) Multi-step form wizard with progress indicators, real-time validation, and enhanced user experience 2) Advanced search functionality with live filtering 3) Enhanced animations and micro-interactions with glassmorphism effects 4) Skeleton loading screens and improved loading states 5) Modern card designs with hover effects and smooth transitions 6) Enhanced toast notifications with different types 7) Improved mobile responsiveness with touch-friendly interactions 8) Updated Tailwind config with custom animations and utilities 9) Modern CSS with advanced effects, gradients, and animations 10) Enhanced accessibility with focus states and reduced motion support. The entire application now has a modern, professional look with advanced functionality."
+        comment: "Successfully removed age section from website. Removed 'YAŞ ARALIĞI' column from desktop table header, removed age display from desktop table rows, removed age display from mobile card view, and removed age_range field from form data."
+  
+  - task: "Remove '3 hours ago' text and show minutes since form completion"
+    implemented: true
+    working: true
+    file: "App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Successfully modified the getTimeAgo function to show only minutes passed since form completion. Changed from showing '3 sa önce' to showing 'X dk geçti' (X minutes passed). Updated time display format to be more precise."
 
 metadata:
   created_by: "main_agent"
