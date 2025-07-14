@@ -373,13 +373,13 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                       value={formData.tag}
                       onChange={(e) => {
                         let value = e.target.value;
-                        // Sadece # ile başlamıyorsa otomatik ekle
-                        if (value && !value.startsWith('#')) {
-                          value = '#' + value;
-                        }
-                        // Çift # durumunu engelle
-                        if (value.startsWith('##')) {
+                        // Kullanıcı # ile başlıyorsa, sadece # sonrasını al
+                        if (value.startsWith('#')) {
                           value = value.substring(1);
+                        }
+                        // Sonra her durumda # ekle
+                        if (value) {
+                          value = '#' + value;
                         }
                         setFormData(prev => ({...prev, tag: value}));
                       }}
