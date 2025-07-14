@@ -3,17 +3,17 @@ import './App.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
-// Rank images mapping
+// Rank images mapping - Updated with official Valorant rank images
 const RANK_IMAGES = {
-  'Demir': 'https://images.unsplash.com/photo-1617652094799-fed335f94ac1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxtZXRhbGxpYyUyMGJhZGdlc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE4NHww&ixlib=rb-4.1.0&q=85',
-  'Bronz': 'https://images.pexels.com/photos/6668814/pexels-photo-6668814.jpeg',
-  'Gümüş': 'https://images.unsplash.com/photo-1629651729397-ce68d7144d32?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxtZWRhbHMlMjB0cm9waGllc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE5Mnww&ixlib=rb-4.1.0&q=85',
-  'Altın': 'https://images.pexels.com/photos/6668875/pexels-photo-6668875.jpeg',
-  'Platin': 'https://images.pexels.com/photos/6668811/pexels-photo-6668811.jpeg',
-  'Elmas': 'https://images.unsplash.com/photo-1619472237856-1854c13bd940?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHxtZXRhbGxpYyUyMGJhZGdlc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE4NHww&ixlib=rb-4.1.0&q=85',
-  'Asens': 'https://images.pexels.com/photos/6668814/pexels-photo-6668814.jpeg',
-  'Ölümsüz': 'https://images.pexels.com/photos/6668875/pexels-photo-6668875.jpeg',
-  'Radyant': 'https://images.pexels.com/photos/6668811/pexels-photo-6668811.jpeg'
+  'Demir': 'https://premate.gg/media/Rank/Iron_3_Rank.webp',
+  'Bronz': 'https://premate.gg/media/Rank/Bronze_3_Rank.webp',
+  'Gümüş': 'https://premate.gg/media/Rank/Silver_3_Rank.webp',
+  'Altın': 'https://premate.gg/media/Rank/Gold_3_Rank.webp',
+  'Platin': 'https://premate.gg/media/Rank/Platinum_3_Rank.webp',
+  'Elmas': 'https://premate.gg/media/Rank/Diamond_3_Rank.webp',
+  'Asens': 'https://premate.gg/media/Rank/Ascendant_3_Rank.webp',
+  'Ölümsüz': 'https://premate.gg/media/Rank/Immortal_3_Rank.webp',
+  'Radyant': 'https://premate.gg/media/Rank/Radiant_Rank.webp'
 };
 
 // Rank colors for styling
