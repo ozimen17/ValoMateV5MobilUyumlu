@@ -186,14 +186,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test lobby code mandatory validation"
-    - "Test rank badges display only logos without names"
-    - "Test tag display shows single # after form submission"
-    - "Test form submission with all new requirements"
+    - "Test new logo display in header"
+    - "Test that logo loads correctly with new URL"
+    - "Test overall application functionality after logo change"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Successfully implemented all three new requirements: 1) Made lobby code mandatory by adding validation to require lobby_code field, updated label with red asterisk (*), and changed helper text to indicate requirement. 2) Removed rank names from homepage by modifying RankBadge component to show only logos without text - removed textSizeClasses and rank name display. 3) Fixed tag display to show single # after form submission by updating display logic to check if player.tag already starts with #, preventing double # issue. All changes affect both desktop table view and mobile card view. Frontend restarted successfully."
+    message: "Successfully replaced the logo URL from https://i.hizliresim.com/1e6ismz.gif to https://i.hizliresim.com/g9v1rqh.png in the header section of the application. The logo image source has been updated in the App.js file at line 939. The new logo should now be displayed in the header of the application. Ready for testing to ensure the new logo loads correctly and displays properly."
