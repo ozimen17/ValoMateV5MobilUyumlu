@@ -947,53 +947,6 @@ function App() {
         </div>
       </header>
 
-      {/* Feature Cards */}
-      <div className="max-w-7xl mx-auto px-4 py-3 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-          {/* Takım Arkadaşı Bul */}
-          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img 
-                src="https://i.hizliresim.com/i3bgi63.png" 
-                alt="Takım Arkadaşı Bul"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
-              <h3 className="text-white font-medium text-sm leading-tight">Takım arkadaşı bul</h3>
-            </div>
-          </div>
-
-          {/* Valorant Skin Sıralaması */}
-          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img 
-                src="https://i.hizliresim.com/nx08b7g.png" 
-                alt="Valorant Skin Sıralaması"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
-              <h3 className="text-white font-medium text-sm leading-tight">Valorant skin sıralaması</h3>
-            </div>
-          </div>
-
-          {/* Çekilişler */}
-          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img 
-                src="https://i.hizliresim.com/cc3q292.png" 
-                alt="Çekilişler"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
-              <h3 className="text-white font-medium text-sm leading-tight">Çekilişler</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
         {/* Enhanced Search and Filters */}
         <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-6 mb-6 border border-gray-800/50 shadow-2xl">
