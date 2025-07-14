@@ -172,39 +172,7 @@ function App() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Game Selection Cards - Only main game */}
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md">
-            {games.map((game) => (
-              <button
-                key={game.slug}
-                onClick={() => setSelectedGame(game.slug)}
-                className={`relative bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 h-32 flex flex-col items-center justify-center border-2 transition-all hover:scale-105 hover:shadow-xl ${
-                  selectedGame === game.slug 
-                    ? 'border-red-500 bg-gradient-to-br from-red-600/20 to-red-800/20 shadow-red-500/30' 
-                    : 'border-gray-700 hover:border-red-400'
-                }`}
-              >
-                <div className="text-3xl mb-2">{game.icon}</div>
-                <span className="text-white text-sm font-medium text-center leading-tight">{game.name}</span>
-                {game.slug === 'find-team' && selectedGame === game.slug && (
-                  <div className="absolute top-2 right-2">
-                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">YOU</span>
-                  </div>
-                )}
-                {game.slug === 'find-team' && (
-                  <div className="absolute top-2 left-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {selectedGame === 'find-team' ? (
-          <>
-            {/* Modern Filters */}
+        {/* Modern Filters */}
             <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
