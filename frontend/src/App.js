@@ -272,32 +272,52 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           </button>
         </div>
         
-        {/* Progress Bar */}
+        {/* Enhanced Progress Bar */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={`flex items-center space-x-2 ${
-                  index <= currentStep ? 'text-red-400' : 'text-gray-500'
+                className={`flex items-center space-x-3 transition-all duration-300 ${
+                  index <= currentStep ? 'opacity-100' : 'opacity-50'
                 }`}
               >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
-                  index <= currentStep 
-                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' 
-                    : 'bg-gray-800 text-gray-500'
+                <div className={`relative w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                  index < currentStep 
+                    ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg shadow-green-500/25' 
+                    : index === currentStep
+                    ? 'bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25 animate-pulse'
+                    : 'bg-gray-800/50 text-gray-500'
                 }`}>
-                  {index < currentStep ? '✓' : step.icon}
+                  {index < currentStep ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <span className="text-lg">{step.icon}</span>
+                  )}
                 </div>
-                <span className="hidden sm:block font-medium">{step.title}</span>
+                <div className="hidden sm:block">
+                  <div className={`font-semibold transition-colors ${
+                    index <= currentStep ? 'text-white' : 'text-gray-500'
+                  }`}>
+                    {step.title}
+                  </div>
+                  <div className={`text-xs transition-colors ${
+                    index < currentStep ? 'text-green-400' : 'text-gray-500'
+                  }`}>
+                    {index < currentStep ? 'Tamamlandı' : index === currentStep ? 'Aktif' : 'Beklemede'}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-          <div className="w-full bg-gray-800 rounded-full h-2">
+          <div className="relative w-full bg-gray-800/50 rounded-full h-3 overflow-hidden">
             <div 
-              className="bg-gradient-to-r from-red-600 to-red-700 h-2 rounded-full transition-all duration-500"
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all duration-500 ease-out shadow-lg"
               style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
             />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
           </div>
         </div>
         
