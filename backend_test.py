@@ -474,7 +474,7 @@ def run_all_tests():
         "Player Filtering": test_player_filtering(),
         "Create Player": test_create_player(),
         "Rank Validation": test_rank_validation(),
-        "180-Minute Cleanup": test_cleanup_functionality()
+        "30-Minute Cleanup": test_cleanup_functionality()
     }
     
     print("\n" + "=" * 50)
