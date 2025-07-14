@@ -366,13 +366,20 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                     <input
                       type="text"
                       value={formData.tag}
-                      onChange={(e) => setFormData(prev => ({...prev, tag: e.target.value}))}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        // # işaretini otomatik ekle
+                        if (value && !value.startsWith('#')) {
+                          value = '#' + value;
+                        }
+                        setFormData(prev => ({...prev, tag: value}));
+                      }}
                       className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
                         errors.tag 
                           ? 'border-red-500 focus:border-red-400' 
                           : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
                       } focus:outline-none focus:ring-2 focus:ring-red-500/20`}
-                      placeholder="#ABC123"
+                      placeholder="ABC123"
                     />
                     <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
