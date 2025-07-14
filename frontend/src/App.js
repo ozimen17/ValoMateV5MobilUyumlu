@@ -1071,7 +1071,6 @@ function App() {
                     <div className="flex-1">
                       <div className="text-white font-semibold">{player.username}</div>
                       <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
-                      <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'}`}>🎤</span>
