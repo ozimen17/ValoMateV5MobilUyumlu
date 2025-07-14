@@ -15,7 +15,6 @@ const PROFILE_IMAGES = [
 
 // Function to get random profile image based on username
 const getRandomProfileImage = (username) => {
-  // Use username to create a consistent but random selection
   const hash = username.split('').reduce((a, b) => {
     a = ((a << 5) - a) + b.charCodeAt(0);
     return a & a;
@@ -24,7 +23,7 @@ const getRandomProfileImage = (username) => {
   return PROFILE_IMAGES[index];
 };
 
-// Rank images mapping - Updated with official Valorant rank images
+// Rank images mapping
 const RANK_IMAGES = {
   'Demir': 'https://premate.gg/media/Rank/Iron_3_Rank.webp',
   'Bronz': 'https://premate.gg/media/Rank/Bronze_3_Rank.webp',
@@ -50,16 +49,93 @@ const RANK_COLORS = {
   'Radyant': 'from-pink-400 to-pink-600'
 };
 
-function App() {
-  const [players, setPlayers] = useState([]);
-  const [filters, setFilters] = useState({
-    gameMode: 'Tümü',
-    lookingFor: 'Tümü',
-    micOnly: false
-  });
-  const [loading, setLoading] = useState(true);
-  const [showAddPlayer, setShowAddPlayer] = useState(false);
-  const [newPlayer, setNewPlayer] = useState({
+// Skeleton Loading Component
+const SkeletonLoader = () => (
+  <div className="animate-pulse space-y-4">
+    {[...Array(3)].map((_, i) => (
+      <div key={i} className="bg-gray-800/50 rounded-xl p-4 space-y-3">
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 bg-gray-700 rounded-full"></div>
+          <div className="flex-1 space-y-2">
+            <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+            <div className="h-3 bg-gray-700 rounded w-1/2"></div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="h-3 bg-gray-700 rounded"></div>
+          <div className="h-3 bg-gray-700 rounded"></div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+// Enhanced Toast Component
+const Toast = ({ show, message, type = 'success' }) => {
+  if (!show) return null;
+  
+  const bgColor = type === 'success' ? 'from-green-600 to-green-700' : 'from-red-600 to-red-700';
+  const icon = type === 'success' ? '✓' : '⚠';
+  
+  return (
+    <div className={`fixed top-4 right-4 bg-gradient-to-r ${bgColor} text-white px-6 py-4 rounded-2xl shadow-2xl z-50 animate-slide-in backdrop-blur-md border border-white/10`}>
+      <div className="flex items-center space-x-3">
+        <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">
+          {icon}
+        </div>
+        <span className="font-medium">{message}</span>
+      </div>
+    </div>
+  );
+};
+
+// Enhanced Search Component
+const AdvancedSearch = ({ onSearch, playerCount }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  
+  const handleSearch = async (term) => {
+    setIsSearching(true);
+    setTimeout(() => {
+      onSearch(term);
+      setIsSearching(false);
+    }, 300);
+  };
+  
+  return (
+    <div className="relative">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Oyuncu ara..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            handleSearch(e.target.value);
+          }}
+          className="w-full bg-black/50 text-white rounded-xl px-4 py-3 pl-12 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+        />
+        <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+          {isSearching ? (
+            <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          )}
+        </div>
+      </div>
+      <div className="absolute right-2 top-2 bg-red-600/20 text-red-400 px-2 py-1 rounded-lg text-xs font-medium">
+        {playerCount} oyuncu
+      </div>
+    </div>
+  );
+};
+
+// Multi-step Form Component
+const MultiStepForm = ({ show, onClose, onSubmit }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
     username: '',
     tag: '',
     lobby_code: '',
@@ -70,11 +146,354 @@ function App() {
     game_mode: 'Dereceli',
     mic_enabled: true
   });
-  const [toast, setToast] = useState({ show: false, message: '' });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const steps = [
+    { title: 'Oyuncu Bilgileri', icon: '👤' },
+    { title: 'Rank Tercihleri', icon: '🏆' },
+    { title: 'Oyun Ayarları', icon: '⚙️' }
+  ];
+  
+  const validateStep = (step) => {
+    const newErrors = {};
+    
+    switch (step) {
+      case 0:
+        if (!formData.username.trim()) newErrors.username = 'Kullanıcı adı gerekli';
+        if (!formData.tag.trim()) newErrors.tag = 'Tag gerekli';
+        if (formData.tag && !formData.tag.startsWith('#')) newErrors.tag = 'Tag # ile başlamalı';
+        break;
+      case 1:
+        // Rank validation can be added here
+        break;
+      case 2:
+        // Game settings validation can be added here
+        break;
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+    }
+  };
+  
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 0));
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateStep(currentStep)) {
+      setIsSubmitting(true);
+      try {
+        await onSubmit(formData);
+        setCurrentStep(0);
+        setFormData({
+          username: '',
+          tag: '',
+          lobby_code: '',
+          min_rank: 'Demir',
+          max_rank: 'Radyant',
+          age_range: '18+',
+          looking_for: '1 Kişi',
+          game_mode: 'Dereceli',
+          mic_enabled: true
+        });
+        onClose();
+      } catch (error) {
+        console.error('Form submission error:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+  
+  if (!show) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-gray-900/95 backdrop-blur-xl rounded-3xl p-8 w-full max-w-2xl border border-gray-800/50 shadow-2xl max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+            Oyuncu Ara
+          </h2>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 bg-gray-800/50 hover:bg-gray-700/50 rounded-full flex items-center justify-center transition-all"
+          >
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className={`flex items-center space-x-2 ${
+                  index <= currentStep ? 'text-red-400' : 'text-gray-500'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                  index <= currentStep 
+                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' 
+                    : 'bg-gray-800 text-gray-500'
+                }`}>
+                  {index < currentStep ? '✓' : step.icon}
+                </div>
+                <span className="hidden sm:block font-medium">{step.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="w-full bg-gray-800 rounded-full h-2">
+            <div 
+              className="bg-gradient-to-r from-red-600 to-red-700 h-2 rounded-full transition-all duration-500"
+              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            />
+          </div>
+        </div>
+        
+        {/* Form Content */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Step 0: Player Info */}
+          {currentStep === 0 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">
+                    Kullanıcı Adı <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.username}
+                    onChange={(e) => setFormData(prev => ({...prev, username: e.target.value}))}
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.username ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
+                    placeholder="Kullanıcı adınız"
+                  />
+                  {errors.username && (
+                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.username}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">
+                    Tag <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.tag}
+                    onChange={(e) => setFormData(prev => ({...prev, tag: e.target.value}))}
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.tag ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
+                    placeholder="#ABC123"
+                  />
+                  {errors.tag && (
+                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.tag}</p>
+                  )}
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-white text-sm font-semibold mb-2">
+                  Lobi Kodu
+                  <span className="text-gray-400 text-xs ml-2">(boş bırakılırsa otomatik oluşur)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.lobby_code}
+                  onChange={(e) => setFormData(prev => ({...prev, lobby_code: e.target.value}))}
+                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  placeholder="ABC12"
+                />
+              </div>
+            </div>
+          )}
+          
+          {/* Step 1: Rank Preferences */}
+          {currentStep === 1 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">Minimum Rank</label>
+                  <select
+                    value={formData.min_rank}
+                    onChange={(e) => setFormData(prev => ({...prev, min_rank: e.target.value}))}
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  >
+                    {Object.keys(RANK_IMAGES).map(rank => (
+                      <option key={rank} value={rank}>{rank}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">Maksimum Rank</label>
+                  <select
+                    value={formData.max_rank}
+                    onChange={(e) => setFormData(prev => ({...prev, max_rank: e.target.value}))}
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  >
+                    {Object.keys(RANK_IMAGES).map(rank => (
+                      <option key={rank} value={rank}>{rank}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              
+              {/* Rank Preview */}
+              <div className="bg-gray-800/30 rounded-xl p-4 border border-gray-700/50">
+                <p className="text-white text-sm font-medium mb-3">Seçilen Rank Aralığı:</p>
+                <div className="flex items-center justify-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <img src={RANK_IMAGES[formData.min_rank]} alt={formData.min_rank} className="w-8 h-8" />
+                    <span className="text-white font-medium">{formData.min_rank}</span>
+                  </div>
+                  <span className="text-gray-400 font-medium">→</span>
+                  <div className="flex items-center space-x-2">
+                    <img src={RANK_IMAGES[formData.max_rank]} alt={formData.max_rank} className="w-8 h-8" />
+                    <span className="text-white font-medium">{formData.max_rank}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Step 2: Game Settings */}
+          {currentStep === 2 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">Yaş Aralığı</label>
+                  <select
+                    value={formData.age_range}
+                    onChange={(e) => setFormData(prev => ({...prev, age_range: e.target.value}))}
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  >
+                    <option value="18-">18-</option>
+                    <option value="18+">18+</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">Aranan Kişi</label>
+                  <select
+                    value={formData.looking_for}
+                    onChange={(e) => setFormData(prev => ({...prev, looking_for: e.target.value}))}
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  >
+                    <option value="1 Kişi">1 Kişi</option>
+                    <option value="2 Kişi">2 Kişi</option>
+                    <option value="3 Kişi">3 Kişi</option>
+                    <option value="4 Kişi">4 Kişi</option>
+                    <option value="5 Kişi">5 Kişi</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
+                <select
+                  value={formData.game_mode}
+                  onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
+                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                >
+                  <option value="Dereceli">Dereceli</option>
+                  <option value="Premier">Premier</option>
+                  <option value="Derecesiz">Derecesiz</option>
+                  <option value="Tam Gaz">Tam Gaz</option>
+                  <option value="Özel Oyun">Özel Oyun</option>
+                  <option value="1vs1">1vs1</option>
+                  <option value="2vs2">2vs2</option>
+                </select>
+              </div>
+              
+              <div className="bg-gray-800/30 rounded-xl p-4 border border-gray-700/50">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.mic_enabled}
+                    onChange={(e) => setFormData(prev => ({...prev, mic_enabled: e.target.checked}))}
+                    className="w-5 h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2"
+                  />
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl">🎤</span>
+                    <span className="text-white font-medium">Mikrofon mevcut</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          )}
+          
+          {/* Navigation Buttons */}
+          <div className="flex justify-between pt-6">
+            <button
+              type="button"
+              onClick={prevStep}
+              disabled={currentStep === 0}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                currentStep === 0 
+                  ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed' 
+                  : 'bg-gray-700 text-white hover:bg-gray-600'
+              }`}
+            >
+              Geri
+            </button>
+            
+            {currentStep < steps.length - 1 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105"
+              >
+                İleri
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Ekleniyor...</span>
+                  </>
+                ) : (
+                  <span>Ekle</span>
+                )}
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+function App() {
+  const [players, setPlayers] = useState([]);
+  const [filteredPlayers, setFilteredPlayers] = useState([]);
+  const [filters, setFilters] = useState({
+    gameMode: 'Tümü',
+    lookingFor: 'Tümü',
+    micOnly: false
+  });
+  const [loading, setLoading] = useState(true);
+  const [showAddPlayer, setShowAddPlayer] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchPlayers();
-    // Auto refresh every 30 seconds to remove old players
     const interval = setInterval(fetchPlayers, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -82,6 +501,19 @@ function App() {
   useEffect(() => {
     fetchPlayers();
   }, [filters]);
+
+  useEffect(() => {
+    // Filter players based on search term
+    if (searchTerm) {
+      const filtered = players.filter(player =>
+        player.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        player.tag.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredPlayers(filtered);
+    } else {
+      setFilteredPlayers(players);
+    }
+  }, [searchTerm, players]);
 
   const fetchPlayers = async () => {
     try {
@@ -103,14 +535,15 @@ function App() {
       setPlayers(data);
     } catch (error) {
       console.error('Error fetching players:', error);
+      showToast('Oyuncular yüklenirken hata oluştu!', 'error');
     } finally {
       setLoading(false);
     }
   };
 
-  const showToast = (message) => {
-    setToast({ show: true, message });
-    setTimeout(() => setToast({ show: false, message: '' }), 3000);
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: '', type }), 3000);
   };
 
   const copyLobbyCode = async (code) => {
@@ -118,7 +551,6 @@ function App() {
       await navigator.clipboard.writeText(code);
       showToast('Lobi kodu kopyalandı!');
     } catch (err) {
-      // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = code;
       document.body.appendChild(textArea);
@@ -129,8 +561,7 @@ function App() {
     }
   };
 
-  const handleAddPlayer = async (e) => {
-    e.preventDefault();
+  const handleAddPlayer = async (playerData) => {
     try {
       const response = await fetch(`${API_URL}/api/players`, {
         method: 'POST',
@@ -138,30 +569,20 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...newPlayer,
+          ...playerData,
           game: 'valorant'
         }),
       });
       
       if (response.ok) {
-        setNewPlayer({
-          username: '',
-          tag: '',
-          lobby_code: '',
-          min_rank: 'Demir',
-          max_rank: 'Radyant',
-          age_range: '18+',
-          looking_for: '1 Kişi',
-          game_mode: 'Dereceli',
-          mic_enabled: true
-        });
-        setShowAddPlayer(false);
-        fetchPlayers(); // Refresh to show new player at top
+        fetchPlayers();
         showToast('Oyuncu başarıyla eklendi!');
+      } else {
+        showToast('Oyuncu eklenirken hata oluştu!', 'error');
       }
     } catch (error) {
       console.error('Error adding player:', error);
-      showToast('Oyuncu eklenirken hata oluştu!');
+      showToast('Oyuncu eklenirken hata oluştu!', 'error');
     }
   };
 
@@ -177,7 +598,6 @@ function App() {
     return `${hours} sa önce`;
   };
 
-  // Modern Rank Badge Component - Updated for official Valorant ranks
   const RankBadge = ({ rank, size = 'md' }) => {
     const sizeClasses = {
       sm: 'w-6 h-6',
@@ -211,107 +631,126 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-      {/* Toast Notification */}
-      {toast.show && (
-        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
-          <div className="flex items-center space-x-2">
-            <img 
-              src="https://i.hizliresim.com/neoz0yj.png" 
-              alt="Kopyalandı" 
-              className="w-4 h-4"
-            />
-            <span>{toast.message}</span>
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-red-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
 
-      {/* Header with centered logo - Final update */}
-      <header className="bg-[#030407] backdrop-blur-sm border-b border-red-600/30">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-center items-center">
-          <img 
-            src="https://i.hizliresim.com/14i4qc2.gif" 
-            alt="VALOMATE" 
-            className="h-10 w-auto"
-          />
+      {/* Toast Notification */}
+      <Toast show={toast.show} message={toast.message} type={toast.type} />
+
+      {/* Header */}
+      <header className="bg-[#030407]/90 backdrop-blur-xl border-b border-red-600/30 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img 
+                src="https://i.hizliresim.com/14i4qc2.gif" 
+                alt="VALOMATE" 
+                className="h-10 w-auto"
+              />
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                  VALOMATE
+                </h1>
+                <p className="text-xs text-gray-400">Takım arkadaşı bul</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700/50">
+                <span className="text-green-400 text-sm font-medium">● Canlı</span>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Modern Filters */}
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 border border-gray-800 shadow-xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <label className="block text-white text-sm font-semibold">Oyun Modu</label>
-              <select 
-                value={filters.gameMode}
-                onChange={(e) => setFilters(prev => ({...prev, gameMode: e.target.value}))}
-                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-              >
-                <option value="Tümü">Tümü</option>
-                <option value="Dereceli">Dereceli</option>
-                <option value="Premier">Premier</option>
-                <option value="Derecesiz">Derecesiz</option>
-                <option value="Tam Gaz">Tam Gaz</option>
-                <option value="Özel Oyun">Özel Oyun</option>
-                <option value="1vs1">1vs1</option>
-                <option value="2vs2">2vs2</option>
-              </select>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
+        {/* Enhanced Search and Filters */}
+        <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-6 mb-6 border border-gray-800/50 shadow-2xl">
+          <div className="space-y-6">
+            {/* Search Bar */}
+            <AdvancedSearch 
+              onSearch={setSearchTerm}
+              playerCount={filteredPlayers.length}
+            />
             
-            <div className="space-y-2">
-              <label className="block text-white text-sm font-semibold">Aranan Kişi</label>
-              <select 
-                value={filters.lookingFor}
-                onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
-                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-              >
-                <option value="Tümü">Tümü</option>
-                <option value="1 Kişi">1 Kişi</option>
-                <option value="2 Kişi">2 Kişi</option>
-                <option value="3 Kişi">3 Kişi</option>
-                <option value="4 Kişi">4 Kişi</option>
-                <option value="5 Kişi">5 Kişi</option>
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-white text-sm font-semibold">Mikrofon</label>
-              <div className="flex items-center space-x-3 h-12">
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={filters.micOnly}
-                    onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
-                    className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
-                  />
-                  <span className="text-white font-medium text-sm sm:text-base">🎤 Sadece mikrofonlu</span>
-                </label>
+            {/* Filter Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <label className="block text-white text-sm font-semibold">Oyun Modu</label>
+                <select 
+                  value={filters.gameMode}
+                  onChange={(e) => setFilters(prev => ({...prev, gameMode: e.target.value}))}
+                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                >
+                  <option value="Tümü">Tümü</option>
+                  <option value="Dereceli">Dereceli</option>
+                  <option value="Premier">Premier</option>
+                  <option value="Derecesiz">Derecesiz</option>
+                  <option value="Tam Gaz">Tam Gaz</option>
+                  <option value="Özel Oyun">Özel Oyun</option>
+                  <option value="1vs1">1vs1</option>
+                  <option value="2vs2">2vs2</option>
+                </select>
               </div>
-            </div>
+              
+              <div className="space-y-2">
+                <label className="block text-white text-sm font-semibold">Aranan Kişi</label>
+                <select 
+                  value={filters.lookingFor}
+                  onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
+                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                >
+                  <option value="Tümü">Tümü</option>
+                  <option value="1 Kişi">1 Kişi</option>
+                  <option value="2 Kişi">2 Kişi</option>
+                  <option value="3 Kişi">3 Kişi</option>
+                  <option value="4 Kişi">4 Kişi</option>
+                  <option value="5 Kişi">5 Kişi</option>
+                </select>
+              </div>
 
-            <div className="flex items-end">
-              <button 
-                onClick={fetchPlayers}
-                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg text-sm sm:text-base flex items-center justify-center space-x-2"
-              >
-                <img 
-                  src="https://i.hizliresim.com/nkirsi9.png" 
-                  alt="Uygula/Yenile" 
-                  className="w-4 h-4"
-                />
-                <span>Uygula / Yenile</span>
-              </button>
+              <div className="space-y-2">
+                <label className="block text-white text-sm font-semibold">Mikrofon</label>
+                <div className="flex items-center space-x-3 h-12">
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={filters.micOnly}
+                      onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
+                      className="w-5 h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2"
+                    />
+                    <span className="text-white font-medium">🎤 Sadece mikrofonlu</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex items-end">
+                <button 
+                  onClick={fetchPlayers}
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg flex items-center justify-center space-x-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>Yenile</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Modern Players Table */}
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden shadow-xl">
-          {/* Mobile-friendly table */}
+        {/* Players Table */}
+        <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-gray-800/50 overflow-hidden shadow-2xl">
+          {/* Desktop Table */}
           <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-black/50">
+              <thead className="bg-black/50 backdrop-blur-sm">
                 <tr>
                   <th className="text-left text-white px-6 py-4 font-semibold">KULLANICI</th>
                   <th className="text-left text-white px-6 py-4 font-semibold">LOBİ KODU</th>
@@ -322,21 +761,31 @@ function App() {
                   <th className="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800">
+              <tbody className="divide-y divide-gray-800/50">
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="text-center py-8 text-gray-400">Yükleniyor...</td>
+                    <td colSpan="7" className="p-6">
+                      <SkeletonLoader />
+                    </td>
                   </tr>
-                ) : players.length === 0 ? (
+                ) : filteredPlayers.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="text-center py-8 text-gray-400">Oyuncu bulunamadı</td>
+                    <td colSpan="7" className="text-center py-12">
+                      <div className="text-gray-400">
+                        <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <p className="text-lg font-medium">Oyuncu bulunamadı</p>
+                        <p className="text-sm">Arama kriterlerinizi değiştirin veya yeni oyuncu ekleyin</p>
+                      </div>
+                    </td>
                   </tr>
                 ) : (
-                  players.map((player, index) => (
-                    <tr key={player.id || index} className="hover:bg-gray-800/50 transition-all">
+                  filteredPlayers.map((player, index) => (
+                    <tr key={player.id || index} className="hover:bg-gray-800/50 transition-all group">
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-gray-700/50 group-hover:ring-red-600/50 transition-all">
                             <img 
                               src={getRandomProfileImage(player.username)} 
                               alt="User Avatar" 
@@ -353,7 +802,7 @@ function App() {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => copyLobbyCode(player.lobby_code)}
-                          className="text-red-400 font-mono font-bold text-lg hover:text-red-300 transition-colors cursor-pointer bg-gray-800/50 px-3 py-1 rounded-lg hover:bg-gray-700/50"
+                          className="text-red-400 font-mono font-bold text-lg hover:text-red-300 transition-colors cursor-pointer bg-gray-800/50 px-3 py-1 rounded-lg hover:bg-gray-700/50 hover:scale-105 transform"
                         >
                           {player.lobby_code}
                         </button>
@@ -376,7 +825,7 @@ function App() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-center">
-                          <span className={`text-xl ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
+                          <span className={`text-2xl transition-all ${player.mic_enabled ? 'text-red-400 animate-pulse' : 'text-gray-600'}`}>
                             🎤
                           </span>
                         </div>
@@ -391,14 +840,22 @@ function App() {
           {/* Mobile Card Layout */}
           <div className="lg:hidden space-y-4 p-4">
             {loading ? (
-              <div className="text-center py-8 text-gray-400">Yükleniyor...</div>
-            ) : players.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">Oyuncu bulunamadı</div>
+              <SkeletonLoader />
+            ) : filteredPlayers.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-400">
+                  <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <p className="text-lg font-medium">Oyuncu bulunamadı</p>
+                  <p className="text-sm">Arama kriterlerinizi değiştirin veya yeni oyuncu ekleyin</p>
+                </div>
+              </div>
             ) : (
-              players.map((player, index) => (
-                <div key={player.id || index} className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+              filteredPlayers.map((player, index) => (
+                <div key={player.id || index} className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/50 hover:border-red-600/50 transition-all hover:transform hover:scale-102">
                   <div className="flex items-start space-x-3 mb-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-gray-700/50">
                       <img 
                         src={getRandomProfileImage(player.username)} 
                         alt="User Avatar" 
@@ -415,7 +872,7 @@ function App() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                     <div>
                       <span className="text-gray-400">Lobi:</span>
                       <button
@@ -439,7 +896,7 @@ function App() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <RankBadge rank={player.min_rank} size="sm" />
                       <span className="text-gray-400 text-xs">→</span>
@@ -453,181 +910,33 @@ function App() {
         </div>
 
         {/* Auto-cleanup notice */}
-        <div className="mt-4 text-center">
-          <p className="text-gray-400 text-sm">
-            🕒 Oyuncu aramaları 30 dakika sonra otomatik olarak silinir
-          </p>
+        <div className="mt-6 text-center">
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/30 inline-block">
+            <p className="text-gray-400 text-sm flex items-center space-x-2">
+              <span className="text-yellow-400">⏰</span>
+              <span>Oyuncu aramaları 30 dakika sonra otomatik olarak silinir</span>
+            </p>
+          </div>
         </div>
 
-        {/* Modern Add Player Modal */}
-        {showAddPlayer && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 rounded-2xl p-6 sm:p-8 w-full max-w-2xl border border-gray-800 shadow-2xl max-h-[90vh] overflow-y-auto">
-              <h3 className="text-white text-xl sm:text-2xl font-bold mb-6">Oyuncu Ara</h3>
-              <form onSubmit={handleAddPlayer} className="space-y-4 sm:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Kullanıcı Adı</label>
-                    <input
-                      type="text"
-                      value={newPlayer.username}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, username: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                      required
-                      placeholder="Kullanıcı adınız"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Tag</label>
-                    <input
-                      type="text"
-                      value={newPlayer.tag}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, tag: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                      required
-                      placeholder="#ABC123"
-                    />
-                  </div>
-                </div>
+        {/* Multi-step Form Modal */}
+        <MultiStepForm 
+          show={showAddPlayer}
+          onClose={() => setShowAddPlayer(false)}
+          onSubmit={handleAddPlayer}
+        />
 
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Lobi Kodu</label>
-                  <input
-                    type="text"
-                    value={newPlayer.lobby_code}
-                    onChange={(e) => setNewPlayer(prev => ({...prev, lobby_code: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                    placeholder="ABC12 (boş bırakılırsa otomatik oluşur)"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Minimum Rank</label>
-                    <select
-                      value={newPlayer.min_rank}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, min_rank: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                    >
-                      <option value="Demir">Demir</option>
-                      <option value="Bronz">Bronz</option>
-                      <option value="Gümüş">Gümüş</option>
-                      <option value="Altın">Altın</option>
-                      <option value="Platin">Platin</option>
-                      <option value="Elmas">Elmas</option>
-                      <option value="Asens">Asens</option>
-                      <option value="Ölümsüz">Ölümsüz</option>
-                      <option value="Radyant">Radyant</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Maksimum Rank</label>
-                    <select
-                      value={newPlayer.max_rank}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, max_rank: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                    >
-                      <option value="Demir">Demir</option>
-                      <option value="Bronz">Bronz</option>
-                      <option value="Gümüş">Gümüş</option>
-                      <option value="Altın">Altın</option>
-                      <option value="Platin">Platin</option>
-                      <option value="Elmas">Elmas</option>
-                      <option value="Asens">Asens</option>
-                      <option value="Ölümsüz">Ölümsüz</option>
-                      <option value="Radyant">Radyant</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Yaş Aralığı</label>
-                    <select
-                      value={newPlayer.age_range}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, age_range: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                    >
-                      <option value="18-">18-</option>
-                      <option value="18+">18+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm font-semibold mb-2">Aranan</label>
-                    <select
-                      value={newPlayer.looking_for}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, looking_for: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                    >
-                      <option value="1 Kişi">1 Kişi</option>
-                      <option value="2 Kişi">2 Kişi</option>
-                      <option value="3 Kişi">3 Kişi</option>
-                      <option value="4 Kişi">4 Kişi</option>
-                      <option value="5 Kişi">5 Kişi</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
-                  <select
-                    value={newPlayer.game_mode}
-                    onChange={(e) => setNewPlayer(prev => ({...prev, game_mode: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
-                  >
-                    <option value="Dereceli">Dereceli</option>
-                    <option value="Premier">Premier</option>
-                    <option value="Derecesiz">Derecesiz</option>
-                    <option value="Tam Gaz">Tam Gaz</option>
-                    <option value="Özel Oyun">Özel Oyun</option>
-                    <option value="1vs1">1vs1</option>
-                    <option value="2vs2">2vs2</option>
-                  </select>
-                </div>
-
-                <div className="flex items-center space-x-6">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={newPlayer.mic_enabled}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, mic_enabled: e.target.checked}))}
-                      className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
-                    />
-                    <span className="text-white font-medium text-sm sm:text-base">🎤 Mikrofon</span>
-                  </label>
-                </div>
-
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddPlayer(false)}
-                    className="flex-1 bg-gray-700 text-white py-3 rounded-xl hover:bg-gray-600 transition-all font-semibold text-sm sm:text-base"
-                  >
-                    İptal
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white py-3 rounded-xl hover:from-red-700 hover:to-red-800 transition-all font-semibold transform hover:scale-105 text-sm sm:text-base"
-                  >
-                    Ekle
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* Bottom Center Add Player Button - Smaller and Mobile Responsive */}
-        <div className="fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2">
+        {/* Enhanced Floating Button */}
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-30">
           <button 
             onClick={() => setShowAddPlayer(true)}
-            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-2 border-2 border-red-500/30 text-sm sm:text-base"
+            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-3 border-2 border-red-500/30 backdrop-blur-sm"
           >
-            <img 
-              src="https://i.hizliresim.com/qj6pti2.png" 
-              alt="Oyuncu Ara" 
-              className="w-4 h-4 sm:w-5 sm:h-5"
-            />
+            <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
             <span>Oyuncu Ara</span>
           </button>
         </div>
