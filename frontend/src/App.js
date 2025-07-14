@@ -5,8 +5,6 @@ const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 function App() {
   const [players, setPlayers] = useState([]);
-  const [games, setGames] = useState([]);
-  const [selectedGame, setSelectedGame] = useState('find-team');
   const [filters, setFilters] = useState({
     gameMode: 'Tümü',
     lookingFor: 'Tümü',
@@ -22,31 +20,18 @@ function App() {
     max_rank: 'Radyant',
     age_range: '18+',
     looking_for: '1 Kişi',
-    game_mode: 'Derecelik',
+    game_mode: 'Dereceli',
     mic_enabled: true
   });
   const [toast, setToast] = useState({ show: false, message: '' });
 
   useEffect(() => {
-    fetchGames();
     fetchPlayers();
   }, []);
 
   useEffect(() => {
-    if (selectedGame === 'find-team') {
-      fetchPlayers();
-    }
-  }, [selectedGame, filters]);
-
-  const fetchGames = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/games`);
-      const data = await response.json();
-      setGames(data);
-    } catch (error) {
-      console.error('Error fetching games:', error);
-    }
-  };
+    fetchPlayers();
+  }, [filters]);
 
   const fetchPlayers = async () => {
     try {
@@ -117,7 +102,7 @@ function App() {
           max_rank: 'Radyant',
           age_range: '18+',
           looking_for: '1 Kişi',
-          game_mode: 'Derecelik',
+          game_mode: 'Dereceli',
           mic_enabled: true
         });
         setShowAddPlayer(false);
@@ -139,11 +124,6 @@ function App() {
     if (diffInMinutes < 60) return `${diffInMinutes} dk önce`;
     const hours = Math.floor(diffInMinutes / 60);
     return `${hours} sa önce`;
-  };
-
-  const getGameIcon = (slug) => {
-    const game = games.find(g => g.slug === slug);
-    return game ? game.icon : '🎮';
   };
 
   return (
@@ -173,161 +153,151 @@ function App() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Modern Filters */}
-            <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-white text-sm font-semibold">Oyun Modu</label>
-                  <select 
-                    value={filters.gameMode}
-                    onChange={(e) => setFilters(prev => ({...prev, gameMode: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
-                  >
-                    <option value="Tümü">Tümü</option>
-                    <option value="Derecelik">Derecelik</option>
-                    <option value="Premier">Premier</option>
-                    <option value="Derecesiz">Derecesiz</option>
-                    <option value="Tam Gaz">Tam Gaz</option>
-                    <option value="Özel Oyun">Özel Oyun</option>
-                    <option value="1vs1">1vs1</option>
-                    <option value="2vs2">2vs2</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-white text-sm font-semibold">Aranan Kişi</label>
-                  <select 
-                    value={filters.lookingFor}
-                    onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
-                  >
-                    <option value="Tümü">Tümü</option>
-                    <option value="1 Kişi">1 Kişi</option>
-                    <option value="2 Kişi">2 Kişi</option>
-                    <option value="3 Kişi">3 Kişi</option>
-                    <option value="4 Kişi">4 Kişi</option>
-                    <option value="5 Kişi">5 Kişi</option>
-                  </select>
-                </div>
+        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <label className="block text-white text-sm font-semibold">Oyun Modu</label>
+              <select 
+                value={filters.gameMode}
+                onChange={(e) => setFilters(prev => ({...prev, gameMode: e.target.value}))}
+                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+              >
+                <option value="Tümü">Tümü</option>
+                <option value="Dereceli">Dereceli</option>
+                <option value="Premier">Premier</option>
+                <option value="Derecesiz">Derecesiz</option>
+                <option value="Tam Gaz">Tam Gaz</option>
+                <option value="Özel Oyun">Özel Oyun</option>
+                <option value="1vs1">1vs1</option>
+                <option value="2vs2">2vs2</option>
+              </select>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-white text-sm font-semibold">Aranan Kişi</label>
+              <select 
+                value={filters.lookingFor}
+                onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
+                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+              >
+                <option value="Tümü">Tümü</option>
+                <option value="1 Kişi">1 Kişi</option>
+                <option value="2 Kişi">2 Kişi</option>
+                <option value="3 Kişi">3 Kişi</option>
+                <option value="4 Kişi">4 Kişi</option>
+                <option value="5 Kişi">5 Kişi</option>
+              </select>
+            </div>
 
-                <div className="space-y-2">
-                  <label className="block text-white text-sm font-semibold">Mikrofon</label>
-                  <div className="flex items-center space-x-3 h-12">
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={filters.micOnly}
-                        onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
-                        className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
-                      />
-                      <span className="text-white font-medium">🎤 Sadece mikrofonlu</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="flex items-end">
-                  <button 
-                    onClick={fetchPlayers}
-                    className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg"
-                  >
-                    🎮 Uygula / Yenile
-                  </button>
-                </div>
+            <div className="space-y-2">
+              <label className="block text-white text-sm font-semibold">Mikrofon</label>
+              <div className="flex items-center space-x-3 h-12">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.micOnly}
+                    onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
+                    className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
+                  />
+                  <span className="text-white font-medium">🎤 Sadece mikrofonlu</span>
+                </label>
               </div>
             </div>
 
-            {/* Modern Players Table */}
-            <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden shadow-xl">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-black/50">
-                    <tr>
-                      <th className="text-left text-white px-6 py-4 font-semibold">KULLANICI</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">LOBİ KODU</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">MIN - MAKS RANK</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">YAŞ ARALIĞI</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">ARANAN</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">OYUN MODU</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-800">
-                    {loading ? (
-                      <tr>
-                        <td colSpan="7" className="text-center py-8 text-gray-400">Yükleniyor...</td>
-                      </tr>
-                    ) : players.length === 0 ? (
-                      <tr>
-                        <td colSpan="7" className="text-center py-8 text-gray-400">Oyuncu bulunamadı</td>
-                      </tr>
-                    ) : (
-                      players.map((player, index) => (
-                        <tr key={player.id || index} className="hover:bg-gray-800/50 transition-all">
-                          <td className="px-6 py-4">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                                <span className="text-lg">V</span>
-                              </div>
-                              <div>
-                                <div className="text-white font-semibold">{player.username}</div>
-                                <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
-                                <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <button
-                              onClick={() => copyLobbyCode(player.lobby_code)}
-                              className="text-red-400 font-mono font-bold text-lg hover:text-red-300 transition-colors cursor-pointer bg-gray-800/50 px-3 py-1 rounded-lg hover:bg-gray-700/50"
-                            >
-                              {player.lobby_code}
-                            </button>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center space-x-2">
-                              <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.min_rank}</span>
-                              <span className="text-gray-500">-</span>
-                              <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.max_rank}</span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className="text-white font-medium">{player.age_range}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm">{player.looking_for}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className="text-gray-300 text-sm">{player.game_mode}</span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center justify-center">
-                              <span className={`text-xl ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
-                                🎤
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
+            <div className="flex items-end">
+              <button 
+                onClick={fetchPlayers}
+                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg"
+              >
+                🎮 Uygula / Yenile
+              </button>
             </div>
-          </>
-        ) : (
-          <div className="text-center py-20">
-            <div className="text-6xl mb-4">{getGameIcon(selectedGame)}</div>
-            <h2 className="text-white text-2xl font-bold mb-2">
-              {games.find(g => g.slug === selectedGame)?.name}
-            </h2>
-            <p className="text-gray-400">Bu özellik yakında gelecek!</p>
           </div>
-        )}
+        </div>
+
+        {/* Modern Players Table */}
+        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden shadow-xl">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-black/50">
+                <tr>
+                  <th className="text-left text-white px-6 py-4 font-semibold">KULLANICI</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">LOBİ KODU</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">MIN - MAKS RANK</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">YAŞ ARALIĞI</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">ARANAN</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">OYUN MODU</th>
+                  <th className="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-800">
+                {loading ? (
+                  <tr>
+                    <td colSpan="7" className="text-center py-8 text-gray-400">Yükleniyor...</td>
+                  </tr>
+                ) : players.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="text-center py-8 text-gray-400">Oyuncu bulunamadı</td>
+                  </tr>
+                ) : (
+                  players.map((player, index) => (
+                    <tr key={player.id || index} className="hover:bg-gray-800/50 transition-all">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                            <span className="text-lg">V</span>
+                          </div>
+                          <div>
+                            <div className="text-white font-semibold">{player.username}</div>
+                            <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
+                            <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => copyLobbyCode(player.lobby_code)}
+                          className="text-red-400 font-mono font-bold text-lg hover:text-red-300 transition-colors cursor-pointer bg-gray-800/50 px-3 py-1 rounded-lg hover:bg-gray-700/50"
+                        >
+                          {player.lobby_code}
+                        </button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.min_rank}</span>
+                          <span className="text-gray-500">-</span>
+                          <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.max_rank}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-white font-medium">{player.age_range}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm">{player.looking_for}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-gray-300 text-sm">{player.game_mode}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-center">
+                          <span className={`text-xl ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
+                            🎤
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
         {/* Modern Add Player Modal */}
         {showAddPlayer && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-gray-900 rounded-2xl p-8 w-full max-w-2xl border border-gray-800 shadow-2xl">
-              <h3 className="text-white text-2xl font-bold mb-6">Yeni Oyuncu Ekle</h3>
+              <h3 className="text-white text-2xl font-bold mb-6">Oyuncu Ara</h3>
               <form onSubmit={handleAddPlayer} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -440,7 +410,7 @@ function App() {
                     onChange={(e) => setNewPlayer(prev => ({...prev, game_mode: e.target.value}))}
                     className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                   >
-                    <option value="Derecelik">Derecelik</option>
+                    <option value="Dereceli">Dereceli</option>
                     <option value="Premier">Premier</option>
                     <option value="Derecesiz">Derecesiz</option>
                     <option value="Tam Gaz">Tam Gaz</option>
@@ -482,13 +452,13 @@ function App() {
           </div>
         )}
 
-        {/* Bottom Center Add Player Button */}
+        {/* Bottom Center Add Player Button - Smaller */}
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
           <button 
             onClick={() => setShowAddPlayer(true)}
-            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-3 border-2 border-red-500/30"
+            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-2 border-2 border-red-500/30"
           >
-            <span className="text-xl">👥</span>
+            <span className="text-lg">👥</span>
             <span>Oyuncu Ara</span>
           </button>
         </div>
