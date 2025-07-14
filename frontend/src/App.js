@@ -3,6 +3,32 @@ import './App.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
+// Rank images mapping
+const RANK_IMAGES = {
+  'Demir': 'https://images.unsplash.com/photo-1617652094799-fed335f94ac1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxtZXRhbGxpYyUyMGJhZGdlc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE4NHww&ixlib=rb-4.1.0&q=85',
+  'Bronz': 'https://images.pexels.com/photos/6668814/pexels-photo-6668814.jpeg',
+  'Gümüş': 'https://images.unsplash.com/photo-1629651729397-ce68d7144d32?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxtZWRhbHMlMjB0cm9waGllc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE5Mnww&ixlib=rb-4.1.0&q=85',
+  'Altın': 'https://images.pexels.com/photos/6668875/pexels-photo-6668875.jpeg',
+  'Platin': 'https://images.pexels.com/photos/6668811/pexels-photo-6668811.jpeg',
+  'Elmas': 'https://images.unsplash.com/photo-1619472237856-1854c13bd940?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHxtZXRhbGxpYyUyMGJhZGdlc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE4NHww&ixlib=rb-4.1.0&q=85',
+  'Asens': 'https://images.pexels.com/photos/6668814/pexels-photo-6668814.jpeg',
+  'Ölümsüz': 'https://images.pexels.com/photos/6668875/pexels-photo-6668875.jpeg',
+  'Radyant': 'https://images.pexels.com/photos/6668811/pexels-photo-6668811.jpeg'
+};
+
+// Rank colors for styling
+const RANK_COLORS = {
+  'Demir': 'from-gray-600 to-gray-800',
+  'Bronz': 'from-amber-600 to-amber-800',
+  'Gümüş': 'from-gray-300 to-gray-500',
+  'Altın': 'from-yellow-400 to-yellow-600',
+  'Platin': 'from-blue-400 to-blue-600',
+  'Elmas': 'from-cyan-400 to-cyan-600',
+  'Asens': 'from-purple-400 to-purple-600',
+  'Ölümsüz': 'from-red-500 to-red-700',
+  'Radyant': 'from-pink-400 to-pink-600'
+};
+
 function App() {
   const [players, setPlayers] = useState([]);
   const [filters, setFilters] = useState({
