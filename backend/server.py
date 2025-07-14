@@ -227,8 +227,12 @@ async def create_player(player: Player):
     if not player_dict.get("rank"):
         player_dict["rank"] = generate_player_code()
     
-    result = players_collection.insert_one(player_dict)
-    return {"id": player_dict["id"], "message": "Oyuncu başarıyla eklendi", "player": player_dict}
+    # Convert datetime to string for JSON serialization
+    if player_dict.get("created_at"):
+        player_dict["created_at"] = player_dict["created_at"].isoformat()
+    
+    result = players_collection.insert_one(player_dict.copy())
+    return {"id": player_dict["id"], "message": "Oyuncu başarıyla eklendi"}
 
 @app.delete("/api/players/{player_id}")
 async def delete_player(player_id: str):
