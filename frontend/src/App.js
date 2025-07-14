@@ -347,10 +347,10 @@ function App() {
                         </button>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center space-x-2">
-                          <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.min_rank}</span>
-                          <span className="text-gray-500">-</span>
-                          <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-sm font-medium">{player.max_rank}</span>
+                        <div className="flex items-center justify-center space-x-3">
+                          <RankBadge rank={player.min_rank} size="md" />
+                          <span className="text-gray-400 font-medium">→</span>
+                          <RankBadge rank={player.max_rank} size="md" />
                         </div>
                       </td>
                       <td className="px-6 py-4">
