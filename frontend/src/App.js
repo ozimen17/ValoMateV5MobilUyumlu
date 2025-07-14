@@ -369,7 +369,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           {/* Step 2: Game Settings */}
           {currentStep === 2 && (
             <div className="space-y-6 animate-fade-in">
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-white text-sm font-semibold mb-2">Aranan Kişi</label>
                   <select
@@ -384,38 +384,65 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                     <option value="5 Kişi">5 Kişi</option>
                   </select>
                 </div>
+                
+                <div>
+                  <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
+                  <select
+                    value={formData.game_mode}
+                    onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  >
+                    <option value="Dereceli">Dereceli</option>
+                    <option value="Premier">Premier</option>
+                    <option value="Derecesiz">Derecesiz</option>
+                    <option value="Tam Gaz">Tam Gaz</option>
+                    <option value="Özel Oyun">Özel Oyun</option>
+                    <option value="1vs1">1vs1</option>
+                    <option value="2vs2">2vs2</option>
+                  </select>
+                </div>
               </div>
               
-              <div>
-                <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
-                <select
-                  value={formData.game_mode}
-                  onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
-                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
-                >
-                  <option value="Dereceli">Dereceli</option>
-                  <option value="Premier">Premier</option>
-                  <option value="Derecesiz">Derecesiz</option>
-                  <option value="Tam Gaz">Tam Gaz</option>
-                  <option value="Özel Oyun">Özel Oyun</option>
-                  <option value="1vs1">1vs1</option>
-                  <option value="2vs2">2vs2</option>
-                </select>
-              </div>
-              
-              <div className="bg-gray-800/30 rounded-xl p-4 border border-gray-700/50">
-                <label className="flex items-center space-x-3 cursor-pointer">
+              {/* Enhanced Microphone Section */}
+              <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-white text-lg font-semibold">Mikrofon Ayarları</h3>
+                  <span className="text-2xl">🎤</span>
+                </div>
+                
+                <label className="flex items-center space-x-3 cursor-pointer p-3 rounded-lg hover:bg-gray-700/30 transition-all">
                   <input
                     type="checkbox"
                     checked={formData.mic_enabled}
                     onChange={(e) => setFormData(prev => ({...prev, mic_enabled: e.target.checked}))}
                     className="w-5 h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2"
                   />
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xl">🎤</span>
-                    <span className="text-white font-medium">Mikrofon mevcut</span>
+                  <div className="flex-1">
+                    <div className="text-white font-medium">Mikrofon mevcut</div>
+                    <div className="text-gray-400 text-sm">Sesli iletişim kurabilirim</div>
                   </div>
                 </label>
+                
+                {formData.mic_enabled && (
+                  <div className="mt-4 p-3 bg-green-900/20 rounded-lg border border-green-700/50">
+                    <div className="flex items-center space-x-2 text-green-400">
+                      <span className="text-sm">✓</span>
+                      <span className="text-sm font-medium">Mikrofon aktif - Sesli iletişim kurabilirsiniz</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Game Mode Info */}
+              <div className="bg-blue-900/20 rounded-xl p-4 border border-blue-700/50">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-blue-400">ℹ️</span>
+                  <span className="text-blue-400 font-medium">Oyun Modu Bilgisi</span>
+                </div>
+                <div className="text-gray-300 text-sm">
+                  <strong>{formData.game_mode}</strong> modunda <strong>{formData.looking_for}</strong> arıyorsunuz.
+                  {formData.mic_enabled ? " Mikrofon ile iletişim kurabilirsiniz." : " Mikrofon kullanmayacaksınız."}
+                </div>
               </div>
             </div>
           )}
