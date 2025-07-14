@@ -932,7 +932,7 @@ function App() {
       <Toast show={toast.show} message={toast.message} type={toast.type} />
 
       {/* Header */}
-      <header className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 backdrop-blur-xl border-b border-red-500/30 sticky top-0 z-40 shadow-2xl">
+      <header className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 sticky top-0 z-40 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <img 
