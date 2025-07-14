@@ -423,10 +423,12 @@ function App() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2 mt-3">
-                    <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-xs font-medium">{player.min_rank}</span>
-                    <span className="text-gray-500 text-xs">-</span>
-                    <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-xs font-medium">{player.max_rank}</span>
+                  <div className="flex items-center justify-between mt-3">
+                    <div className="flex items-center space-x-2">
+                      <RankBadge rank={player.min_rank} size="sm" />
+                      <span className="text-gray-400 text-xs">→</span>
+                      <RankBadge rank={player.max_rank} size="sm" />
+                    </div>
                   </div>
                 </div>
               ))
