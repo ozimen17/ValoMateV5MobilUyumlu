@@ -951,50 +951,44 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {/* Takım Arkadaşı Bul */}
-          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 rounded-2xl p-4 shadow-lg border border-purple-700/30 hover:shadow-purple-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex flex-col items-center text-center space-y-3">
-              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <img 
-                  src="https://premate.gg/static/images/find-team-mates.png" 
-                  alt="Takım Arkadaşı Bul"
-                  className="w-12 h-12 object-contain"
-                />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm">Takım arkadaşı bul</h3>
-              </div>
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl p-4 shadow-lg border border-slate-600/20 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
+            <div className="absolute top-3 right-3">
+              <img 
+                src="https://premate.gg/static/images/find-team-mates.png" 
+                alt="Takım Arkadaşı Bul"
+                className="w-8 h-8 object-contain opacity-80"
+              />
+            </div>
+            <div className="absolute bottom-3 left-3">
+              <h3 className="text-white font-medium text-sm leading-tight">Takım arkadaşı bul</h3>
             </div>
           </div>
 
           {/* Valorant Skin Sıralaması */}
-          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl p-4 shadow-lg border border-slate-600/30 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex flex-col items-center text-center space-y-3">
-              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <img 
-                  src="https://premate.gg/media/weapons/6.png" 
-                  alt="Valorant Skin Sıralaması"
-                  className="w-12 h-12 object-contain"
-                />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm">Valorant skin sıralaması</h3>
-              </div>
+          <div className="bg-gradient-to-br from-blue-900 via-slate-800 to-blue-800 rounded-2xl p-4 shadow-lg border border-blue-700/20 hover:shadow-blue-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
+            <div className="absolute top-3 right-3">
+              <img 
+                src="https://premate.gg/media/weapons/6.png" 
+                alt="Valorant Skin Sıralaması"
+                className="w-8 h-8 object-contain opacity-80"
+              />
+            </div>
+            <div className="absolute bottom-3 left-3">
+              <h3 className="text-white font-medium text-sm leading-tight">Valorant skin sıralaması</h3>
             </div>
           </div>
 
           {/* Çekilişler */}
-          <div className="bg-gradient-to-br from-amber-900 via-orange-800 to-yellow-900 rounded-2xl p-4 shadow-lg border border-amber-700/30 hover:shadow-amber-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex flex-col items-center text-center space-y-3">
-              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <img 
-                  src="https://premate.gg/static/images/raffles.png" 
-                  alt="Çekilişler"
-                  className="w-12 h-12 object-contain"
-                />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm">Çekilişler</h3>
-              </div>
+          <div className="bg-gradient-to-br from-amber-800 via-orange-800 to-amber-900 rounded-2xl p-4 shadow-lg border border-amber-600/20 hover:shadow-amber-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
+            <div className="absolute top-3 right-3">
+              <img 
+                src="https://premate.gg/static/images/raffles.png" 
+                alt="Çekilişler"
+                className="w-8 h-8 object-contain opacity-80"
+              />
+            </div>
+            <div className="absolute bottom-3 left-3">
+              <h3 className="text-white font-medium text-sm leading-tight">Çekilişler</h3>
             </div>
           </div>
         </div>
