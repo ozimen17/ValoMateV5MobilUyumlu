@@ -1068,7 +1068,7 @@ function App() {
                           </div>
                           <div>
                             <div className="text-white font-semibold">{player.username}</div>
-                            <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
+                            <div className="text-red-400 text-sm font-mono">{player.tag.startsWith('#') ? player.tag : '#' + player.tag}</div>
                           </div>
                         </div>
                       </td>
