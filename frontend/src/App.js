@@ -342,9 +342,14 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   type="text"
                   value={formData.lobby_code}
                   onChange={(e) => setFormData(prev => ({...prev, lobby_code: e.target.value}))}
-                  className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                  className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                    errors.lobby_code ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                  } focus:outline-none`}
                   placeholder="ABC12"
                 />
+                {errors.lobby_code && (
+                  <p className="text-red-400 text-sm mt-1 animate-shake">{errors.lobby_code}</p>
+                )}
               </div>
             </div>
           )}
