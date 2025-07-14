@@ -268,9 +268,14 @@ function App() {
             <div className="flex items-end">
               <button 
                 onClick={fetchPlayers}
-                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg text-sm sm:text-base"
+                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg text-sm sm:text-base flex items-center justify-center space-x-2"
               >
-                🎮 Uygula / Yenile
+                <img 
+                  src="https://i.hizliresim.com/nkirsi9.png" 
+                  alt="Uygula/Yenile" 
+                  className="w-4 h-4"
+                />
+                <span>Uygula / Yenile</span>
               </button>
             </div>
           </div>
