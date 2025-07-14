@@ -195,7 +195,11 @@ function App() {
       {toast.show && (
         <div className="fixed top-4 right-4 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
           <div className="flex items-center space-x-2">
-            <span>✅</span>
+            <img 
+              src="https://i.hizliresim.com/neoz0yj.png" 
+              alt="Kopyalandı" 
+              className="w-4 h-4"
+            />
             <span>{toast.message}</span>
           </div>
         </div>
