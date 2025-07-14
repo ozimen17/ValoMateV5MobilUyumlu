@@ -36,13 +36,11 @@ class Player(BaseModel):
     tag: str
     lobby_code: str
     game: str = "valorant"
-    game_mode: str = "Derecelik"
     min_rank: str = "Demir"
     max_rank: str = "Radyant"
     age_range: str = "18+"
-    looking_for: str = "Takım arkadaşı"
-    expectations: str = "Eğlenceli oyun"
-    voice_enabled: bool = True
+    looking_for: str = "1 Kişi"
+    game_mode: str = "Derecelik"
     mic_enabled: bool = True
     created_at: Optional[datetime] = None
 
@@ -79,7 +77,7 @@ def init_sample_data():
     players_collection.delete_many({})
     games_collection.delete_many({})
     
-    # Add games matching the new design
+    # Add only the main game
     games = [
         {
             "id": str(uuid.uuid4()), 
@@ -87,35 +85,15 @@ def init_sample_data():
             "slug": "find-team", 
             "icon": "👥",
             "description": "Oyun arkadaşları bul"
-        },
-        {
-            "id": str(uuid.uuid4()), 
-            "name": "Valorant skin stratejmas", 
-            "slug": "valorant-skins", 
-            "icon": "🔫",
-            "description": "Skin değerlendirme"
-        },
-        {
-            "id": str(uuid.uuid4()), 
-            "name": "Çarkghar", 
-            "slug": "wheel", 
-            "icon": "💰",
-            "description": "Çark çevir kazanç"
-        },
-        {
-            "id": str(uuid.uuid4()), 
-            "name": "Rank tahmin (Valorant)", 
-            "slug": "rank-predict", 
-            "icon": "🔮",
-            "description": "Rank tahmini"
         }
     ]
     games_collection.insert_many(games)
     
     # Add sample players with new structure
-    looking_for_options = ["Takım arkadaşı", "Rank çıkma", "Eğlenceli oyun", "Turnuva", "Pratik"]
-    expectations_options = ["Toksik olmayan", "Sesli iletişim", "Çok oynayan", "Tecrübeli", "Sabırlı"]
+    looking_for_options = ["1 Kişi", "2 Kişi", "3 Kişi", "4 Kişi", "5 Kişi"]
+    game_mode_options = ["Derecelik", "Premier", "Derecesiz", "Tam Gaz", "Özel Oyun", "1vs1", "2vs2"]
     rank_options = ["Demir", "Bronz", "Gümüş", "Altın", "Platin", "Elmas", "Asens", "Ölümsüz", "Radyant"]
+    age_options = ["13-", "14-17", "18+"]
     
     sample_players = []
     for i in range(8):
@@ -125,13 +103,11 @@ def init_sample_data():
             "tag": generate_tag(),
             "lobby_code": generate_lobby_code(),
             "game": "valorant",
-            "game_mode": "Derecelik",
             "min_rank": random.choice(rank_options[:6]),
             "max_rank": random.choice(rank_options[3:]),
-            "age_range": random.choice(["16+", "18+", "21+", "25+"]),
+            "age_range": random.choice(age_options),
             "looking_for": random.choice(looking_for_options),
-            "expectations": random.choice(expectations_options),
-            "voice_enabled": random.choice([True, False]),
+            "game_mode": random.choice(game_mode_options),
             "mic_enabled": random.choice([True, False]),
             "created_at": datetime.now() - timedelta(minutes=random.randint(1, 60))
         })
@@ -151,9 +127,8 @@ async def get_games():
 async def get_players(
     game: Optional[str] = None,
     game_mode: Optional[str] = None,
-    min_rank: Optional[str] = None,
-    max_rank: Optional[str] = None,
-    voice_only: Optional[bool] = None
+    looking_for: Optional[str] = None,
+    mic_only: Optional[bool] = None
 ):
     query = {}
     
@@ -161,9 +136,12 @@ async def get_players(
         query["game"] = game
     if game_mode and game_mode != "Tümü":
         query["game_mode"] = game_mode
-    if voice_only:
-        query["voice_enabled"] = True
+    if looking_for and looking_for != "Tümü":
+        query["looking_for"] = looking_for
+    if mic_only:
+        query["mic_enabled"] = True
     
+    # Sort by created_at descending (newest first)
     players = list(players_collection.find(query, {"_id": 0}).sort("created_at", -1))
     return players
 
@@ -193,4 +171,4 @@ async def delete_player(player_id: str):
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "message": "Valomate.com API is running"}
+    return {"status": "ok", "message": "Valomate API is running"}

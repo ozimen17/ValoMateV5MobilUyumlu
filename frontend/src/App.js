@@ -9,9 +9,8 @@ function App() {
   const [selectedGame, setSelectedGame] = useState('find-team');
   const [filters, setFilters] = useState({
     gameMode: 'Tümü',
-    minRank: '',
-    maxRank: '',
-    voiceOnly: false
+    lookingFor: 'Tümü',
+    micOnly: false
   });
   const [loading, setLoading] = useState(true);
   const [showAddPlayer, setShowAddPlayer] = useState(false);
@@ -22,9 +21,8 @@ function App() {
     min_rank: 'Demir',
     max_rank: 'Radyant',
     age_range: '18+',
-    looking_for: 'Takım arkadaşı',
-    expectations: 'Eğlenceli oyun',
-    voice_enabled: true,
+    looking_for: '1 Kişi',
+    game_mode: 'Derecelik',
     mic_enabled: true
   });
   const [toast, setToast] = useState({ show: false, message: '' });
@@ -58,8 +56,11 @@ function App() {
       if (filters.gameMode !== 'Tümü') {
         url += `&game_mode=${encodeURIComponent(filters.gameMode)}`;
       }
-      if (filters.voiceOnly) {
-        url += `&voice_only=true`;
+      if (filters.lookingFor !== 'Tümü') {
+        url += `&looking_for=${encodeURIComponent(filters.lookingFor)}`;
+      }
+      if (filters.micOnly) {
+        url += `&mic_only=true`;
       }
       
       const response = await fetch(url);
@@ -103,8 +104,7 @@ function App() {
         },
         body: JSON.stringify({
           ...newPlayer,
-          game: 'valorant',
-          game_mode: 'Derecelik'
+          game: 'valorant'
         }),
       });
       
@@ -116,9 +116,8 @@ function App() {
           min_rank: 'Demir',
           max_rank: 'Radyant',
           age_range: '18+',
-          looking_for: 'Takım arkadaşı',
-          expectations: 'Eğlenceli oyun',
-          voice_enabled: true,
+          looking_for: '1 Kişi',
+          game_mode: 'Derecelik',
           mic_enabled: true
         });
         setShowAddPlayer(false);
@@ -164,20 +163,16 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <div className="text-white text-2xl font-bold">
-              <span className="text-red-500">VALOMATE</span><span className="text-white">.com</span>
+              <span className="text-red-500">VALOMATE</span>
             </div>
-          </div>
-          <div className="hidden md:flex space-x-6">
-            <a href="#" className="text-red-400 hover:text-red-300 transition-colors border-b border-red-400">Rapor et partner</a>
-            <a href="#" className="text-red-400 hover:text-red-300 transition-colors border-b border-red-400">Skin Sıralaması</a>
           </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Game Selection Cards */}
+        {/* Game Selection Cards - Only main game */}
         <div className="mb-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md">
             {games.map((game) => (
               <button
                 key={game.slug}
@@ -219,46 +214,44 @@ function App() {
                   >
                     <option value="Tümü">Tümü</option>
                     <option value="Derecelik">Derecelik</option>
+                    <option value="Premier">Premier</option>
                     <option value="Derecesiz">Derecesiz</option>
+                    <option value="Tam Gaz">Tam Gaz</option>
+                    <option value="Özel Oyun">Özel Oyun</option>
+                    <option value="1vs1">1vs1</option>
+                    <option value="2vs2">2vs2</option>
                   </select>
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="block text-white text-sm font-semibold">Minimum Rank</label>
+                  <label className="block text-white text-sm font-semibold">Aranan Kişi</label>
                   <select 
-                    value={filters.minRank}
-                    onChange={(e) => setFilters(prev => ({...prev, minRank: e.target.value}))}
+                    value={filters.lookingFor}
+                    onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
                     className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                   >
-                    <option value="">Demir</option>
-                    <option value="Bronz">Bronz</option>
-                    <option value="Gümüş">Gümüş</option>
-                    <option value="Altın">Altın</option>
-                    <option value="Platin">Platin</option>
-                    <option value="Elmas">Elmas</option>
-                    <option value="Asens">Asens</option>
-                    <option value="Ölümsüz">Ölümsüz</option>
-                    <option value="Radyant">Radyant</option>
+                    <option value="Tümü">Tümü</option>
+                    <option value="1 Kişi">1 Kişi</option>
+                    <option value="2 Kişi">2 Kişi</option>
+                    <option value="3 Kişi">3 Kişi</option>
+                    <option value="4 Kişi">4 Kişi</option>
+                    <option value="5 Kişi">5 Kişi</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-white text-sm font-semibold">Maksimum Rank</label>
-                  <select 
-                    value={filters.maxRank}
-                    onChange={(e) => setFilters(prev => ({...prev, maxRank: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
-                  >
-                    <option value="">Radyant</option>
-                    <option value="Bronz">Bronz</option>
-                    <option value="Gümüş">Gümüş</option>
-                    <option value="Altın">Altın</option>
-                    <option value="Platin">Platin</option>
-                    <option value="Elmas">Elmas</option>
-                    <option value="Asens">Asens</option>
-                    <option value="Ölümsüz">Ölümsüz</option>
-                    <option value="Radyant">Radyant</option>
-                  </select>
+                  <label className="block text-white text-sm font-semibold">Mikrofon</label>
+                  <div className="flex items-center space-x-3 h-12">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={filters.micOnly}
+                        onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
+                        className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
+                      />
+                      <span className="text-white font-medium">🎤 Sadece mikrofonlu</span>
+                    </label>
+                  </div>
                 </div>
 
                 <div className="flex items-end">
@@ -283,8 +276,8 @@ function App() {
                       <th className="text-left text-white px-6 py-4 font-semibold">MIN - MAKS RANK</th>
                       <th className="text-left text-white px-6 py-4 font-semibold">YAŞ ARALIĞI</th>
                       <th className="text-left text-white px-6 py-4 font-semibold">ARANAN</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">BEKLENTİLER</th>
-                      <th className="text-left text-white px-6 py-4 font-semibold">İLETİŞİM</th>
+                      <th className="text-left text-white px-6 py-4 font-semibold">OYUN MODU</th>
+                      <th className="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
@@ -307,7 +300,7 @@ function App() {
                               <div>
                                 <div className="text-white font-semibold">{player.username}</div>
                                 <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
-                                <div className="text-gray-400 text-xs">•• {getTimeAgo(player.created_at)}</div>
+                                <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
                               </div>
                             </div>
                           </td>
@@ -333,13 +326,10 @@ function App() {
                             <span className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm">{player.looking_for}</span>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="text-gray-300 text-sm">{player.expectations}</span>
+                            <span className="text-gray-300 text-sm">{player.game_mode}</span>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="flex items-center space-x-3">
-                              <span className={`text-xl ${player.voice_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
-                                🎧
-                              </span>
+                            <div className="flex items-center justify-center">
                               <span className={`text-xl ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
                                 🎤
                               </span>
@@ -389,7 +379,7 @@ function App() {
                       onChange={(e) => setNewPlayer(prev => ({...prev, tag: e.target.value}))}
                       className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                       required
-                      placeholder="TR1, EU2, etc."
+                      placeholder="#ABC123"
                     />
                   </div>
                 </div>
@@ -452,10 +442,9 @@ function App() {
                       onChange={(e) => setNewPlayer(prev => ({...prev, age_range: e.target.value}))}
                       className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                     >
-                      <option value="16+">16+</option>
+                      <option value="13-">13-</option>
+                      <option value="14-17">14-17</option>
                       <option value="18+">18+</option>
-                      <option value="21+">21+</option>
-                      <option value="25+">25+</option>
                     </select>
                   </div>
                   <div>
@@ -465,40 +454,33 @@ function App() {
                       onChange={(e) => setNewPlayer(prev => ({...prev, looking_for: e.target.value}))}
                       className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                     >
-                      <option value="Takım arkadaşı">Takım arkadaşı</option>
-                      <option value="Rank çıkma">Rank çıkma</option>
-                      <option value="Eğlenceli oyun">Eğlenceli oyun</option>
-                      <option value="Turnuva">Turnuva</option>
-                      <option value="Pratik">Pratik</option>
+                      <option value="1 Kişi">1 Kişi</option>
+                      <option value="2 Kişi">2 Kişi</option>
+                      <option value="3 Kişi">3 Kişi</option>
+                      <option value="4 Kişi">4 Kişi</option>
+                      <option value="5 Kişi">5 Kişi</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Beklentiler</label>
+                  <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
                   <select
-                    value={newPlayer.expectations}
-                    onChange={(e) => setNewPlayer(prev => ({...prev, expectations: e.target.value}))}
+                    value={newPlayer.game_mode}
+                    onChange={(e) => setNewPlayer(prev => ({...prev, game_mode: e.target.value}))}
                     className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
                   >
-                    <option value="Toksik olmayan">Toksik olmayan</option>
-                    <option value="Sesli iletişim">Sesli iletişim</option>
-                    <option value="Çok oynayan">Çok oynayan</option>
-                    <option value="Tecrübeli">Tecrübeli</option>
-                    <option value="Sabırlı">Sabırlı</option>
+                    <option value="Derecelik">Derecelik</option>
+                    <option value="Premier">Premier</option>
+                    <option value="Derecesiz">Derecesiz</option>
+                    <option value="Tam Gaz">Tam Gaz</option>
+                    <option value="Özel Oyun">Özel Oyun</option>
+                    <option value="1vs1">1vs1</option>
+                    <option value="2vs2">2vs2</option>
                   </select>
                 </div>
 
                 <div className="flex items-center space-x-6">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={newPlayer.voice_enabled}
-                      onChange={(e) => setNewPlayer(prev => ({...prev, voice_enabled: e.target.checked}))}
-                      className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
-                    />
-                    <span className="text-white font-medium">🎧 Sesli</span>
-                  </label>
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
