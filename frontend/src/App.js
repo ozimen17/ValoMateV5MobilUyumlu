@@ -205,13 +205,8 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
   };
   
   const nextStep = () => {
-    console.log('Next step called, current step:', currentStep);
-    console.log('Form data:', formData);
     if (validateStep(currentStep)) {
-      console.log('Validation passed, moving to next step');
       setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
-    } else {
-      console.log('Validation failed, staying on current step');
     }
   };
   
