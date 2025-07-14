@@ -3,6 +3,27 @@ import './App.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
+// Profile images for random assignment
+const PROFILE_IMAGES = [
+  'https://premate.gg/media/ProfilePhoto/6555f050fde654c6e1470b67_fronted-pep_07.webp',
+  'https://premate.gg/media/ProfilePhoto/13926044.webp',
+  'https://premate.gg/media/ProfilePhoto/6555f04faec7caa690ffe92e_fronted-pep_03.webp',
+  'https://premate.gg/media/ProfilePhoto/ec4d0b3ecb9585568283b34a2b673885.webp',
+  'https://premate.gg/media/ProfilePhoto/6555f050306f1ab1294b72b7_fronted-pep_05.webp',
+  'https://premate.gg/media/ProfilePhoto/6555f0501b5a124003df1440_fronted-pep_08.webp'
+];
+
+// Function to get random profile image based on username
+const getRandomProfileImage = (username) => {
+  // Use username to create a consistent but random selection
+  const hash = username.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  const index = Math.abs(hash) % PROFILE_IMAGES.length;
+  return PROFILE_IMAGES[index];
+};
+
 // Rank images mapping - Updated with official Valorant rank images
 const RANK_IMAGES = {
   'Demir': 'https://premate.gg/media/Rank/Iron_3_Rank.webp',
