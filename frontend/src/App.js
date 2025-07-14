@@ -358,7 +358,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   <select
                     value={formData.min_rank}
                     onChange={(e) => setFormData(prev => ({...prev, min_rank: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
                   >
                     {Object.keys(RANK_IMAGES).map(rank => (
                       <option key={rank} value={rank}>{rank}</option>
@@ -370,7 +372,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   <select
                     value={formData.max_rank}
                     onChange={(e) => setFormData(prev => ({...prev, max_rank: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
                   >
                     {Object.keys(RANK_IMAGES).map(rank => (
                       <option key={rank} value={rank}>{rank}</option>
@@ -378,6 +382,12 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   </select>
                 </div>
               </div>
+              
+              {errors.rank && (
+                <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3">
+                  <p className="text-red-400 text-sm animate-shake">{errors.rank}</p>
+                </div>
+              )}
               
               {/* Rank Preview */}
               <div className="bg-gray-800/30 rounded-xl p-4 border border-gray-700/50">
