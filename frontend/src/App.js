@@ -159,15 +159,46 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
     
     switch (step) {
       case 0:
-        if (!formData.username.trim()) newErrors.username = 'Kullanıcı adı gerekli';
-        if (!formData.tag.trim()) newErrors.tag = 'Tag gerekli';
-        if (formData.tag && !formData.tag.startsWith('#')) newErrors.tag = 'Tag # ile başlamalı';
+        if (!formData.username.trim()) {
+          newErrors.username = 'Kullanıcı adı gerekli';
+        } else if (formData.username.length < 3) {
+          newErrors.username = 'Kullanıcı adı en az 3 karakter olmalı';
+        } else if (formData.username.length > 20) {
+          newErrors.username = 'Kullanıcı adı en fazla 20 karakter olmalı';
+        }
+        
+        if (!formData.tag.trim()) {
+          newErrors.tag = 'Tag gerekli';
+        } else if (!formData.tag.startsWith('#')) {
+          newErrors.tag = 'Tag # ile başlamalı';
+        } else if (formData.tag.length < 4) {
+          newErrors.tag = 'Tag en az 4 karakter olmalı (# dahil)';
+        } else if (formData.tag.length > 10) {
+          newErrors.tag = 'Tag en fazla 10 karakter olmalı';
+        }
+        
+        if (formData.lobby_code && formData.lobby_code.length > 10) {
+          newErrors.lobby_code = 'Lobi kodu en fazla 10 karakter olmalı';
+        }
         break;
       case 1:
-        // Rank validation can be added here
+        // Rank validation
+        const ranks = Object.keys(RANK_IMAGES);
+        const minRankIndex = ranks.indexOf(formData.min_rank);
+        const maxRankIndex = ranks.indexOf(formData.max_rank);
+        
+        if (minRankIndex > maxRankIndex) {
+          newErrors.rank = 'Minimum rank maksimum rank\'tan yüksek olamaz';
+        }
         break;
       case 2:
-        // Game settings validation can be added here
+        // Game settings validation
+        if (!formData.looking_for) {
+          newErrors.looking_for = 'Aranan kişi sayısı seçiniz';
+        }
+        if (!formData.game_mode) {
+          newErrors.game_mode = 'Oyun modu seçiniz';
+        }
         break;
     }
     
