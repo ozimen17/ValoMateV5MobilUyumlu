@@ -645,26 +645,12 @@ function App() {
       {/* Header */}
       <header className="bg-[#030407]/90 backdrop-blur-xl border-b border-red-600/30 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <img 
-                src="https://i.hizliresim.com/14i4qc2.gif" 
-                alt="VALOMATE" 
-                className="h-10 w-auto"
-              />
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                  VALOMATE
-                </h1>
-                <p className="text-xs text-gray-400">Takım arkadaşı bul</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700/50">
-                <span className="text-green-400 text-sm font-medium">● Canlı</span>
-              </div>
-            </div>
+          <div className="flex items-center justify-center">
+            <img 
+              src="https://i.hizliresim.com/14i4qc2.gif" 
+              alt="VALOMATE" 
+              className="h-10 w-auto"
+            />
           </div>
         </div>
       </header>
