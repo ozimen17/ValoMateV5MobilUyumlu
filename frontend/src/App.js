@@ -965,7 +965,7 @@ function App() {
           <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/30 inline-block">
             <p className="text-gray-400 text-sm flex items-center space-x-2">
               <span className="text-yellow-400">⏰</span>
-              <span>Oyuncu aramaları 30 dakika sonra otomatik olarak silinir</span>
+              <span>Oyuncu aramaları 180 dakika (3 saat) sonra otomatik olarak silinir</span>
             </p>
           </div>
         </div>
