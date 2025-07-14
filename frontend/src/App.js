@@ -596,6 +596,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                           : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
                       } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
                     >
+                      <option value="">Seçiniz</option>
                       <option value="1 Kişi">1 Kişi</option>
                       <option value="2 Kişi">2 Kişi</option>
                       <option value="3 Kişi">3 Kişi</option>
