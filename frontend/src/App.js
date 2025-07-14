@@ -169,12 +169,10 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         
         if (!formData.tag.trim()) {
           newErrors.tag = 'Tag gerekli';
-        } else if (!formData.tag.startsWith('#')) {
-          newErrors.tag = 'Tag # ile başlamalı';
-        } else if (formData.tag.length < 4) {
-          newErrors.tag = 'Tag en az 4 karakter olmalı (# dahil)';
-        } else if (formData.tag.length > 10) {
-          newErrors.tag = 'Tag en fazla 10 karakter olmalı';
+        } else if (formData.tag.length < 3) {
+          newErrors.tag = 'Tag en az 3 karakter olmalı';
+        } else if (formData.tag.length > 9) {
+          newErrors.tag = 'Tag en fazla 9 karakter olmalı';
         }
         
         if (formData.lobby_code && formData.lobby_code.length > 10) {
@@ -192,7 +190,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         }
         break;
       case 2:
-        // Game settings validation
+        // Game settings validation - Bu kısım daha detaylı kontrol ediliyor
         if (!formData.looking_for) {
           newErrors.looking_for = 'Aranan kişi sayısı seçiniz';
         }
