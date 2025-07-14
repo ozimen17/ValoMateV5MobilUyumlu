@@ -230,8 +230,8 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           lobby_code: '',
           min_rank: 'Demir',
           max_rank: 'Radyant',
-          looking_for: '1 Kişi',
-          game_mode: 'Dereceli',
+          looking_for: '', // Reset değerleri boş
+          game_mode: '', // Reset değerleri boş
           mic_enabled: true
         });
         onClose();
