@@ -221,13 +221,8 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
       try {
-        // Tag'e otomatik # ekleme işlemi - son kontrolden önce
-        let finalFormData = {...formData};
-        if (finalFormData.tag && !finalFormData.tag.startsWith('#')) {
-          finalFormData.tag = '#' + finalFormData.tag;
-        }
-        
-        await onSubmit(finalFormData);
+        // Tag zaten onChange'de # ile işlendiği için burada tekrar eklemeye gerek yok
+        await onSubmit(formData);
         setCurrentStep(0);
         setFormData({
           username: '',
