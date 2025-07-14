@@ -216,10 +216,18 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Son adımda validation yapmadan önce tüm alanları kontrol et
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
       try {
-        await onSubmit(formData);
+        // Tag'e otomatik # ekleme işlemi - son kontrolden önce
+        let finalFormData = {...formData};
+        if (finalFormData.tag && !finalFormData.tag.startsWith('#')) {
+          finalFormData.tag = '#' + finalFormData.tag;
+        }
+        
+        await onSubmit(finalFormData);
         setCurrentStep(0);
         setFormData({
           username: '',
@@ -234,6 +242,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         onClose();
       } catch (error) {
         console.error('Form submission error:', error);
+        setErrors({ submit: 'Form gönderilirken bir hata oluştu. Lütfen tekrar deneyin.' });
       } finally {
         setIsSubmitting(false);
       }
