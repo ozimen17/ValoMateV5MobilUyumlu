@@ -936,7 +936,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <img 
-              src="https://i.hizliresim.com/14i4qc2.gif" 
+              src="https://i.hizliresim.com/1e6ismz.gif" 
               alt="VALOMATE" 
               className="h-10 w-auto"
             />
