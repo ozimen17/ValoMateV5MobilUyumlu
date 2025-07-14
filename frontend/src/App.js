@@ -141,8 +141,8 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
     lobby_code: '',
     min_rank: 'Demir',
     max_rank: 'Radyant',
-    looking_for: '1 Kişi',
-    game_mode: 'Dereceli',
+    looking_for: '', // Boş başlat - kullanıcı seçmek zorunda
+    game_mode: '', // Boş başlat - kullanıcı seçmek zorunda
     mic_enabled: true
   });
   const [errors, setErrors] = useState({});
