@@ -178,6 +178,10 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         if (formData.lobby_code && formData.lobby_code.length > 10) {
           newErrors.lobby_code = 'Lobi kodu en fazla 10 karakter olmalı';
         }
+        
+        if (!formData.lobby_code || !formData.lobby_code.trim()) {
+          newErrors.lobby_code = 'Lobi kodu gerekli';
+        }
         break;
       case 1:
         // Rank validation
