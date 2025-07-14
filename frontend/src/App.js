@@ -264,12 +264,7 @@ function App() {
                     onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
                     className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
                   />
-                  <img 
-                    src="https://i.hizliresim.com/o2qmwql.png" 
-                    alt="Mikrofon" 
-                    className="w-4 h-4"
-                  />
-                  <span className="text-white font-medium text-sm sm:text-base">Sadece mikrofonlu</span>
+                  <span className="text-white font-medium text-sm sm:text-base">🎤 Sadece mikrofonlu</span>
                 </label>
               </div>
             </div>
