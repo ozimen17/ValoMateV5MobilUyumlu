@@ -130,7 +130,7 @@ backend:
         comment: "COMPREHENSIVE BACKEND TESTING COMPLETED - ALL CRITICAL FUNCTIONALITY VERIFIED: ✅ Health Check (200 OK), ✅ Games Endpoint (1 game found with correct structure), ✅ Players Endpoint (11 active players, proper sorting by newest first), ✅ Player Creation (successfully created multiple test players with all fields including mic_enabled), ✅ Player Filtering (game_mode, looking_for, mic_only filters all working correctly), ✅ 30-MINUTE CLEANUP FUNCTIONALITY (CRITICAL CHANGE VERIFIED - cleanup_old_players() now uses timedelta(minutes=30) instead of 180 minutes, manual cleanup endpoint working, fresh players correctly NOT removed, all current players under 30 minutes old), ✅ Tag Processing (backend correctly handles tag input without double # processing), ✅ Mic Field Processing (mic_enabled=true shows 🎤, mic_enabled=false shows ❌). Updated backend_test.py to test 30-minute cleanup instead of 180-minute. Backend API is fully functional and production-ready with the critical 30-minute auto-cleanup change successfully implemented."
 
 frontend:
-  - task: "Fix double # issue in tag input field"
+  - task: "Make lobby code mandatory"
     implemented: true
     working: false
     file: "App.js"
@@ -138,17 +138,11 @@ frontend:
     priority: "high"
     needs_retesting: true
     status_history:
-      - working: true
-        agent: "main"
-        comment: "Fixed form modal positioning by changing flex alignment from items-center to items-start and adding margin-top. Changed max-h from 90vh to 85vh and added pt-8 to container. Modal now properly positioned and fully visible."
-      - working: true
-        agent: "testing"
-        comment: "Comprehensive testing completed for form modal positioning. ✅ VERIFIED WORKING: Modal has correct margin-top (4rem), max-height (80vh), does not overlap with header, and floating button positioned correctly at bottom center. Modal opens properly and is fully visible without being cut off. Minor: z-index classes not detected in automated test but modal functions correctly due to inline styles. Form modal positioning issue is fully resolved."
       - working: false
         agent: "main"
-        comment: "FIXED: Modified tag input onChange handler to prevent double # issue. New logic: if user types #, remove it first, then always add single # prefix when value is not empty. This ensures only one # is added regardless of user input."
-  
-  - task: "Show X mark when microphone is not selected"
+        comment: "IMPLEMENTED: Added lobby code validation to make it mandatory. Updated form validation to require lobby_code field (cannot be empty or just whitespace). Changed label to show red asterisk (*) for required field. Updated helper text to indicate lobby code is required instead of optional."
+        
+  - task: "Remove rank names from homepage, show only logos"
     implemented: true
     working: false
     file: "App.js"
@@ -156,15 +150,21 @@ frontend:
     priority: "high"
     needs_retesting: true
     status_history:
-      - working: true
-        agent: "main"
-        comment: "Enhanced Game Settings step (step 2) with better validation, modern styling, and proper error handling. Added required field indicators (*), improved select styling with icons, and enhanced error display. Added detailed validation for looking_for and game_mode fields."
-      - working: true
-        agent: "testing"
-        comment: "Comprehensive testing completed for Game Settings functionality. ✅ VERIFIED WORKING: 'Aranan Kişi' dropdown selection working correctly (successfully changed from 'Tümü' to '2 Kişi'), 'Oyun Modu' dropdown selection working correctly (successfully changed from 'Tümü' to 'Premier'), microphone checkbox toggle working correctly, and form submission successful with player added to database. Success message 'Oyuncu başarıyla eklendi!' displayed and modal closed properly after submission. Game Settings step functionality is fully resolved."
       - working: false
         agent: "main"
-        comment: "UPDATED: Modified microphone display in both table and card views. When mic_enabled is false, now shows ❌ (X mark) instead of grayed out microphone icon. Updated both desktop table view and mobile card view to use conditional rendering: mic_enabled ? '🎤' : '❌'."
+        comment: "IMPLEMENTED: Modified RankBadge component to remove rank names and show only logos. Removed textSizeClasses and rank text display. Updated component to show only rank image with proper styling and shadow effects. This affects both desktop table view and mobile card view."
+        
+  - task: "Fix tag display to show single # after form submission"
+    implemented: true
+    working: false
+    file: "App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "IMPLEMENTED: Fixed tag display in both table and card views to prevent double # issue. Updated display logic to check if player.tag already starts with #, if yes show as-is, if no add single # prefix. Changed from #{player.tag} to {player.tag.startsWith('#') ? player.tag : '#' + player.tag} for both desktop and mobile views."
 
 metadata:
   created_by: "main_agent"
