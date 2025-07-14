@@ -107,11 +107,11 @@ user_problem_statement: "tag kısmına 1 adet # eklenmesi gerekirken 2 adet # ek
 backend:
   - task: "Update cleanup time to 30 minutes in backend"
     implemented: true
-    working: false
+    working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
@@ -125,6 +125,9 @@ backend:
       - working: false
         agent: "main"
         comment: "REVERTED: Changed cleanup time from 180 minutes back to 30 minutes as requested by user. Updated cleanup_old_players() function to remove players older than 30 minutes instead of 180 minutes. This change addresses the user's requirement for forms to be auto-deleted after 30 minutes."
+      - working: true
+        agent: "testing"
+        comment: "COMPREHENSIVE BACKEND TESTING COMPLETED - ALL CRITICAL FUNCTIONALITY VERIFIED: ✅ Health Check (200 OK), ✅ Games Endpoint (1 game found with correct structure), ✅ Players Endpoint (11 active players, proper sorting by newest first), ✅ Player Creation (successfully created multiple test players with all fields including mic_enabled), ✅ Player Filtering (game_mode, looking_for, mic_only filters all working correctly), ✅ 30-MINUTE CLEANUP FUNCTIONALITY (CRITICAL CHANGE VERIFIED - cleanup_old_players() now uses timedelta(minutes=30) instead of 180 minutes, manual cleanup endpoint working, fresh players correctly NOT removed, all current players under 30 minutes old), ✅ Tag Processing (backend correctly handles tag input without double # processing), ✅ Mic Field Processing (mic_enabled=true shows 🎤, mic_enabled=false shows ❌). Updated backend_test.py to test 30-minute cleanup instead of 180-minute. Backend API is fully functional and production-ready with the critical 30-minute auto-cleanup change successfully implemented."
 
 frontend:
   - task: "Fix double # issue in tag input field"
