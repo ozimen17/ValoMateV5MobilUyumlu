@@ -338,7 +338,7 @@ function App() {
                         <div className="flex items-center space-x-3">
                           <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
                             <img 
-                              src="https://i.hizliresim.com/cj3yme2.png" 
+                              src={getRandomProfileImage(player.username)} 
                               alt="User Avatar" 
                               className="w-full h-full object-cover"
                             />
