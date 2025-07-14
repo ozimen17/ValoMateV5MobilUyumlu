@@ -605,8 +605,14 @@ function App() {
     const created = new Date(createdAt);
     const diffInMinutes = Math.floor((now - created) / (1000 * 60));
     
-    if (diffInMinutes < 1) return 'Şimdi';
-    return `${diffInMinutes} dk geçti`;
+    if (diffInMinutes < 1) return 'Az önce';
+    if (diffInMinutes === 1) return '1 dk geçti';
+    if (diffInMinutes < 180) return `${diffInMinutes} dk geçti`;
+    
+    // 180 dakikadan sonra saat olarak göster
+    const hours = Math.floor(diffInMinutes / 60);
+    if (hours === 1) return '1 sa geçti';
+    return `${hours} sa geçti`;
   };
 
   const RankBadge = ({ rank, size = 'md' }) => {
