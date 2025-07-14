@@ -226,11 +226,11 @@ function App() {
         </div>
       )}
 
-      {/* Header with centered logo - Updated color and logo */}
-      <header className="bg-gradient-to-br from-black via-gray-900 to-black backdrop-blur-sm border-b border-red-600/30">
+      {/* Header with centered logo - Final update */}
+      <header className="bg-[#030407] backdrop-blur-sm border-b border-red-600/30">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-center items-center">
           <img 
-            src="https://i.hizliresim.com/gg8baea.png" 
+            src="https://i.hizliresim.com/14i4qc2.gif" 
             alt="VALOMATE" 
             className="h-10 w-auto"
           />
