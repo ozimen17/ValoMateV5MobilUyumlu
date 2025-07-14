@@ -949,45 +949,45 @@ function App() {
 
       {/* Feature Cards */}
       <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           {/* Takım Arkadaşı Bul */}
-          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl p-4 shadow-lg border border-slate-600/20 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
-            <div className="absolute top-2 right-2">
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl shadow-lg border border-slate-600/20 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+            <div className="absolute inset-0 flex items-center justify-center">
               <img 
                 src="https://premate.gg/static/images/find-team-mates.png" 
                 alt="Takım Arkadaşı Bul"
-                className="w-12 h-12 object-contain"
+                className="w-full h-full object-contain p-4"
               />
             </div>
-            <div className="absolute bottom-3 left-3">
+            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
               <h3 className="text-white font-medium text-sm leading-tight">Takım arkadaşı bul</h3>
             </div>
           </div>
 
           {/* Valorant Skin Sıralaması */}
-          <div className="bg-gradient-to-br from-blue-900 via-slate-800 to-blue-800 rounded-2xl p-4 shadow-lg border border-blue-700/20 hover:shadow-blue-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
-            <div className="absolute top-2 right-2">
+          <div className="bg-gradient-to-br from-blue-900 via-slate-800 to-blue-800 rounded-2xl shadow-lg border border-blue-700/20 hover:shadow-blue-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+            <div className="absolute inset-0 flex items-center justify-center">
               <img 
                 src="https://premate.gg/media/weapons/6.png" 
                 alt="Valorant Skin Sıralaması"
-                className="w-12 h-12 object-contain"
+                className="w-full h-full object-contain p-4"
               />
             </div>
-            <div className="absolute bottom-3 left-3">
+            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
               <h3 className="text-white font-medium text-sm leading-tight">Valorant skin sıralaması</h3>
             </div>
           </div>
 
           {/* Çekilişler */}
-          <div className="bg-gradient-to-br from-amber-800 via-orange-800 to-amber-900 rounded-2xl p-4 shadow-lg border border-amber-600/20 hover:shadow-amber-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm h-24 relative overflow-hidden">
-            <div className="absolute top-2 right-2">
+          <div className="bg-gradient-to-br from-amber-800 via-orange-800 to-amber-900 rounded-2xl shadow-lg border border-amber-600/20 hover:shadow-amber-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+            <div className="absolute inset-0 flex items-center justify-center">
               <img 
                 src="https://premate.gg/static/images/raffles.png" 
                 alt="Çekilişler"
-                className="w-12 h-12 object-contain"
+                className="w-full h-full object-contain p-4"
               />
             </div>
-            <div className="absolute bottom-3 left-3">
+            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
               <h3 className="text-white font-medium text-sm leading-tight">Çekilişler</h3>
             </div>
           </div>
