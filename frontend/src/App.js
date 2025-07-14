@@ -902,15 +902,9 @@ function App() {
       md: 'w-8 h-8',
       lg: 'w-10 h-10'
     };
-    
-    const textSizeClasses = {
-      sm: 'text-xs',
-      md: 'text-sm',
-      lg: 'text-base'
-    };
 
     return (
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center">
         <div className={`${sizeClasses[size]} rounded-full overflow-hidden border-2 border-gray-700/50 shadow-lg bg-gray-900/50`}>
           <img 
             src={RANK_IMAGES[rank] || 'https://premate.gg/media/Rank/Iron_3_Rank.webp'} 
@@ -921,9 +915,6 @@ function App() {
             }}
           />
         </div>
-        <span className={`font-semibold bg-gradient-to-r ${RANK_COLORS[rank]} bg-clip-text text-transparent ${textSizeClasses[size]}`}>
-          {rank}
-        </span>
       </div>
     );
   };
