@@ -346,9 +346,11 @@ function App() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-center">
-                          <span className={`text-xl ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'} transition-colors`}>
-                            🎤
-                          </span>
+                          <img 
+                            src="https://i.hizliresim.com/o2qmwql.png" 
+                            alt="Mikrofon" 
+                            className={`w-5 h-5 transition-opacity ${player.mic_enabled ? 'opacity-100' : 'opacity-30'}`}
+                          />
                         </div>
                       </td>
                     </tr>
