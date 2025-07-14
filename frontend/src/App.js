@@ -951,52 +951,49 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {/* Takım Arkadaşı Bul */}
-          <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-2xl p-4 shadow-lg border border-purple-500/30 hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+          <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 rounded-2xl p-4 shadow-lg border border-purple-700/30 hover:shadow-purple-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
                 <img 
                   src="https://premate.gg/static/images/find-team-mates.png" 
                   alt="Takım Arkadaşı Bul"
-                  className="w-8 h-8 object-contain"
+                  className="w-12 h-12 object-contain"
                 />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold text-sm lg:text-base">Takım arkadaşı bul</h3>
-                <p className="text-purple-200 text-xs lg:text-sm">Valorant için oyuncu ara</p>
+              <div>
+                <h3 className="text-white font-semibold text-sm">Takım arkadaşı bul</h3>
               </div>
             </div>
           </div>
 
           {/* Valorant Skin Sıralaması */}
-          <div className="bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-2xl p-4 shadow-lg border border-gray-500/30 hover:shadow-gray-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl p-4 shadow-lg border border-slate-600/30 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
                 <img 
                   src="https://premate.gg/media/weapons/6.png" 
                   alt="Valorant Skin Sıralaması"
-                  className="w-8 h-8 object-contain"
+                  className="w-12 h-12 object-contain"
                 />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold text-sm lg:text-base">Valorant skin sıralaması</h3>
-                <p className="text-gray-200 text-xs lg:text-sm">En iyi skinleri keşfet</p>
+              <div>
+                <h3 className="text-white font-semibold text-sm">Valorant skin sıralaması</h3>
               </div>
             </div>
           </div>
 
           {/* Çekilişler */}
-          <div className="bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800 rounded-2xl p-4 shadow-lg border border-amber-500/30 hover:shadow-amber-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+          <div className="bg-gradient-to-br from-amber-900 via-orange-800 to-yellow-900 rounded-2xl p-4 shadow-lg border border-amber-700/30 hover:shadow-amber-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
                 <img 
                   src="https://premate.gg/static/images/raffles.png" 
                   alt="Çekilişler"
-                  className="w-8 h-8 object-contain"
+                  className="w-12 h-12 object-contain"
                 />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold text-sm lg:text-base">Çekilişler</h3>
-                <p className="text-amber-200 text-xs lg:text-sm">Ödüllü yarışmalar</p>
+              <div>
+                <h3 className="text-white font-semibold text-sm">Çekilişler</h3>
               </div>
             </div>
           </div>
