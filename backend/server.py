@@ -113,32 +113,8 @@ def init_sample_data():
     ]
     games_collection.insert_many(games)
     
-    # Add sample players with new structure (created at different times to test sorting)
-    looking_for_options = ["1 Kişi", "2 Kişi", "3 Kişi", "4 Kişi", "5 Kişi"]
-    game_mode_options = ["Dereceli", "Premier", "Derecesiz", "Tam Gaz", "Özel Oyun", "1vs1", "2vs2"]
-    rank_options = ["Demir", "Bronz", "Gümüş", "Altın", "Platin", "Elmas", "Asens", "Ölümsüz", "Radyant"]
-    age_options = ["18-", "18+"]
-    
-    sample_players = []
-    for i in range(8):
-        # Create players with different creation times (most recent first)
-        created_time = datetime.now() - timedelta(minutes=i * 3)  # 0, 3, 6, 9... minutes ago
-        sample_players.append({
-            "id": str(uuid.uuid4()),
-            "username": generate_username(),
-            "tag": generate_tag(),
-            "lobby_code": generate_lobby_code(),
-            "game": "valorant",
-            "min_rank": random.choice(rank_options[:6]),
-            "max_rank": random.choice(rank_options[3:]),
-            "age_range": random.choice(age_options),
-            "looking_for": random.choice(looking_for_options),
-            "game_mode": random.choice(game_mode_options),
-            "mic_enabled": random.choice([True, False]),
-            "created_at": created_time
-        })
-    
-    players_collection.insert_many(sample_players)
+    # No sample players - users will add their own
+    print("Database initialized with no sample players")
 
 @app.on_event("startup")
 async def startup_event():
