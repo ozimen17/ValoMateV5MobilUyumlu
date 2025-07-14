@@ -395,11 +395,7 @@ function App() {
                       <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <img 
-                        src="https://i.hizliresim.com/o2qmwql.png" 
-                        alt="Mikrofon" 
-                        className={`w-4 h-4 transition-opacity ${player.mic_enabled ? 'opacity-100' : 'opacity-30'}`}
-                      />
+                      <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'}`}>🎤</span>
                     </div>
                   </div>
                   
