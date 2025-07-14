@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "FORM KISMINDA Oyun Ayarları KISMINDA SEÇİM YAPILMIYOR DİREK KAYIT EDİLİYOR SORUNU DÜZELT VE FORM KISMI ÜST BİLGİNİN ALTINDA KALIYOR YARISI GÖZÜKMÜYOR ONUDA DÜZELT AYRICA TAG KISMINA # EKLEMEK ZORUNLU OLMASIN OTOMATİK EKLENSİN" (Fix the issue where selections are not made in the Game Settings section of the form and it's directly saved. Also fix the issue where the form section stays under the top information and half of it is not visible. Additionally, make the # symbol automatic for the tag section, not mandatory)
+user_problem_statement: "tag kısmına 1 adet # eklenmesi gerekirken 2 adet # ekleniyor bunu çöz ve kullanıcı mikrofon seçeneğini seçmezse kaydetilme sonrası mikrofon yerınde x içareti gösterilsin ve her form gonderımı sonrası her form 30dk sonra otomatik silinsin" (Fix double # issue in tag section - only 1 # should be added, show X mark when microphone is not selected, and auto-delete forms after 30 minutes)
 
 backend:
   - task: "Update cleanup time to 180 minutes (3 hours) in backend"
