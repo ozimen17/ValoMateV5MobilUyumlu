@@ -105,13 +105,13 @@
 user_problem_statement: "tag kısmına 1 adet # eklenmesi gerekirken 2 adet # ekleniyor bunu çöz ve kullanıcı mikrofon seçeneğini seçmezse kaydetilme sonrası mikrofon yerınde x içareti gösterilsin ve her form gonderımı sonrası her form 30dk sonra otomatik silinsin" (Fix double # issue in tag section - only 1 # should be added, show X mark when microphone is not selected, and auto-delete forms after 30 minutes)
 
 backend:
-  - task: "Update cleanup time to 180 minutes (3 hours) in backend"
+  - task: "Update cleanup time to 30 minutes in backend"
     implemented: true
-    working: true
+    working: false
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
@@ -122,15 +122,18 @@ backend:
       - working: true
         agent: "testing"
         comment: "Comprehensive backend testing completed after form improvements. All 6 test categories passed perfectly: Health Check (✅), Games Endpoint (✅), Players Endpoint with 16 active players (✅), Create Player with automatic # tag processing working perfectly (✅), Player Filtering by game_mode/looking_for/mic_only parameters (✅), and 180-Minute Cleanup functionality confirmed working correctly (✅). CRITICAL FIX APPLIED: Updated cleanup function from 30 minutes to 180 minutes as required. Backend properly handles automatic # tag processing from frontend form, player creation works with improved form validation, all API endpoints function properly with updated cleanup logic, and cleanup function correctly removes players older than 180 minutes. All form improvements are properly supported by backend. Backend is production-ready and fully functional."
+      - working: false
+        agent: "main"
+        comment: "REVERTED: Changed cleanup time from 180 minutes back to 30 minutes as requested by user. Updated cleanup_old_players() function to remove players older than 30 minutes instead of 180 minutes. This change addresses the user's requirement for forms to be auto-deleted after 30 minutes."
 
 frontend:
-  - task: "Fix form modal visibility issue - form staying under top information"
+  - task: "Fix double # issue in tag input field"
     implemented: true
-    working: true
+    working: false
     file: "App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
@@ -138,14 +141,17 @@ frontend:
       - working: true
         agent: "testing"
         comment: "Comprehensive testing completed for form modal positioning. ✅ VERIFIED WORKING: Modal has correct margin-top (4rem), max-height (80vh), does not overlap with header, and floating button positioned correctly at bottom center. Modal opens properly and is fully visible without being cut off. Minor: z-index classes not detected in automated test but modal functions correctly due to inline styles. Form modal positioning issue is fully resolved."
+      - working: false
+        agent: "main"
+        comment: "FIXED: Modified tag input onChange handler to prevent double # issue. New logic: if user types #, remove it first, then always add single # prefix when value is not empty. This ensures only one # is added regardless of user input."
   
-  - task: "Fix Game Settings section selection issue - direct save without proper selection"
+  - task: "Show X mark when microphone is not selected"
     implemented: true
-    working: true
+    working: false
     file: "App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
@@ -153,21 +159,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "Comprehensive testing completed for Game Settings functionality. ✅ VERIFIED WORKING: 'Aranan Kişi' dropdown selection working correctly (successfully changed from 'Tümü' to '2 Kişi'), 'Oyun Modu' dropdown selection working correctly (successfully changed from 'Tümü' to 'Premier'), microphone checkbox toggle working correctly, and form submission successful with player added to database. Success message 'Oyuncu başarıyla eklendi!' displayed and modal closed properly after submission. Game Settings step functionality is fully resolved."
-  
-  - task: "Make tag # symbol automatic - not mandatory"
-    implemented: true
-    working: true
-    file: "App.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
+      - working: false
         agent: "main"
-        comment: "Updated tag input to automatically add # symbol when user types. Modified onChange handler to prepend # if not present. Updated validation to remove # requirement. Added helpful info box to inform users that # is added automatically. Changed placeholder from #ABC123 to ABC123."
-      - working: true
-        agent: "testing"
-        comment: "Comprehensive testing completed for automatic # symbol functionality. ✅ VERIFIED WORKING PERFECTLY: Single # symbol automatically added correctly when typing 'TEST99' → '#TEST99', no double # symbol when typing with # already present ('#NEWTEST' → '#NEWTEST'), and helpful info box '# işareti otomatik olarak eklenir' is visible to inform users. Tag # symbol automatic addition is fully functional and resolved."
+        comment: "UPDATED: Modified microphone display in both table and card views. When mic_enabled is false, now shows ❌ (X mark) instead of grayed out microphone icon. Updated both desktop table view and mobile card view to use conditional rendering: mic_enabled ? '🎤' : '❌'."
 
 metadata:
   created_by: "main_agent"
