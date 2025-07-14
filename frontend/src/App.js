@@ -1100,8 +1100,8 @@ function App() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-center">
-                          <span className={`text-2xl transition-all ${player.mic_enabled ? 'text-red-400 animate-pulse' : 'text-gray-600'}`}>
-                            🎤
+                          <span className={`text-2xl transition-all ${player.mic_enabled ? 'text-red-400 animate-pulse' : 'text-red-600'}`}>
+                            {player.mic_enabled ? '🎤' : '❌'}
                           </span>
                         </div>
                       </td>
