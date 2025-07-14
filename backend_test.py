@@ -318,7 +318,6 @@ def test_rank_validation():
                 "game": "valorant",
                 "min_rank": rank,
                 "max_rank": rank,
-                "age_range": "18+",
                 "looking_for": "1 Kişi",
                 "game_mode": "Dereceli",
                 "mic_enabled": True
