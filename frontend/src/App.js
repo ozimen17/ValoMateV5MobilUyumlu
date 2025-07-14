@@ -857,6 +857,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
 function App() {
   const [players, setPlayers] = useState([]);
   const [filteredPlayers, setFilteredPlayers] = useState([]);
+  const [totalPlayers, setTotalPlayers] = useState(0);
   const [filters, setFilters] = useState({
     gameMode: 'Tümü',
     lookingFor: 'Tümü',
