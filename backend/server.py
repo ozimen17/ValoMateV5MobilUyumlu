@@ -73,11 +73,11 @@ def generate_tag():
     tags = ["TR1", "EU2", "NA3", "AS4", "OCE", "KR6", "JP7", "BR8", "LAT", "MEA"]
     return random.choice(tags)
 
-# Clean up old players (30 minutes)
+# Clean up old players (180 minutes = 3 hours)
 def cleanup_old_players():
-    """Remove players older than 30 minutes"""
+    """Remove players older than 180 minutes (3 hours)"""
     try:
-        cutoff_time = datetime.now() - timedelta(minutes=30)
+        cutoff_time = datetime.now() - timedelta(minutes=180)
         result = players_collection.delete_many({"created_at": {"$lt": cutoff_time}})
         if result.deleted_count > 0:
             print(f"Cleaned up {result.deleted_count} old players")
