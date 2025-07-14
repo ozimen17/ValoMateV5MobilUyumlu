@@ -637,6 +637,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                           : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
                       } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
                     >
+                      <option value="">Seçiniz</option>
                       <option value="Dereceli">Dereceli</option>
                       <option value="Premier">Premier</option>
                       <option value="Derecesiz">Derecesiz</option>
