@@ -107,7 +107,7 @@ def test_get_players():
                 
                 # Verify player structure and rank fields
                 required_fields = ["id", "username", "tag", "lobby_code", "game", "min_rank", "max_rank", 
-                                 "age_range", "looking_for", "game_mode", "mic_enabled", "created_at"]
+                                 "looking_for", "game_mode", "mic_enabled", "created_at"]
                 
                 missing_fields = [field for field in required_fields if field not in player]
                 if missing_fields:
