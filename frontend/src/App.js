@@ -1005,7 +1005,6 @@ function App() {
                           <div>
                             <div className="text-white font-semibold">{player.username}</div>
                             <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
-                            <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
                           </div>
                         </div>
                       </td>
