@@ -191,12 +191,18 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         break;
       case 2:
         // Game settings validation - Bu kısım daha detaylı kontrol ediliyor
-        if (!formData.looking_for) {
+        if (!formData.looking_for || formData.looking_for.trim() === '') {
           newErrors.looking_for = 'Aranan kişi sayısı seçiniz';
         }
-        if (!formData.game_mode) {
+        if (!formData.game_mode || formData.game_mode.trim() === '') {
           newErrors.game_mode = 'Oyun modu seçiniz';
         }
+        
+        console.log('Game settings validation:', {
+          looking_for: formData.looking_for,
+          game_mode: formData.game_mode,
+          errors: newErrors
+        });
         break;
     }
     
