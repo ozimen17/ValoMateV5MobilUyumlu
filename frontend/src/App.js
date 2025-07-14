@@ -228,8 +228,12 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    console.log('Form submit called, current step:', currentStep);
+    console.log('Form data before submit:', formData);
+    
     // Son adımda validation yapmadan önce tüm alanları kontrol et
     if (validateStep(currentStep)) {
+      console.log('Final validation passed, submitting form');
       setIsSubmitting(true);
       try {
         // Tag zaten onChange'de # ile işlendiği için burada tekrar eklemeye gerek yok
@@ -252,6 +256,8 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
       } finally {
         setIsSubmitting(false);
       }
+    } else {
+      console.log('Final validation failed, cannot submit');
     }
   };
   
