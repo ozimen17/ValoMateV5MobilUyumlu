@@ -1160,18 +1160,24 @@ function App() {
           onSubmit={handleAddPlayer}
         />
 
-        {/* Enhanced Floating Button */}
+        {/* Modern Floating Action Button */}
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-30">
           <button 
             onClick={() => setShowAddPlayer(true)}
-            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-3 border-2 border-red-500/30 backdrop-blur-sm"
+            className="group bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white px-10 py-5 rounded-2xl font-bold shadow-2xl hover:from-red-700 hover:via-red-800 hover:to-red-900 transition-all duration-300 transform hover:scale-110 flex items-center space-x-4 border-2 border-red-500/30 backdrop-blur-sm hover:shadow-red-500/25"
           >
-            <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+            <div className="relative">
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all duration-300">
+                <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
             </div>
-            <span>Oyuncu Ara</span>
+            <div className="flex flex-col items-start">
+              <span className="text-lg font-bold">Oyuncu Ara</span>
+              <span className="text-red-200 text-sm">Takım arkadaşı bul</span>
+            </div>
           </button>
         </div>
       </div>
