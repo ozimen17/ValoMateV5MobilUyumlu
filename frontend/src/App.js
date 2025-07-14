@@ -579,10 +579,7 @@ function App() {
     const diffInMinutes = Math.floor((now - created) / (1000 * 60));
     
     if (diffInMinutes < 1) return 'Şimdi';
-    if (diffInMinutes < 60) return `${diffInMinutes} dk önce`;
-    const hours = Math.floor(diffInMinutes / 60);
-    if (hours === 1) return '1 sa önce';
-    return `${hours} sa önce`;
+    return `${diffInMinutes} dk geçti`;
   };
 
   const RankBadge = ({ rank, size = 'md' }) => {
