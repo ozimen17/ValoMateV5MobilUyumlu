@@ -865,7 +865,7 @@ function App() {
                           {player.lobby_code}
                         </button>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 text-center">
                         <div className="flex items-center justify-center space-x-3">
                           <RankBadge rank={player.min_rank} size="md" />
                           <span className="text-gray-400 font-medium">→</span>
