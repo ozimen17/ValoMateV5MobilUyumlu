@@ -748,6 +748,13 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
               </span>
             </div>
             
+            {/* Submit errors */}
+            {errors.submit && (
+              <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                <p className="text-red-400 text-sm">{errors.submit}</p>
+              </div>
+            )}
+            
             {currentStep < steps.length - 1 ? (
               <button
                 type="button"
