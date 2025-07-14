@@ -141,7 +141,6 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
     lobby_code: '',
     min_rank: 'Demir',
     max_rank: 'Radyant',
-    age_range: '18+',
     looking_for: '1 Kişi',
     game_mode: 'Dereceli',
     mic_enabled: true
