@@ -117,7 +117,7 @@ def init_sample_data():
     looking_for_options = ["1 Kişi", "2 Kişi", "3 Kişi", "4 Kişi", "5 Kişi"]
     game_mode_options = ["Dereceli", "Premier", "Derecesiz", "Tam Gaz", "Özel Oyun", "1vs1", "2vs2"]
     rank_options = ["Demir", "Bronz", "Gümüş", "Altın", "Platin", "Elmas", "Asens", "Ölümsüz", "Radyant"]
-    age_options = ["13-", "14-17", "18+"]
+    age_options = ["18-", "18+"]
     
     sample_players = []
     for i in range(8):
