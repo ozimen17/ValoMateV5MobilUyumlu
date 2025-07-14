@@ -570,45 +570,85 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           {currentStep === 2 && (
             <div className="space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Aranan Kişi</label>
-                  <select
-                    value={formData.looking_for}
-                    onChange={(e) => setFormData(prev => ({...prev, looking_for: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.looking_for ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                  >
-                    <option value="1 Kişi">1 Kişi</option>
-                    <option value="2 Kişi">2 Kişi</option>
-                    <option value="3 Kişi">3 Kişi</option>
-                    <option value="4 Kişi">4 Kişi</option>
-                    <option value="5 Kişi">5 Kişi</option>
-                  </select>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">👥</span>
+                    <span>Aranan Kişi Sayısı</span>
+                    <span className="text-red-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={formData.looking_for}
+                      onChange={(e) => setFormData(prev => ({...prev, looking_for: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.looking_for 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
+                    >
+                      <option value="1 Kişi">1 Kişi</option>
+                      <option value="2 Kişi">2 Kişi</option>
+                      <option value="3 Kişi">3 Kişi</option>
+                      <option value="4 Kişi">4 Kişi</option>
+                      <option value="5 Kişi">5 Kişi</option>
+                    </select>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                      </svg>
+                    </div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.looking_for && (
-                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.looking_for}</p>
+                    <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                      <p className="text-red-400 text-sm">{errors.looking_for}</p>
+                    </div>
                   )}
                 </div>
                 
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Oyun Modu</label>
-                  <select
-                    value={formData.game_mode}
-                    onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.game_mode ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                  >
-                    <option value="Dereceli">Dereceli</option>
-                    <option value="Premier">Premier</option>
-                    <option value="Derecesiz">Derecesiz</option>
-                    <option value="Tam Gaz">Tam Gaz</option>
-                    <option value="Özel Oyun">Özel Oyun</option>
-                    <option value="1vs1">1vs1</option>
-                    <option value="2vs2">2vs2</option>
-                  </select>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">🎮</span>
+                    <span>Oyun Modu</span>
+                    <span className="text-red-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={formData.game_mode}
+                      onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.game_mode 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
+                    >
+                      <option value="Dereceli">Dereceli</option>
+                      <option value="Premier">Premier</option>
+                      <option value="Derecesiz">Derecesiz</option>
+                      <option value="Tam Gaz">Tam Gaz</option>
+                      <option value="Özel Oyun">Özel Oyun</option>
+                      <option value="1vs1">1vs1</option>
+                      <option value="2vs2">2vs2</option>
+                    </select>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.game_mode && (
-                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.game_mode}</p>
+                    <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                      <p className="text-red-400 text-sm">{errors.game_mode}</p>
+                    </div>
                   )}
                 </div>
               </div>
