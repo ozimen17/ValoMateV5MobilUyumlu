@@ -909,6 +909,15 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
       setPlayers(data);
+      
+      // Also fetch total players without filters for comparison
+      if (filters.gameMode !== 'Tümü' || filters.lookingFor !== 'Tümü' || filters.micOnly) {
+        const totalResponse = await fetch(`${API_URL}/api/players?game=valorant`);
+        const totalData = await totalResponse.json();
+        setTotalPlayers(totalData.length);
+      } else {
+        setTotalPlayers(data.length);
+      }
     } catch (error) {
       console.error('Error fetching players:', error);
       showToast('Oyuncular yüklenirken hata oluştu!', 'error');
