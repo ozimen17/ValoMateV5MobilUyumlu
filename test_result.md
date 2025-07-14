@@ -171,21 +171,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test form modal visibility and positioning"
-    - "Test Game Settings section selection and validation"
-    - "Test automatic # symbol addition for tag input"
-    - "Test enhanced form validation and error handling"
-    - "Test improved form UI/UX and user experience"
+    - "Test tag input to ensure only single # is added"
+    - "Test microphone X mark display when mic is disabled"
+    - "Test 30-minute auto-cleanup functionality"
+    - "Test form validation and submission with new changes"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Successfully fixed all three reported issues: 1) Form modal positioning and visibility - Changed flex alignment from items-center to items-start with proper margin-top and reduced max-height from 90vh to 85vh to ensure full visibility 2) Game Settings section selection - Enhanced step 2 with better validation, modern styling, proper error handling, and required field indicators 3) Tag # symbol automatic addition - Updated tag input to automatically prepend # symbol when user types, removed # requirement from validation, and added helpful info box. Form now provides better user experience with proper validation and clear visual feedback."
-  - agent: "testing"
-    message: "Completed comprehensive backend testing after age_range field removal from Player model. All 6 test categories passed perfectly: Health Check, Games Endpoint, Players Endpoint (23 active players, age_range field confirmed removed), Create Player (working without age_range field), Player Filtering (game_mode/looking_for/mic_only), and Cleanup Functionality. Updated backend_test.py to remove age_range references. Backend API is fully functional - player creation/retrieval works correctly without age_range field, all filtering parameters work, and auto-cleanup is operational. Backend is production-ready and requires no changes."
-  - agent: "testing"
-    message: "Completed comprehensive backend testing after form improvements. All 6 core requirements verified successfully: 1) Health Check endpoint working (✅), 2) Games endpoint returning correct data (✅), 3) Players endpoint with 16 active players working correctly (✅), 4) Create Player functionality working perfectly with automatic # tag processing from frontend form (✅), 5) Player filtering by game_mode/looking_for/mic_only parameters working correctly (✅), 6) 180-minute cleanup functionality confirmed working - no players older than 180 minutes found, manual cleanup endpoint operational (✅). CRITICAL FIX APPLIED: Updated cleanup function from 30 minutes to 180 minutes as required in server.py. Backend properly handles the automatic # tag processing from frontend form improvements, player creation works correctly with enhanced form validation, all API endpoints function properly with updated cleanup logic, and cleanup function correctly removes players older than 180 minutes instead of 30 minutes. All form improvements including automatic # tag addition, enhanced Game Settings validation, and improved form positioning are properly supported by the backend. Backend is production-ready and fully functional."
-  - agent: "testing"
-    message: "COMPREHENSIVE FRONTEND FORM TESTING COMPLETED - ALL 3 CRITICAL ISSUES RESOLVED ✅ 1) Form Modal Positioning: Modal opens with correct margin-top (4rem), max-height (80vh), no header overlap, floating button positioned correctly at bottom center - WORKING PERFECTLY ✅ 2) Tag # Symbol Automatic Addition: Single # automatically added when typing (TEST99 → #TEST99), no double # issues, helpful info box visible - WORKING PERFECTLY ✅ 3) Game Settings Step Functionality: 'Aranan Kişi' dropdown (2 Kişi selection), 'Oyun Modu' dropdown (Premier selection), microphone checkbox toggle all working correctly, form submission successful with success message displayed and player added to database - WORKING PERFECTLY ✅ All reported form issues have been successfully fixed and tested. Form validation, multi-step navigation, and complete submission flow are fully functional. Frontend form is production-ready."
+    message: "Successfully implemented all three requested fixes: 1) Fixed double # issue in tag input by revising onChange handler logic - now removes any existing # first, then adds single # prefix when value is not empty. 2) Updated microphone display in both table and card views to show ❌ (X mark) when mic_enabled is false instead of grayed out microphone icon. 3) Changed backend cleanup time from 180 minutes back to 30 minutes as requested - updated cleanup_old_players() function to remove players older than 30 minutes. All changes are implemented and need testing."
