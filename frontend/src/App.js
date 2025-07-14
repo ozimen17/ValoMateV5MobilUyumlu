@@ -948,15 +948,15 @@ function App() {
       </header>
 
       {/* Feature Cards */}
-      <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <div className="max-w-7xl mx-auto px-4 py-3 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
           {/* Takım Arkadaşı Bul */}
-          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl shadow-lg border border-slate-600/20 hover:shadow-slate-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
             <div className="absolute inset-0 flex items-center justify-center">
               <img 
-                src="https://premate.gg/static/images/find-team-mates.png" 
+                src="https://i.hizliresim.com/i3bgi63.png" 
                 alt="Takım Arkadaşı Bul"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
@@ -965,12 +965,12 @@ function App() {
           </div>
 
           {/* Valorant Skin Sıralaması */}
-          <div className="bg-gradient-to-br from-blue-900 via-slate-800 to-blue-800 rounded-2xl shadow-lg border border-blue-700/20 hover:shadow-blue-700/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
             <div className="absolute inset-0 flex items-center justify-center">
               <img 
-                src="https://premate.gg/media/weapons/6.png" 
+                src="https://i.hizliresim.com/nx08b7g.png" 
                 alt="Valorant Skin Sıralaması"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
@@ -979,12 +979,12 @@ function App() {
           </div>
 
           {/* Çekilişler */}
-          <div className="bg-gradient-to-br from-amber-800 via-orange-800 to-amber-900 rounded-2xl shadow-lg border border-amber-600/20 hover:shadow-amber-600/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
+          <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-lg border border-red-500/30 hover:shadow-red-500/25 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm relative overflow-hidden" style={{width: '296px', height: '174px'}}>
             <div className="absolute inset-0 flex items-center justify-center">
               <img 
-                src="https://premate.gg/static/images/raffles.png" 
+                src="https://i.hizliresim.com/cc3q292.png" 
                 alt="Çekilişler"
-                className="w-full h-full object-contain p-4"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-3">
