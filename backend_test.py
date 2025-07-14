@@ -340,8 +340,8 @@ def test_rank_validation():
     return True
 
 def test_cleanup_functionality():
-    """Test the 180-minute cleanup functionality"""
-    print("\n=== Testing 180-Minute Cleanup Functionality ===")
+    """Test the 30-minute cleanup functionality"""
+    print("\n=== Testing 30-Minute Cleanup Functionality ===")
     
     # First test the manual cleanup endpoint
     try:
@@ -364,7 +364,7 @@ def test_cleanup_functionality():
     
     # Create a test player
     fresh_player = {
-        "username": "FreshPlayer180Test",
+        "username": "FreshPlayer30Test",
         "tag": "FRESH",
         "lobby_code": "FRS01",
         "game": "valorant",
@@ -406,7 +406,7 @@ def test_cleanup_functionality():
         fresh_player_exists = any(p.get("id") == player_id for p in players)
         
         if fresh_player_exists:
-            print("✅ Fresh player correctly NOT cleaned up (within 180 minutes)")
+            print("✅ Fresh player correctly NOT cleaned up (within 30 minutes)")
         else:
             print("❌ Fresh player was incorrectly cleaned up")
             return False
@@ -416,7 +416,7 @@ def test_cleanup_functionality():
         return False
     
     # Test cleanup time limit verification
-    print("\n--- Verifying 180-Minute Cleanup Configuration ---")
+    print("\n--- Verifying 30-Minute Cleanup Configuration ---")
     
     # Get current players and check their timestamps
     try:
@@ -428,7 +428,7 @@ def test_cleanup_functionality():
             print(f"Current time: {current_time}")
             print(f"Total players found: {len(players)}")
             
-            # Check if any players are older than 180 minutes (should be cleaned)
+            # Check if any players are older than 30 minutes (should be cleaned)
             old_players = 0
             for player in players:
                 try:
@@ -439,19 +439,19 @@ def test_cleanup_functionality():
                     
                     print(f"Player {player['username']}: {age_minutes:.1f} minutes old")
                     
-                    if age_minutes > 180:
+                    if age_minutes > 30:
                         old_players += 1
-                        print(f"⚠️ Found player older than 180 minutes: {player['username']} ({age_minutes:.1f} minutes)")
+                        print(f"⚠️ Found player older than 30 minutes: {player['username']} ({age_minutes:.1f} minutes)")
                 
                 except Exception as e:
                     print(f"Error parsing timestamp for player {player.get('username', 'unknown')}: {e}")
             
             if old_players == 0:
-                print("✅ No players older than 180 minutes found (cleanup working correctly)")
+                print("✅ No players older than 30 minutes found (cleanup working correctly)")
             else:
-                print(f"⚠️ Found {old_players} players older than 180 minutes (cleanup may need to run)")
+                print(f"⚠️ Found {old_players} players older than 30 minutes (cleanup may need to run)")
             
-            print("✅ 180-minute cleanup functionality verified")
+            print("✅ 30-minute cleanup functionality verified")
             return True
             
         else:
