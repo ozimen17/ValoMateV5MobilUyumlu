@@ -156,6 +156,61 @@ function App() {
     return `${hours} sa önce`;
   };
 
+  // Modern Rank Badge Component
+  const RankBadge = ({ rank, size = 'md' }) => {
+    const sizeClasses = {
+      sm: 'w-6 h-6',
+      md: 'w-8 h-8',
+      lg: 'w-10 h-10'
+    };
+    
+    const textSizeClasses = {
+      sm: 'text-xs',
+      md: 'text-sm',
+      lg: 'text-base'
+    };
+
+    return (
+      <div className="flex items-center space-x-2">
+        <div className={`${sizeClasses[size]} rounded-full overflow-hidden border-2 border-opacity-50 shadow-lg`}
+             style={{
+               borderImage: `linear-gradient(135deg, ${RANK_COLORS[rank]?.split(' ')[1] || '#dc2626'}, ${RANK_COLORS[rank]?.split(' ')[3] || '#b91c1c'}) 1`,
+               borderColor: RANK_COLORS[rank]?.includes('gray-600') ? '#4b5563' : 
+                           RANK_COLORS[rank]?.includes('amber-600') ? '#d97706' :
+                           RANK_COLORS[rank]?.includes('gray-300') ? '#9ca3af' :
+                           RANK_COLORS[rank]?.includes('yellow-400') ? '#facc15' :
+                           RANK_COLORS[rank]?.includes('blue-400') ? '#60a5fa' :
+                           RANK_COLORS[rank]?.includes('cyan-400') ? '#22d3ee' :
+                           RANK_COLORS[rank]?.includes('purple-400') ? '#a78bfa' :
+                           RANK_COLORS[rank]?.includes('red-500') ? '#ef4444' :
+                           RANK_COLORS[rank]?.includes('pink-400') ? '#f472b6' : '#dc2626'
+             }}>
+          <img 
+            src={RANK_IMAGES[rank] || 'https://images.unsplash.com/photo-1617652094799-fed335f94ac1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxtZXRhbGxpYyUyMGJhZGdlc3xlbnwwfHx8d2hpdGV8MTc1MjQ1NzE4NHww&ixlib=rb-4.1.0&q=85'} 
+            alt={rank}
+            className={`${sizeClasses[size]} object-cover`}
+            style={{
+              filter: `sepia(100%) saturate(150%) hue-rotate(${
+                rank === 'Demir' ? '0deg' :
+                rank === 'Bronz' ? '30deg' :
+                rank === 'Gümüş' ? '180deg' :
+                rank === 'Altın' ? '45deg' :
+                rank === 'Platin' ? '210deg' :
+                rank === 'Elmas' ? '190deg' :
+                rank === 'Asens' ? '270deg' :
+                rank === 'Ölümsüz' ? '350deg' :
+                rank === 'Radyant' ? '320deg' : '0deg'
+              }) brightness(1.2) contrast(1.1)`
+            }}
+          />
+        </div>
+        <span className={`font-semibold bg-gradient-to-r ${RANK_COLORS[rank]} bg-clip-text text-transparent ${textSizeClasses[size]}`}>
+          {rank}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Toast Notification */}
