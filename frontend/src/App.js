@@ -369,18 +369,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           {/* Step 2: Game Settings */}
           {currentStep === 2 && (
             <div className="space-y-6 animate-fade-in">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Yaş Aralığı</label>
-                  <select
-                    value={formData.age_range}
-                    onChange={(e) => setFormData(prev => ({...prev, age_range: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
-                  >
-                    <option value="18-">18-</option>
-                    <option value="18+">18+</option>
-                  </select>
-                </div>
+              <div className="space-y-4">
                 <div>
                   <label className="block text-white text-sm font-semibold mb-2">Aranan Kişi</label>
                   <select
