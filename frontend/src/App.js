@@ -402,6 +402,12 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                       <p className="text-red-400 text-sm">{errors.tag}</p>
                     </div>
                   )}
+                  <div className="bg-green-900/20 border border-green-500/50 rounded-lg p-3">
+                    <div className="flex items-center space-x-2 text-green-400">
+                      <span className="text-sm">💡</span>
+                      <span className="text-sm font-medium"># işareti otomatik olarak eklenir</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               
