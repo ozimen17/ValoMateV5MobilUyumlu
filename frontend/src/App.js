@@ -453,7 +453,7 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                 </div>
                 <p className="text-gray-300 text-sm">
                   Kullanıcı adı ve tag bilgileriniz Valorant hesabınızla aynı olmalı. 
-                  Lobi kodu boş bırakılırsa otomatik olarak oluşturulur.
+                  Lobi kodu gereklidir.
                 </p>
               </div>
             </div>
