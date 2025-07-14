@@ -326,60 +326,111 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           {/* Step 0: Player Info */}
           {currentStep === 0 && (
             <div className="space-y-6 animate-fade-in">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
-                    Kullanıcı Adı <span className="text-red-400">*</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">👤</span>
+                    <span>Kullanıcı Adı</span>
+                    <span className="text-red-400">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={formData.username}
-                    onChange={(e) => setFormData(prev => ({...prev, username: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.username ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                    placeholder="Kullanıcı adınız"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={formData.username}
+                      onChange={(e) => setFormData(prev => ({...prev, username: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.username 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20`}
+                      placeholder="Kullanıcı adınız"
+                    />
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.username && (
-                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.username}</p>
+                    <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                      <p className="text-red-400 text-sm">{errors.username}</p>
+                    </div>
                   )}
                 </div>
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
-                    Tag <span className="text-red-400">*</span>
+                
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">🏷️</span>
+                    <span>Tag</span>
+                    <span className="text-red-400">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={formData.tag}
-                    onChange={(e) => setFormData(prev => ({...prev, tag: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.tag ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                    placeholder="#ABC123"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={formData.tag}
+                      onChange={(e) => setFormData(prev => ({...prev, tag: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.tag 
+                          ? 'border-red-500 focus:border-red-400' 
+                          : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20`}
+                      placeholder="#ABC123"
+                    />
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.tag && (
-                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.tag}</p>
+                    <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                      <p className="text-red-400 text-sm">{errors.tag}</p>
+                    </div>
                   )}
                 </div>
               </div>
               
-              <div>
-                <label className="block text-white text-sm font-semibold mb-2">
-                  Lobi Kodu
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                  <span className="text-lg">🎮</span>
+                  <span>Lobi Kodu</span>
                   <span className="text-gray-400 text-xs ml-2">(boş bırakılırsa otomatik oluşur)</span>
                 </label>
-                <input
-                  type="text"
-                  value={formData.lobby_code}
-                  onChange={(e) => setFormData(prev => ({...prev, lobby_code: e.target.value}))}
-                  className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                    errors.lobby_code ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                  } focus:outline-none`}
-                  placeholder="ABC12"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.lobby_code}
+                    onChange={(e) => setFormData(prev => ({...prev, lobby_code: e.target.value}))}
+                    className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                      errors.lobby_code 
+                        ? 'border-red-500 focus:border-red-400' 
+                        : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                    } focus:outline-none focus:ring-2 focus:ring-red-500/20`}
+                    placeholder="ABC12"
+                  />
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 12H9v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.586l4.243-4.243A6 6 0 0115 7z" />
+                    </svg>
+                  </div>
+                </div>
                 {errors.lobby_code && (
-                  <p className="text-red-400 text-sm mt-1 animate-shake">{errors.lobby_code}</p>
+                  <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                    <p className="text-red-400 text-sm">{errors.lobby_code}</p>
+                  </div>
                 )}
+              </div>
+              
+              {/* Helper Text */}
+              <div className="bg-blue-900/20 border border-blue-500/50 rounded-xl p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-blue-400">💡</span>
+                  <span className="text-blue-400 font-medium">Bilgi</span>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  Kullanıcı adı ve tag bilgileriniz Valorant hesabınızla aynı olmalı. 
+                  Lobi kodu boş bırakılırsa otomatik olarak oluşturulur.
+                </p>
               </div>
             </div>
           )}
