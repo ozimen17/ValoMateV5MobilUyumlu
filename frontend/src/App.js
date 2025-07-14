@@ -223,11 +223,11 @@ function App() {
         </div>
       )}
 
-      {/* Header with centered logo */}
-      <header className="bg-[#040509] backdrop-blur-sm border-b border-red-600/30">
+      {/* Header with centered logo - Updated color */}
+      <header className="bg-[#030508] backdrop-blur-sm border-b border-red-600/30">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-center items-center">
           <img 
-            src="https://i.hizliresim.com/5t50he5.png" 
+            src="https://i.hizliresim.com/6d5ywze.png" 
             alt="VALOMATE" 
             className="h-10 w-auto"
           />
