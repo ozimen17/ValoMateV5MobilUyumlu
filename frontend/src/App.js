@@ -90,7 +90,7 @@ const Toast = ({ show, message, type = 'success' }) => {
 };
 
 // Enhanced Search Component
-const AdvancedSearch = ({ onSearch, playerCount }) => {
+const AdvancedSearch = ({ onSearch, playerCount, totalPlayers = 0 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   
@@ -100,6 +100,27 @@ const AdvancedSearch = ({ onSearch, playerCount }) => {
       onSearch(term);
       setIsSearching(false);
     }, 300);
+  };
+
+  // Determine badge color based on player count
+  const getBadgeColor = () => {
+    if (playerCount === 0) return 'bg-red-600/20 text-red-400 border-red-500/30';
+    if (playerCount <= 5) return 'bg-yellow-600/20 text-yellow-400 border-yellow-500/30';
+    return 'bg-green-600/20 text-green-400 border-green-500/30';
+  };
+
+  // Get status text based on player count
+  const getStatusText = () => {
+    if (playerCount === 0) return 'Oyuncu yok';
+    if (playerCount === 1) return '1 oyuncu';
+    return `${playerCount} oyuncu`;
+  };
+
+  // Get appropriate icon based on player count
+  const getStatusIcon = () => {
+    if (playerCount === 0) return '😴';
+    if (playerCount <= 5) return '🎯';
+    return '🔥';
   };
   
   return (
@@ -113,7 +134,7 @@ const AdvancedSearch = ({ onSearch, playerCount }) => {
             setSearchTerm(e.target.value);
             handleSearch(e.target.value);
           }}
-          className="w-full bg-black/50 text-white rounded-xl px-4 py-3 pl-12 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+          className="w-full bg-black/50 text-white rounded-xl px-4 py-3 pl-12 pr-32 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
         />
         <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
           {isSearching ? (
@@ -125,8 +146,54 @@ const AdvancedSearch = ({ onSearch, playerCount }) => {
           )}
         </div>
       </div>
-      <div className="absolute right-2 top-2 bg-red-600/20 text-red-400 px-2 py-1 rounded-lg text-xs font-medium">
-        {playerCount} oyuncu
+      
+      {/* Enhanced Player Count Badge */}
+      <div className="absolute right-2 top-2 bottom-2 flex items-center">
+        <div className={`group relative ${getBadgeColor()} border rounded-xl px-3 py-1.5 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm`}>
+          <div className="flex items-center space-x-2">
+            <div className="relative">
+              <span className="text-sm font-bold animate-pulse">
+                {getStatusIcon()}
+              </span>
+              {playerCount > 0 && (
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+              )}
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-xs font-bold leading-tight">
+                {getStatusText()}
+              </span>
+              {totalPlayers > 0 && searchTerm && (
+                <span className="text-xs opacity-75 leading-tight">
+                  / {totalPlayers}
+                </span>
+              )}
+            </div>
+          </div>
+          
+          {/* Hover Tooltip */}
+          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="bg-gray-900/95 backdrop-blur-sm text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap border border-gray-700/50 shadow-xl">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                  <span>Aktif: {playerCount}</span>
+                </div>
+                {totalPlayers > 0 && searchTerm && (
+                  <div className="flex items-center space-x-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                    <span>Toplam: {totalPlayers}</span>
+                  </div>
+                )}
+                <div className="flex items-center space-x-2">
+                  <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                  <span>Otomatik yenileme: 30s</span>
+                </div>
+              </div>
+              <div className="absolute top-full right-4 border-4 border-transparent border-t-gray-900/95"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
