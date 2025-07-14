@@ -1047,13 +1047,68 @@ function App() {
                   </tr>
                 ) : filteredPlayers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="text-center py-12">
-                      <div className="text-gray-400">
-                        <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        <p className="text-lg font-medium">Oyuncu bulunamadı</p>
-                        <p className="text-sm">Arama kriterlerinizi değiştirin veya yeni oyuncu ekleyin</p>
+                    <td colSpan="6" className="text-center py-16">
+                      <div className="max-w-md mx-auto">
+                        {/* Animated Empty State */}
+                        <div className="relative mb-8">
+                          <div className="w-24 h-24 mx-auto bg-gradient-to-br from-red-500/20 to-red-700/20 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                            <svg className="w-12 h-12 text-red-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full animate-ping"></div>
+                          <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-blue-400 rounded-full animate-ping delay-1000"></div>
+                        </div>
+                        
+                        {/* Enhanced Message */}
+                        <div className="space-y-4 mb-8">
+                          <h3 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                            Henüz oyuncu yok! 🎮
+                          </h3>
+                          <p className="text-gray-300 text-lg">
+                            İlk oyuncu sen ol ve başkalarının katılmasını sağla
+                          </p>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                          <button 
+                            onClick={() => setShowAddPlayer(true)}
+                            className="group bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-500/25 flex items-center space-x-2"
+                          >
+                            <svg className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span>İlk Oyuncu Ol</span>
+                          </button>
+                          
+                          <button 
+                            onClick={() => {
+                              setFilters({ gameMode: 'Tümü', lookingFor: 'Tümü', micOnly: false });
+                              setSearchTerm('');
+                              fetchPlayers();
+                            }}
+                            className="group bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 border border-gray-600/50 hover:border-gray-500/50 flex items-center space-x-2"
+                          >
+                            <svg className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span>Filtreleri Temizle</span>
+                          </button>
+                        </div>
+                        
+                        {/* Helpful Tips */}
+                        <div className="mt-8 p-4 bg-blue-900/20 rounded-xl border border-blue-700/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-blue-400 text-lg">💡</span>
+                            <span className="text-blue-400 font-semibold">İpucu</span>
+                          </div>
+                          <div className="text-gray-300 text-sm space-y-1">
+                            <p>• Oyuncu ekleyerek arkadaşlarınızın sizi bulmasını sağlayın</p>
+                            <p>• Filtreleri genişleterek daha fazla oyuncu görüntüleyin</p>
+                            <p>• Oyuncu aramaları 30 dakika boyunca aktif kalır</p>
+                          </div>
+                        </div>
                       </div>
                     </td>
                   </tr>
