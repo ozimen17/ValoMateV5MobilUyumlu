@@ -122,6 +122,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Re-tested backend APIs after frontend modernization updates. All core functionality verified working: Health Check (✅), Games Endpoint (✅), Players Endpoint with proper rank data (✅), Player Filtering by all parameters (✅), Create Player with rank validation (✅), All 9 Valorant ranks working (Demir through Radyant) (✅), and Auto-cleanup functionality (✅). Backend is fully functional with 22 active players, proper sorting by newest first, and 30-minute auto-deletion working correctly. One minor timeout during bulk rank testing but individual rank validation confirmed all ranks working. Backend requires no changes and is ready for production."
+      - working: true
+        agent: "testing"
+        comment: "Comprehensive backend testing completed after age_range field removal from Player model. All 6 test categories passed perfectly: Health Check (✅), Games Endpoint (✅), Players Endpoint with 23 active players and confirmed age_range field removal (✅), Create Player functionality working without age_range field (✅), Player Filtering by game_mode/looking_for/mic_only parameters (✅), and Cleanup Functionality (✅). Updated backend_test.py to remove age_range field references. Backend API is fully functional with proper Player model structure, all CRUD operations working, filtering working correctly, and 30-minute auto-cleanup operational. Player creation and retrieval confirmed working without age_range field. Backend is production-ready."
 
 frontend:
   - task: "Comprehensive frontend modernization with advanced UI/UX"
