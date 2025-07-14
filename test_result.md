@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "SİTEDEKİ YAŞ KISMINI KALDIR VE 3 SAAT ÖNCE YAZISINI KALDIR 3 SAAT YAZISI YERİNE FORM DOLDURMA SÜRESİNDEN SONRA KAÇ DAKİKA GEÇTİĞİNİ GÖSTERSİN VE FORM KISMINDAKİ HATAYI DÜZELT" (Remove the age section from the site and remove the "3 hours ago" text. Instead of "3 hours" text, show how many minutes have passed since the form was filled out and fix the error in the form section)
+user_problem_statement: "FORM KISMINDA Oyun Ayarları KISMINDA SEÇİM YAPILMIYOR DİREK KAYIT EDİLİYOR SORUNU DÜZELT VE FORM KISMI ÜST BİLGİNİN ALTINDA KALIYOR YARISI GÖZÜKMÜYOR ONUDA DÜZELT AYRICA TAG KISMINA # EKLEMEK ZORUNLU OLMASIN OTOMATİK EKLENSİN" (Fix the issue where selections are not made in the Game Settings section of the form and it's directly saved. Also fix the issue where the form section stays under the top information and half of it is not visible. Additionally, make the # symbol automatic for the tag section, not mandatory)
 
 backend:
   - task: "Update cleanup time to 180 minutes (3 hours) in backend"
