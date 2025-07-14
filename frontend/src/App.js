@@ -849,16 +849,12 @@ function App() {
                       </button>
                     </div>
                     <div>
-                      <span className="text-gray-400">Yaş:</span>
-                      <span className="ml-2 text-white">{player.age_range}</span>
+                      <span className="text-gray-400">Mod:</span>
+                      <span className="ml-2 text-gray-300">{player.game_mode}</span>
                     </div>
                     <div>
                       <span className="text-gray-400">Aranan:</span>
                       <span className="ml-2 text-gray-300">{player.looking_for}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400">Mod:</span>
-                      <span className="ml-2 text-gray-300">{player.game_mode}</span>
                     </div>
                   </div>
                   
