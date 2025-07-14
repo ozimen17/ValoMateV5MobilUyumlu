@@ -439,56 +439,123 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
           {currentStep === 1 && (
             <div className="space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Minimum Rank</label>
-                  <select
-                    value={formData.min_rank}
-                    onChange={(e) => setFormData(prev => ({...prev, min_rank: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                  >
-                    {Object.keys(RANK_IMAGES).map(rank => (
-                      <option key={rank} value={rank}>{rank}</option>
-                    ))}
-                  </select>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">🏆</span>
+                    <span>Minimum Rank</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={formData.min_rank}
+                      onChange={(e) => setFormData(prev => ({...prev, min_rank: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
+                    >
+                      {Object.keys(RANK_IMAGES).map(rank => (
+                        <option key={rank} value={rank}>{rank}</option>
+                      ))}
+                    </select>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">Maksimum Rank</label>
-                  <select
-                    value={formData.max_rank}
-                    onChange={(e) => setFormData(prev => ({...prev, max_rank: e.target.value}))}
-                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
-                      errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
-                    } focus:outline-none`}
-                  >
-                    {Object.keys(RANK_IMAGES).map(rank => (
-                      <option key={rank} value={rank}>{rank}</option>
-                    ))}
-                  </select>
+                
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-white text-sm font-semibold mb-3">
+                    <span className="text-lg">🎯</span>
+                    <span>Maksimum Rank</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={formData.max_rank}
+                      onChange={(e) => setFormData(prev => ({...prev, max_rank: e.target.value}))}
+                      className={`w-full bg-gray-800/50 text-white rounded-xl px-4 py-4 pl-12 border-2 transition-all duration-300 backdrop-blur-sm ${
+                        errors.rank ? 'border-red-500' : 'border-gray-700 focus:border-red-500 hover:border-gray-600'
+                      } focus:outline-none focus:ring-2 focus:ring-red-500/20 appearance-none`}
+                    >
+                      {Object.keys(RANK_IMAGES).map(rank => (
+                        <option key={rank} value={rank}>{rank}</option>
+                      ))}
+                    </select>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
               
               {errors.rank && (
-                <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3">
-                  <p className="text-red-400 text-sm animate-shake">{errors.rank}</p>
+                <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-3 animate-shake">
+                  <p className="text-red-400 text-sm">{errors.rank}</p>
                 </div>
               )}
               
-              {/* Rank Preview */}
-              <div className="bg-gray-800/30 rounded-xl p-4 border border-gray-700/50">
-                <p className="text-white text-sm font-medium mb-3">Seçilen Rank Aralığı:</p>
-                <div className="flex items-center justify-center space-x-4">
-                  <div className="flex items-center space-x-2">
-                    <img src={RANK_IMAGES[formData.min_rank]} alt={formData.min_rank} className="w-8 h-8" />
+              {/* Enhanced Rank Preview */}
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700/50 backdrop-blur-sm">
+                <div className="flex items-center space-x-2 mb-4">
+                  <span className="text-white text-lg font-semibold">Seçilen Rank Aralığı</span>
+                  <span className="text-2xl">🏅</span>
+                </div>
+                <div className="flex items-center justify-center space-x-6 py-4">
+                  <div className="flex flex-col items-center space-y-2">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-600/50 shadow-lg">
+                      <img 
+                        src={RANK_IMAGES[formData.min_rank]} 
+                        alt={formData.min_rank} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
                     <span className="text-white font-medium">{formData.min_rank}</span>
+                    <span className="text-gray-400 text-xs">Minimum</span>
                   </div>
-                  <span className="text-gray-400 font-medium">→</span>
-                  <div className="flex items-center space-x-2">
-                    <img src={RANK_IMAGES[formData.max_rank]} alt={formData.max_rank} className="w-8 h-8" />
+                  
+                  <div className="flex flex-col items-center space-y-2">
+                    <div className="w-8 h-8 bg-gray-700/50 rounded-full flex items-center justify-center">
+                      <span className="text-gray-400 font-medium">→</span>
+                    </div>
+                    <span className="text-gray-400 text-xs">aralığı</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center space-y-2">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-600/50 shadow-lg">
+                      <img 
+                        src={RANK_IMAGES[formData.max_rank]} 
+                        alt={formData.max_rank} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
                     <span className="text-white font-medium">{formData.max_rank}</span>
+                    <span className="text-gray-400 text-xs">Maksimum</span>
                   </div>
                 </div>
+              </div>
+              
+              {/* Helper Text */}
+              <div className="bg-purple-900/20 border border-purple-500/50 rounded-xl p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-purple-400">🎮</span>
+                  <span className="text-purple-400 font-medium">Rank Bilgisi</span>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  Rank aralığınızı belirleyin. Bu aralıktaki oyuncular sizinle eşleşecek.
+                  Dar aralık seçmek daha az, geniş aralık seçmek daha fazla oyuncu bulmanızı sağlar.
+                </p>
               </div>
             </div>
           )}
