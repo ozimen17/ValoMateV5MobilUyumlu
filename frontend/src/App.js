@@ -162,9 +162,11 @@ function App() {
       <header className="bg-black/95 backdrop-blur-sm border-b border-red-600/30">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="text-white text-2xl font-bold">
-              <span className="text-red-500">VALOMATE</span>
-            </div>
+            <img 
+              src="https://i.hizliresim.com/5t50he5.png" 
+              alt="VALOMATE" 
+              className="h-10 w-auto"
+            />
           </div>
         </div>
       </header>
