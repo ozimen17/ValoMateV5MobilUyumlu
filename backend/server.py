@@ -8,6 +8,7 @@ import uuid
 from typing import Optional, List
 from pydantic import BaseModel
 import random
+import string
 
 app = FastAPI()
 
@@ -23,7 +24,7 @@ app.add_middleware(
 # MongoDB connection
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 client = MongoClient(MONGO_URL)
-db = client.premate_db
+db = client.valomate_db
 
 # Collections
 players_collection = db.players
@@ -32,11 +33,15 @@ games_collection = db.games
 class Player(BaseModel):
     id: Optional[str] = None
     username: str
+    tag: str
+    lobby_code: str
     game: str = "valorant"
     game_mode: str = "Derecelik"
-    rank: str
-    rank_level: int
-    age: int
+    min_rank: str = "Demir"
+    max_rank: str = "Radyant"
+    age_range: str = "18+"
+    looking_for: str = "Takım arkadaşı"
+    expectations: str = "Eğlenceli oyun"
     voice_enabled: bool = True
     mic_enabled: bool = True
     created_at: Optional[datetime] = None
@@ -48,10 +53,25 @@ class Game(BaseModel):
     icon: str
     description: str
 
-# Generate random player codes like in the original
-def generate_player_code():
-    codes = ["MURADIS", "RUE4IS", "2VÇ979", "NOXS30", "ROAFIST", "LZONER", "VINGEB", "ZOREX", "TEKNO", "CYBER"]
-    return random.choice(codes)
+# Generate random lobby codes
+def generate_lobby_code():
+    letters = ''.join(random.choices(string.ascii_uppercase, k=3))
+    numbers = ''.join(random.choices(string.digits, k=2))
+    return f"{letters}{numbers}"
+
+# Generate random player usernames
+def generate_username():
+    usernames = [
+        "GamerProX", "ShadowHunter", "FireStorm", "IceQueen", "ThunderBolt",
+        "NightRider", "SilverBullet", "GoldenEagle", "RedDragon", "BlueFalcon",
+        "PhantomKnight", "CyberNinja", "StormBreaker", "MysticWarrior", "EliteSniper"
+    ]
+    return random.choice(usernames) + str(random.randint(10, 99))
+
+# Generate random tags
+def generate_tag():
+    tags = ["TR1", "EU2", "NA3", "AS4", "OCE", "KR6", "JP7", "BR8", "LAT", "MEA"]
+    return random.choice(tags)
 
 # Initialize sample data
 def init_sample_data():
@@ -59,7 +79,7 @@ def init_sample_data():
     players_collection.delete_many({})
     games_collection.delete_many({})
     
-    # Add games matching the design
+    # Add games matching the new design
     games = [
         {
             "id": str(uuid.uuid4()), 
@@ -92,93 +112,30 @@ def init_sample_data():
     ]
     games_collection.insert_many(games)
     
-    # Add sample players with realistic Turkish usernames
-    sample_players = [
-        {
+    # Add sample players with new structure
+    looking_for_options = ["Takım arkadaşı", "Rank çıkma", "Eğlenceli oyun", "Turnuva", "Pratik"]
+    expectations_options = ["Toksik olmayan", "Sesli iletişim", "Çok oynayan", "Tecrübeli", "Sabırlı"]
+    rank_options = ["Demir", "Bronz", "Gümüş", "Altın", "Platin", "Elmas", "Asens", "Ölümsüz", "Radyant"]
+    
+    sample_players = []
+    for i in range(8):
+        sample_players.append({
             "id": str(uuid.uuid4()),
-            "username": "refkid mova/bozuktrt",
+            "username": generate_username(),
+            "tag": generate_tag(),
+            "lobby_code": generate_lobby_code(),
             "game": "valorant",
             "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 5,
-            "age": 0,
-            "voice_enabled": True,
-            "mic_enabled": True,
-            "created_at": datetime.now() - timedelta(minutes=1)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "addy chef1644",
-            "game": "valorant", 
-            "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 3,
-            "age": 1,
-            "voice_enabled": True,
-            "mic_enabled": True,
-            "created_at": datetime.now() - timedelta(minutes=5)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "pleydo3 sunShytis",
-            "game": "valorant",
-            "game_mode": "Derecelik", 
-            "rank": generate_player_code(),
-            "rank_level": 4,
-            "age": 18,
-            "voice_enabled": True,
-            "mic_enabled": False,
-            "created_at": datetime.now() - timedelta(minutes=8)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "mnezda spiritiKPS",
-            "game": "valorant",
-            "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 6,
-            "age": 14,
-            "voice_enabled": False,
-            "mic_enabled": True,
-            "created_at": datetime.now() - timedelta(minutes=17)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "HOZEKOFCE34",
-            "game": "valorant",
-            "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 5,
-            "age": 0,
-            "voice_enabled": True,
-            "mic_enabled": False,
-            "created_at": datetime.now() - timedelta(minutes=25)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "FEIRA KIBMBergit",
-            "game": "valorant", 
-            "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 4,
-            "age": 0,
-            "voice_enabled": True,
-            "mic_enabled": True,
-            "created_at": datetime.now() - timedelta(minutes=30)
-        },
-        {
-            "id": str(uuid.uuid4()),
-            "username": "foreginggardHTH",
-            "game": "valorant",
-            "game_mode": "Derecelik",
-            "rank": generate_player_code(),
-            "rank_level": 3,
-            "age": 18,
-            "voice_enabled": True,
-            "mic_enabled": True,
-            "created_at": datetime.now() - timedelta(minutes=35)
-        }
-    ]
+            "min_rank": random.choice(rank_options[:6]),
+            "max_rank": random.choice(rank_options[3:]),
+            "age_range": random.choice(["16+", "18+", "21+", "25+"]),
+            "looking_for": random.choice(looking_for_options),
+            "expectations": random.choice(expectations_options),
+            "voice_enabled": random.choice([True, False]),
+            "mic_enabled": random.choice([True, False]),
+            "created_at": datetime.now() - timedelta(minutes=random.randint(1, 60))
+        })
+    
     players_collection.insert_many(sample_players)
 
 @app.on_event("startup")
@@ -194,8 +151,8 @@ async def get_games():
 async def get_players(
     game: Optional[str] = None,
     game_mode: Optional[str] = None,
-    min_rank: Optional[int] = None,
-    max_rank: Optional[int] = None,
+    min_rank: Optional[str] = None,
+    max_rank: Optional[str] = None,
     voice_only: Optional[bool] = None
 ):
     query = {}
@@ -204,13 +161,6 @@ async def get_players(
         query["game"] = game
     if game_mode and game_mode != "Tümü":
         query["game_mode"] = game_mode
-    if min_rank is not None:
-        query["rank_level"] = {"$gte": min_rank}
-    if max_rank is not None:
-        if "rank_level" in query:
-            query["rank_level"]["$lte"] = max_rank
-        else:
-            query["rank_level"] = {"$lte": max_rank}
     if voice_only:
         query["voice_enabled"] = True
     
@@ -224,8 +174,8 @@ async def create_player(player: Player):
         player_dict["id"] = str(uuid.uuid4())
     if not player_dict.get("created_at"):
         player_dict["created_at"] = datetime.now()
-    if not player_dict.get("rank"):
-        player_dict["rank"] = generate_player_code()
+    if not player_dict.get("lobby_code"):
+        player_dict["lobby_code"] = generate_lobby_code()
     
     # Convert datetime to string for JSON serialization
     if player_dict.get("created_at"):
@@ -243,4 +193,4 @@ async def delete_player(player_id: str):
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "message": "Premate.gg API is running"}
+    return {"status": "ok", "message": "Valomate.com API is running"}
