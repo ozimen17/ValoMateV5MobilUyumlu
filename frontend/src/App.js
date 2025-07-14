@@ -27,6 +27,9 @@ function App() {
 
   useEffect(() => {
     fetchPlayers();
+    // Auto refresh every 30 seconds to remove old players
+    const interval = setInterval(fetchPlayers, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -106,7 +109,7 @@ function App() {
           mic_enabled: true
         });
         setShowAddPlayer(false);
-        fetchPlayers();
+        fetchPlayers(); // Refresh to show new player at top
         showToast('Oyuncu başarıyla eklendi!');
       }
     } catch (error) {
@@ -123,6 +126,7 @@ function App() {
     if (diffInMinutes < 1) return 'Şimdi';
     if (diffInMinutes < 60) return `${diffInMinutes} dk önce`;
     const hours = Math.floor(diffInMinutes / 60);
+    if (hours === 1) return '1 sa önce';
     return `${hours} sa önce`;
   };
 
@@ -138,29 +142,27 @@ function App() {
         </div>
       )}
 
-      {/* Header */}
-      <header className="bg-black/95 backdrop-blur-sm border-b border-red-600/30">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <img 
-              src="https://i.hizliresim.com/5t50he5.png" 
-              alt="VALOMATE" 
-              className="h-10 w-auto"
-            />
-          </div>
+      {/* Header with centered logo */}
+      <header className="bg-[#040509] backdrop-blur-sm border-b border-red-600/30">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-center items-center">
+          <img 
+            src="https://i.hizliresim.com/5t50he5.png" 
+            alt="VALOMATE" 
+            className="h-10 w-auto"
+          />
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Modern Filters */}
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 border border-gray-800 shadow-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
               <label className="block text-white text-sm font-semibold">Oyun Modu</label>
               <select 
                 value={filters.gameMode}
                 onChange={(e) => setFilters(prev => ({...prev, gameMode: e.target.value}))}
-                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
               >
                 <option value="Tümü">Tümü</option>
                 <option value="Dereceli">Dereceli</option>
@@ -178,7 +180,7 @@ function App() {
               <select 
                 value={filters.lookingFor}
                 onChange={(e) => setFilters(prev => ({...prev, lookingFor: e.target.value}))}
-                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
               >
                 <option value="Tümü">Tümü</option>
                 <option value="1 Kişi">1 Kişi</option>
@@ -199,7 +201,7 @@ function App() {
                     onChange={(e) => setFilters(prev => ({...prev, micOnly: e.target.checked}))}
                     className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
                   />
-                  <span className="text-white font-medium">🎤 Sadece mikrofonlu</span>
+                  <span className="text-white font-medium text-sm sm:text-base">🎤 Sadece mikrofonlu</span>
                 </label>
               </div>
             </div>
@@ -207,7 +209,7 @@ function App() {
             <div className="flex items-end">
               <button 
                 onClick={fetchPlayers}
-                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg"
+                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg text-sm sm:text-base"
               >
                 🎮 Uygula / Yenile
               </button>
@@ -217,7 +219,8 @@ function App() {
 
         {/* Modern Players Table */}
         <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
+          {/* Mobile-friendly table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead className="bg-black/50">
                 <tr>
@@ -291,22 +294,86 @@ function App() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card Layout */}
+          <div className="lg:hidden space-y-4 p-4">
+            {loading ? (
+              <div className="text-center py-8 text-gray-400">Yükleniyor...</div>
+            ) : players.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">Oyuncu bulunamadı</div>
+            ) : (
+              players.map((player, index) => (
+                <div key={player.id || index} className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+                  <div className="flex items-start space-x-3 mb-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                      <span className="text-lg">V</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-white font-semibold">{player.username}</div>
+                      <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
+                      <div className="text-gray-400 text-xs">{getTimeAgo(player.created_at)}</div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'}`}>🎤</span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <span className="text-gray-400">Lobi:</span>
+                      <button
+                        onClick={() => copyLobbyCode(player.lobby_code)}
+                        className="ml-2 text-red-400 font-mono font-bold hover:text-red-300 transition-colors"
+                      >
+                        {player.lobby_code}
+                      </button>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Yaş:</span>
+                      <span className="ml-2 text-white">{player.age_range}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Aranan:</span>
+                      <span className="ml-2 text-gray-300">{player.looking_for}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Mod:</span>
+                      <span className="ml-2 text-gray-300">{player.game_mode}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 mt-3">
+                    <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-xs font-medium">{player.min_rank}</span>
+                    <span className="text-gray-500 text-xs">-</span>
+                    <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded text-xs font-medium">{player.max_rank}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Auto-cleanup notice */}
+        <div className="mt-4 text-center">
+          <p className="text-gray-400 text-sm">
+            🕒 Oyuncu aramaları 30 dakika sonra otomatik olarak silinir
+          </p>
         </div>
 
         {/* Modern Add Player Modal */}
         {showAddPlayer && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 rounded-2xl p-8 w-full max-w-2xl border border-gray-800 shadow-2xl">
-              <h3 className="text-white text-2xl font-bold mb-6">Oyuncu Ara</h3>
-              <form onSubmit={handleAddPlayer} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-gray-900 rounded-2xl p-6 sm:p-8 w-full max-w-2xl border border-gray-800 shadow-2xl max-h-[90vh] overflow-y-auto">
+              <h3 className="text-white text-xl sm:text-2xl font-bold mb-6">Oyuncu Ara</h3>
+              <form onSubmit={handleAddPlayer} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">Kullanıcı Adı</label>
                     <input
                       type="text"
                       value={newPlayer.username}
                       onChange={(e) => setNewPlayer(prev => ({...prev, username: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                       required
                       placeholder="Kullanıcı adınız"
                     />
@@ -317,7 +384,7 @@ function App() {
                       type="text"
                       value={newPlayer.tag}
                       onChange={(e) => setNewPlayer(prev => ({...prev, tag: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                       required
                       placeholder="#ABC123"
                     />
@@ -330,18 +397,18 @@ function App() {
                     type="text"
                     value={newPlayer.lobby_code}
                     onChange={(e) => setNewPlayer(prev => ({...prev, lobby_code: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     placeholder="ABC12 (boş bırakılırsa otomatik oluşur)"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">Minimum Rank</label>
                     <select
                       value={newPlayer.min_rank}
                       onChange={(e) => setNewPlayer(prev => ({...prev, min_rank: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     >
                       <option value="Demir">Demir</option>
                       <option value="Bronz">Bronz</option>
@@ -359,7 +426,7 @@ function App() {
                     <select
                       value={newPlayer.max_rank}
                       onChange={(e) => setNewPlayer(prev => ({...prev, max_rank: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     >
                       <option value="Demir">Demir</option>
                       <option value="Bronz">Bronz</option>
@@ -374,13 +441,13 @@ function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-white text-sm font-semibold mb-2">Yaş Aralığı</label>
                     <select
                       value={newPlayer.age_range}
                       onChange={(e) => setNewPlayer(prev => ({...prev, age_range: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     >
                       <option value="13-">13-</option>
                       <option value="14-17">14-17</option>
@@ -392,7 +459,7 @@ function App() {
                     <select
                       value={newPlayer.looking_for}
                       onChange={(e) => setNewPlayer(prev => ({...prev, looking_for: e.target.value}))}
-                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                      className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                     >
                       <option value="1 Kişi">1 Kişi</option>
                       <option value="2 Kişi">2 Kişi</option>
@@ -408,7 +475,7 @@ function App() {
                   <select
                     value={newPlayer.game_mode}
                     onChange={(e) => setNewPlayer(prev => ({...prev, game_mode: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all"
+                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all text-sm sm:text-base"
                   >
                     <option value="Dereceli">Dereceli</option>
                     <option value="Premier">Premier</option>
@@ -428,21 +495,21 @@ function App() {
                       onChange={(e) => setNewPlayer(prev => ({...prev, mic_enabled: e.target.checked}))}
                       className="w-5 h-5 text-red-600 rounded focus:ring-red-500"
                     />
-                    <span className="text-white font-medium">🎤 Mikrofon</span>
+                    <span className="text-white font-medium text-sm sm:text-base">🎤 Mikrofon</span>
                   </label>
                 </div>
 
-                <div className="flex space-x-4 pt-4">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 pt-4">
                   <button
                     type="button"
                     onClick={() => setShowAddPlayer(false)}
-                    className="flex-1 bg-gray-700 text-white py-3 rounded-xl hover:bg-gray-600 transition-all font-semibold"
+                    className="flex-1 bg-gray-700 text-white py-3 rounded-xl hover:bg-gray-600 transition-all font-semibold text-sm sm:text-base"
                   >
                     İptal
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white py-3 rounded-xl hover:from-red-700 hover:to-red-800 transition-all font-semibold transform hover:scale-105"
+                    className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white py-3 rounded-xl hover:from-red-700 hover:to-red-800 transition-all font-semibold transform hover:scale-105 text-sm sm:text-base"
                   >
                     Ekle
                   </button>
@@ -452,13 +519,13 @@ function App() {
           </div>
         )}
 
-        {/* Bottom Center Add Player Button - Smaller */}
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
+        {/* Bottom Center Add Player Button - Smaller and Mobile Responsive */}
+        <div className="fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2">
           <button 
             onClick={() => setShowAddPlayer(true)}
-            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-2 border-2 border-red-500/30"
+            className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-2 border-2 border-red-500/30 text-sm sm:text-base"
           >
-            <span className="text-lg">👥</span>
+            <span className="text-sm sm:text-lg">👥</span>
             <span>Oyuncu Ara</span>
           </button>
         </div>

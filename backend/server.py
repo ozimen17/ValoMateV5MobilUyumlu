@@ -9,6 +9,9 @@ from typing import Optional, List
 from pydantic import BaseModel
 import random
 import string
+import asyncio
+from threading import Thread
+import time
 
 app = FastAPI()
 
@@ -40,7 +43,7 @@ class Player(BaseModel):
     max_rank: str = "Radyant"
     age_range: str = "18+"
     looking_for: str = "1 Kişi"
-    game_mode: str = "Derecelik"
+    game_mode: str = "Dereceli"
     mic_enabled: bool = True
     created_at: Optional[datetime] = None
 
@@ -71,6 +74,27 @@ def generate_tag():
     tags = ["TR1", "EU2", "NA3", "AS4", "OCE", "KR6", "JP7", "BR8", "LAT", "MEA"]
     return random.choice(tags)
 
+# Clean up old players (30 minutes)
+def cleanup_old_players():
+    """Remove players older than 30 minutes"""
+    try:
+        cutoff_time = datetime.now() - timedelta(minutes=30)
+        result = players_collection.delete_many({"created_at": {"$lt": cutoff_time}})
+        if result.deleted_count > 0:
+            print(f"Cleaned up {result.deleted_count} old players")
+    except Exception as e:
+        print(f"Error cleaning up old players: {e}")
+
+# Background task to clean up old players every 5 minutes
+def background_cleanup():
+    while True:
+        time.sleep(300)  # 5 minutes
+        cleanup_old_players()
+
+# Start background cleanup thread
+cleanup_thread = Thread(target=background_cleanup, daemon=True)
+cleanup_thread.start()
+
 # Initialize sample data
 def init_sample_data():
     # Clear existing data
@@ -89,7 +113,7 @@ def init_sample_data():
     ]
     games_collection.insert_many(games)
     
-    # Add sample players with new structure
+    # Add sample players with new structure (created at different times to test sorting)
     looking_for_options = ["1 Kişi", "2 Kişi", "3 Kişi", "4 Kişi", "5 Kişi"]
     game_mode_options = ["Dereceli", "Premier", "Derecesiz", "Tam Gaz", "Özel Oyun", "1vs1", "2vs2"]
     rank_options = ["Demir", "Bronz", "Gümüş", "Altın", "Platin", "Elmas", "Asens", "Ölümsüz", "Radyant"]
@@ -97,6 +121,8 @@ def init_sample_data():
     
     sample_players = []
     for i in range(8):
+        # Create players with different creation times (most recent first)
+        created_time = datetime.now() - timedelta(minutes=i * 3)  # 0, 3, 6, 9... minutes ago
         sample_players.append({
             "id": str(uuid.uuid4()),
             "username": generate_username(),
@@ -109,7 +135,7 @@ def init_sample_data():
             "looking_for": random.choice(looking_for_options),
             "game_mode": random.choice(game_mode_options),
             "mic_enabled": random.choice([True, False]),
-            "created_at": datetime.now() - timedelta(minutes=random.randint(1, 60))
+            "created_at": created_time
         })
     
     players_collection.insert_many(sample_players)
@@ -117,6 +143,8 @@ def init_sample_data():
 @app.on_event("startup")
 async def startup_event():
     init_sample_data()
+    # Also cleanup old players on startup
+    cleanup_old_players()
 
 @app.get("/api/games")
 async def get_games():
@@ -130,6 +158,9 @@ async def get_players(
     looking_for: Optional[str] = None,
     mic_only: Optional[bool] = None
 ):
+    # First clean up old players
+    cleanup_old_players()
+    
     query = {}
     
     if game:
@@ -168,6 +199,12 @@ async def delete_player(player_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Oyuncu bulunamadı")
     return {"message": "Oyuncu silindi"}
+
+@app.get("/api/cleanup")
+async def manual_cleanup():
+    """Manual cleanup endpoint for testing"""
+    cleanup_old_players()
+    return {"message": "Cleanup completed"}
 
 @app.get("/api/health")
 async def health_check():
