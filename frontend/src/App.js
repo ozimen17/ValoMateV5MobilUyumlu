@@ -1134,7 +1134,7 @@ function App() {
                     </div>
                     <div className="flex-1">
                       <div className="text-white font-semibold">{player.username}</div>
-                      <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
+                      <div className="text-red-400 text-sm font-mono">{player.tag.startsWith('#') ? player.tag : '#' + player.tag}</div>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-red-600'}`}>
