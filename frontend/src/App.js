@@ -813,7 +813,7 @@ function App() {
                 <tr>
                   <th className="text-left text-white px-6 py-4 font-semibold">KULLANICI</th>
                   <th className="text-left text-white px-6 py-4 font-semibold">LOBİ KODU</th>
-                  <th className="text-left text-white px-6 py-4 font-semibold">RANK</th>
+                  <th className="text-center text-white px-6 py-4 font-semibold">RANK</th>
                   <th className="text-left text-white px-6 py-4 font-semibold">ARANAN</th>
                   <th className="text-left text-white px-6 py-4 font-semibold">OYUN MODU</th>
                   <th className="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
