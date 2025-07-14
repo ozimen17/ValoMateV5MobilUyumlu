@@ -136,7 +136,7 @@ frontend:
         agent: "main"
         comment: "Successfully removed age section from website. Removed 'YAŞ ARALIĞI' column from desktop table header, removed age display from desktop table rows, removed age display from mobile card view, and removed age_range field from form data."
   
-  - task: "Remove '3 hours ago' text and show minutes since form completion"
+  - task: "Improve game settings section in form and enhance form validation"
     implemented: true
     working: true
     file: "App.js"
@@ -146,7 +146,19 @@ frontend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Successfully modified the getTimeAgo function to show only minutes passed since form completion. Changed from showing '3 sa önce' to showing 'X dk geçti' (X minutes passed). Updated time display format to be more precise."
+        comment: "Successfully improved the game settings section in the form with enhanced layout, better microphone settings display, and comprehensive validation. Added proper error handling for all form fields, improved user experience with better visual feedback, and enhanced form validation messages."
+  
+  - task: "Update time display to show minutes after form submission (180 minutes limit)"
+    implemented: true
+    working: true
+    file: "App.js, server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Successfully updated time display to show minutes elapsed since form submission. Updated cleanup time to 180 minutes (3 hours) in both frontend and backend. Time now shows 'X dk geçti' for up to 180 minutes, then switches to hours format."
 
 metadata:
   created_by: "main_agent"
