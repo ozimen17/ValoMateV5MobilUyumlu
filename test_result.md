@@ -188,10 +188,7 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus:
-    - "Test new logo display in header"
-    - "Test that logo loads correctly with new URL"
-    - "Test overall application functionality after logo change"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
