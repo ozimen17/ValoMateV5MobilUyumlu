@@ -599,7 +599,11 @@ function App() {
             onClick={() => setShowAddPlayer(true)}
             className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold shadow-xl hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-110 flex items-center space-x-2 border-2 border-red-500/30 text-sm sm:text-base"
           >
-            <span className="text-sm sm:text-lg">👥</span>
+            <img 
+              src="https://i.hizliresim.com/qj6pti2.png" 
+              alt="Oyuncu Ara" 
+              className="w-4 h-4 sm:w-5 sm:h-5"
+            />
             <span>Oyuncu Ara</span>
           </button>
         </div>
