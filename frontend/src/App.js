@@ -932,13 +932,16 @@ function App() {
       <Toast show={toast.show} message={toast.message} type={toast.type} />
 
       {/* Header */}
-      <header className="bg-[#030407]/90 backdrop-blur-xl border-b border-red-600/30 sticky top-0 z-40">
+      <header className="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 sticky top-0 z-40 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             <img 
               src="https://i.hizliresim.com/1e6ismz.gif" 
               alt="VALOMATE" 
               className="h-10 w-auto"
+              style={{
+                filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.2))'
+              }}
             />
           </div>
         </div>
