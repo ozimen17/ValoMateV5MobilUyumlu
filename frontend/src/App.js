@@ -1032,6 +1032,7 @@ function App() {
             <AdvancedSearch 
               onSearch={setSearchTerm}
               playerCount={filteredPlayers.length}
+              totalPlayers={totalPlayers}
             />
             
             {/* Filter Grid */}
