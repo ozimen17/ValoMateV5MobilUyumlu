@@ -1142,7 +1142,9 @@ function App() {
                       <div className="text-red-400 text-sm font-mono">#{player.tag}</div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-gray-600'}`}>🎤</span>
+                      <span className={`text-lg ${player.mic_enabled ? 'text-red-400' : 'text-red-600'}`}>
+                        {player.mic_enabled ? '🎤' : '❌'}
+                      </span>
                     </div>
                   </div>
                   
