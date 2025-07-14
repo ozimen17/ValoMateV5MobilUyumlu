@@ -174,16 +174,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test tag input to ensure only single # is added"
-    - "Test microphone X mark display when mic is disabled"
-    - "Test 30-minute auto-cleanup functionality"
-    - "Test form validation and submission with new changes"
+    - "Test lobby code mandatory validation"
+    - "Test rank badges display only logos without names"
+    - "Test tag display shows single # after form submission"
+    - "Test form submission with all new requirements"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Successfully implemented all three requested fixes: 1) Fixed double # issue in tag input by revising onChange handler logic - now removes any existing # first, then adds single # prefix when value is not empty. 2) Updated microphone display in both table and card views to show ❌ (X mark) when mic_enabled is false instead of grayed out microphone icon. 3) Changed backend cleanup time from 180 minutes back to 30 minutes as requested - updated cleanup_old_players() function to remove players older than 30 minutes. All changes are implemented and need testing."
-  - agent: "testing"
-    message: "BACKEND TESTING COMPLETED SUCCESSFULLY - All critical functionality verified working correctly. The 30-minute cleanup change (the most critical requirement) has been successfully implemented and tested. Backend properly handles tag processing without double # issues, mic_enabled field works correctly showing ❌ for disabled mics, and all API endpoints function properly. Player creation, filtering, and cleanup functionality all working as expected. Backend is production-ready and fully supports the user's requirements."
+    message: "Successfully implemented all three new requirements: 1) Made lobby code mandatory by adding validation to require lobby_code field, updated label with red asterisk (*), and changed helper text to indicate requirement. 2) Removed rank names from homepage by modifying RankBadge component to show only logos without text - removed textSizeClasses and rank name display. 3) Fixed tag display to show single # after form submission by updating display logic to check if player.tag already starts with #, preventing double # issue. All changes affect both desktop table view and mobile card view. Frontend restarted successfully."
