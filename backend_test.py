@@ -222,7 +222,6 @@ def test_create_player():
             "game": "valorant",
             "min_rank": "Demir",
             "max_rank": "Bronz",
-            "age_range": "18+",
             "looking_for": "2 Kişi",
             "game_mode": "Dereceli",
             "mic_enabled": True
@@ -234,7 +233,6 @@ def test_create_player():
             "game": "valorant",
             "min_rank": "Altın",
             "max_rank": "Radyant",
-            "age_range": "18+",
             "looking_for": "1 Kişi",
             "game_mode": "Premier",
             "mic_enabled": False
