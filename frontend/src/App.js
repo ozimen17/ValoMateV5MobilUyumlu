@@ -416,7 +416,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   <select
                     value={formData.looking_for}
                     onChange={(e) => setFormData(prev => ({...prev, looking_for: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.looking_for ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
                   >
                     <option value="1 Kişi">1 Kişi</option>
                     <option value="2 Kişi">2 Kişi</option>
@@ -424,6 +426,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                     <option value="4 Kişi">4 Kişi</option>
                     <option value="5 Kişi">5 Kişi</option>
                   </select>
+                  {errors.looking_for && (
+                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.looking_for}</p>
+                  )}
                 </div>
                 
                 <div>
@@ -431,7 +436,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                   <select
                     value={formData.game_mode}
                     onChange={(e) => setFormData(prev => ({...prev, game_mode: e.target.value}))}
-                    className="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm"
+                    className={`w-full bg-black/50 text-white rounded-xl px-4 py-3 border transition-all backdrop-blur-sm ${
+                      errors.game_mode ? 'border-red-500' : 'border-gray-700 focus:border-red-500'
+                    } focus:outline-none`}
                   >
                     <option value="Dereceli">Dereceli</option>
                     <option value="Premier">Premier</option>
@@ -441,6 +448,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                     <option value="1vs1">1vs1</option>
                     <option value="2vs2">2vs2</option>
                   </select>
+                  {errors.game_mode && (
+                    <p className="text-red-400 text-sm mt-1 animate-shake">{errors.game_mode}</p>
+                  )}
                 </div>
               </div>
               
