@@ -105,20 +105,17 @@
 user_problem_statement: "SİTEDEKİ YAŞ KISMINI KALDIR VE 3 SAAT ÖNCE YAZISINI KALDIR 3 SAAT YAZISI YERİNE FORM DOLDURMA SÜRESİNDEN SONRA KAÇ DAKİKA GEÇTİĞİNİ GÖSTERSİN VE FORM KISMINDAKİ HATAYI DÜZELT" (Remove the age section from the site and remove the "3 hours ago" text. Instead of "3 hours" text, show how many minutes have passed since the form was filled out and fix the error in the form section)
 
 backend:
-  - task: "Remove age_range field from Player model"
+  - task: "Update cleanup time to 180 minutes (3 hours) in backend"
     implemented: true
     working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
-        comment: "Successfully removed age_range field from Player model in backend. Updated the class definition to remove the field completely."
-      - working: true
-        agent: "testing"
-        comment: "Backend comprehensive testing completed successfully. All 6 test categories passed: Health Check (✅), Games Endpoint (✅), Players Endpoint with age_range field successfully removed (✅), Create Player without age_range field working correctly (✅), Player Filtering by game_mode/looking_for/mic_only working properly (✅), and Cleanup Functionality operational (✅). Backend is fully functional with 23 active players and no age_range field references. Updated backend_test.py to remove age_range field references for future testing."
+        comment: "Successfully updated backend cleanup functionality to remove players after 180 minutes (3 hours) instead of 30 minutes. Updated cleanup function and documentation to reflect the new 180-minute limit."
       - working: true
         agent: "testing"
         comment: "Comprehensive backend testing completed after age_range field removal from Player model. All 6 test categories passed perfectly: Health Check (✅), Games Endpoint (✅), Players Endpoint with 23 active players and confirmed age_range field removal (✅), Create Player functionality working without age_range field (✅), Player Filtering by game_mode/looking_for/mic_only parameters (✅), and Cleanup Functionality (✅). Updated backend_test.py to remove age_range field references. Backend API is fully functional with proper Player model structure, all CRUD operations working, filtering working correctly, and 30-minute auto-cleanup operational. Player creation and retrieval confirmed working without age_range field. Backend is production-ready."
