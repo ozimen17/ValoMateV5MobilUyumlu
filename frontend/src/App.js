@@ -533,34 +533,46 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
             </div>
           )}
           
-          {/* Navigation Buttons */}
-          <div className="flex justify-between pt-6">
+          {/* Enhanced Navigation Buttons */}
+          <div className="flex justify-between items-center pt-8 border-t border-gray-700/50">
             <button
               type="button"
               onClick={prevStep}
               disabled={currentStep === 0}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
                 currentStep === 0 
                   ? 'bg-gray-800/50 text-gray-500 cursor-not-allowed' 
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  : 'bg-gray-700/50 text-white hover:bg-gray-600/50 hover:scale-105 transform'
               }`}
             >
-              Geri
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span>Geri</span>
             </button>
+            
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400 text-sm">
+                {currentStep + 1} / {steps.length}
+              </span>
+            </div>
             
             {currentStep < steps.length - 1 ? (
               <button
                 type="button"
                 onClick={nextStep}
-                className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105"
+                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 shadow-lg shadow-red-500/25"
               >
-                İleri
+                <span>İleri</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             ) : (
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                className="flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl font-semibold hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/25"
               >
                 {isSubmitting ? (
                   <>
@@ -568,7 +580,12 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
                     <span>Ekleniyor...</span>
                   </>
                 ) : (
-                  <span>Ekle</span>
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Oyuncu Ekle</span>
+                  </>
                 )}
               </button>
             )}
