@@ -197,12 +197,6 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
         if (!formData.game_mode || formData.game_mode.trim() === '') {
           newErrors.game_mode = 'Oyun modu seçiniz';
         }
-        
-        console.log('Game settings validation:', {
-          looking_for: formData.looking_for,
-          game_mode: formData.game_mode,
-          errors: newErrors
-        });
         break;
     }
     
