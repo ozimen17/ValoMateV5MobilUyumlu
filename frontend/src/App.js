@@ -243,8 +243,9 @@ const MultiStepForm = ({ show, onClose, onSubmit }) => {
   if (!show) return null;
   
   return (
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl p-8 w-full max-w-3xl border border-gray-700/50 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-8">
+      <div className="bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl p-8 w-full max-w-3xl border border-gray-700/50 shadow-2xl max-h-[85vh] overflow-y-auto"
+           style={{ marginTop: '2rem' }}>
         {/* Modern Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
