@@ -306,8 +306,12 @@ function App() {
                     <tr key={player.id || index} className="hover:bg-gray-800/50 transition-all">
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                            <span className="text-lg">V</span>
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                            <img 
+                              src="https://i.hizliresim.com/cj3yme2.png" 
+                              alt="User Avatar" 
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <div>
                             <div className="text-white font-semibold">{player.username}</div>
