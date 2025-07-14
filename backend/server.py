@@ -41,7 +41,6 @@ class Player(BaseModel):
     game: str = "valorant"
     min_rank: str = "Demir"
     max_rank: str = "Radyant"
-    age_range: str = "18+"
     looking_for: str = "1 Kişi"
     game_mode: str = "Dereceli"
     mic_enabled: bool = True
