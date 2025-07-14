@@ -168,11 +168,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test modernized form with advanced UI/UX features"
-    - "Test centered rank display in table"
-    - "Test time display with timestamp functionality"
+    - "Test form modal visibility and positioning"
+    - "Test Game Settings section selection and validation"
+    - "Test automatic # symbol addition for tag input"
     - "Test enhanced form validation and error handling"
-    - "Test improved user experience and animations"
+    - "Test improved form UI/UX and user experience"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
