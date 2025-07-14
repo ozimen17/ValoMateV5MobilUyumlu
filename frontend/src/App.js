@@ -784,9 +784,6 @@ function App() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-white font-medium">{player.age_range}</span>
-                      </td>
-                      <td className="px-6 py-4">
                         <span className="bg-gray-800/50 text-gray-300 px-3 py-1 rounded-full text-sm">{player.looking_for}</span>
                       </td>
                       <td className="px-6 py-4">
