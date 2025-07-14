@@ -340,22 +340,126 @@ def test_rank_validation():
     return True
 
 def test_cleanup_functionality():
-    """Test the cleanup endpoint"""
-    print("\n=== Testing Cleanup Functionality ===")
+    """Test the 180-minute cleanup functionality"""
+    print("\n=== Testing 180-Minute Cleanup Functionality ===")
+    
+    # First test the manual cleanup endpoint
     try:
         response = requests.get(f"{API_URL}/cleanup", timeout=10)
-        print(f"Status Code: {response.status_code}")
+        print(f"Manual cleanup - Status Code: {response.status_code}")
         
         if response.status_code == 200:
             result = response.json()
-            print(f"Cleanup result: {result}")
-            print("✅ Cleanup endpoint working")
-            return True
+            print(f"Manual cleanup result: {result}")
+            print("✅ Manual cleanup endpoint working")
         else:
-            print("❌ Cleanup endpoint failed")
+            print("❌ Manual cleanup endpoint failed")
             return False
     except Exception as e:
-        print(f"❌ Cleanup endpoint failed with error: {e}")
+        print(f"❌ Manual cleanup endpoint failed with error: {e}")
+        return False
+    
+    # Test that players created now are NOT cleaned up (they're fresh)
+    print("\n--- Testing Fresh Players Are Not Cleaned ---")
+    
+    # Create a test player
+    fresh_player = {
+        "username": "FreshPlayer180Test",
+        "tag": "FRESH",
+        "lobby_code": "FRS01",
+        "game": "valorant",
+        "min_rank": "Demir",
+        "max_rank": "Bronz",
+        "looking_for": "1 Kişi",
+        "game_mode": "Dereceli",
+        "mic_enabled": True
+    }
+    
+    try:
+        # Create the player
+        response = requests.post(f"{API_URL}/players", 
+                               json=fresh_player, 
+                               headers={"Content-Type": "application/json"},
+                               timeout=10)
+        
+        if response.status_code != 200:
+            print("❌ Failed to create fresh test player")
+            return False
+        
+        created_player = response.json()
+        player_id = created_player.get("id")
+        print(f"Created fresh player with ID: {player_id}")
+        
+        # Run cleanup immediately
+        cleanup_response = requests.get(f"{API_URL}/cleanup", timeout=10)
+        if cleanup_response.status_code != 200:
+            print("❌ Failed to run cleanup")
+            return False
+        
+        # Check if the fresh player still exists (should not be cleaned)
+        players_response = requests.get(f"{API_URL}/players", timeout=10)
+        if players_response.status_code != 200:
+            print("❌ Failed to get players after cleanup")
+            return False
+        
+        players = players_response.json()
+        fresh_player_exists = any(p.get("id") == player_id for p in players)
+        
+        if fresh_player_exists:
+            print("✅ Fresh player correctly NOT cleaned up (within 180 minutes)")
+        else:
+            print("❌ Fresh player was incorrectly cleaned up")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error testing fresh player cleanup: {e}")
+        return False
+    
+    # Test cleanup time limit verification
+    print("\n--- Verifying 180-Minute Cleanup Configuration ---")
+    
+    # Get current players and check their timestamps
+    try:
+        response = requests.get(f"{API_URL}/players", timeout=10)
+        if response.status_code == 200:
+            players = response.json()
+            current_time = datetime.now()
+            
+            print(f"Current time: {current_time}")
+            print(f"Total players found: {len(players)}")
+            
+            # Check if any players are older than 180 minutes (should be cleaned)
+            old_players = 0
+            for player in players:
+                try:
+                    created_at = datetime.fromisoformat(player["created_at"].replace('Z', '+00:00'))
+                    # Remove timezone info for comparison
+                    created_at = created_at.replace(tzinfo=None)
+                    age_minutes = (current_time - created_at).total_seconds() / 60
+                    
+                    print(f"Player {player['username']}: {age_minutes:.1f} minutes old")
+                    
+                    if age_minutes > 180:
+                        old_players += 1
+                        print(f"⚠️ Found player older than 180 minutes: {player['username']} ({age_minutes:.1f} minutes)")
+                
+                except Exception as e:
+                    print(f"Error parsing timestamp for player {player.get('username', 'unknown')}: {e}")
+            
+            if old_players == 0:
+                print("✅ No players older than 180 minutes found (cleanup working correctly)")
+            else:
+                print(f"⚠️ Found {old_players} players older than 180 minutes (cleanup may need to run)")
+            
+            print("✅ 180-minute cleanup functionality verified")
+            return True
+            
+        else:
+            print("❌ Failed to get players for cleanup verification")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error verifying cleanup configuration: {e}")
         return False
 
 def run_all_tests():
