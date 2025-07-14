@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "tag kısmına 1 adet # eklenmesi gerekirken 2 adet # ekleniyor bunu çöz ve kullanıcı mikrofon seçeneğini seçmezse kaydetilme sonrası mikrofon yerınde x içareti gösterilsin ve her form gonderımı sonrası her form 30dk sonra otomatik silinsin" (Fix double # issue in tag section - only 1 # should be added, show X mark when microphone is not selected, and auto-delete forms after 30 minutes)
+user_problem_statement: "lobi kodu girmek zorunlu olsun, anasayfada rank logolarının yanında rank isimleri olmasın sadece logoları olsun, ve form sonrası tag #'i 1 tane gözükecek şekilde ayarla" (Make lobby code mandatory, remove rank names from homepage (only show logos), and fix tag display to show only single # after form submission)
 
 backend:
   - task: "Update cleanup time to 30 minutes in backend"
