@@ -130,6 +130,42 @@ backend:
         comment: "COMPREHENSIVE BACKEND TESTING COMPLETED - ALL CRITICAL FUNCTIONALITY VERIFIED: ✅ Health Check (200 OK), ✅ Games Endpoint (1 game found with correct structure), ✅ Players Endpoint (11 active players, proper sorting by newest first), ✅ Player Creation (successfully created multiple test players with all fields including mic_enabled), ✅ Player Filtering (game_mode, looking_for, mic_only filters all working correctly), ✅ 30-MINUTE CLEANUP FUNCTIONALITY (CRITICAL CHANGE VERIFIED - cleanup_old_players() now uses timedelta(minutes=30) instead of 180 minutes, manual cleanup endpoint working, fresh players correctly NOT removed, all current players under 30 minutes old), ✅ Tag Processing (backend correctly handles tag input without double # processing), ✅ Mic Field Processing (mic_enabled=true shows 🎤, mic_enabled=false shows ❌). Updated backend_test.py to test 30-minute cleanup instead of 180-minute. Backend API is fully functional and production-ready with the critical 30-minute auto-cleanup change successfully implemented."
 
 frontend:
+  - task: "Fix mobile and web page scrolling issues"
+    implemented: true
+    working: true
+    file: "index.html"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "IMPLEMENTED: Fixed mobile and web page scrolling by removing 'overflow-hidden' from body element. This allows proper scrolling on both mobile and desktop browsers."
+        
+  - task: "Fix mobile search and filter section overlapping with top bar"
+    implemented: true
+    working: true
+    file: "index.html"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "IMPLEMENTED: Fixed mobile layout overlap by adding proper padding-top (pt-20) on mobile and regular padding (sm:pt-6) on desktop to the main content area. Added margin-top to the search section to create separation from the sticky header. Also improved modal mobile behavior with better height and scrolling."
+        
+  - task: "Make microphone checkbox smaller on mobile"
+    implemented: true
+    working: true
+    file: "index.html, form.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "IMPLEMENTED: Reduced microphone checkbox size on mobile from w-5 h-5 to w-4 h-4 on mobile (sm:w-5 sm:h-5 on desktop) for both the main filter checkbox and the form checkbox. This improves mobile usability by making the checkboxes appropriately sized for touch interaction."
+
   - task: "Make lobby code mandatory"
     implemented: true
     working: true
