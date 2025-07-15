@@ -451,7 +451,7 @@ function renderFormStep(step) {
                         </div>
                         
                         <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg hover:bg-gray-700/30 transition-all">
-                            <input type="checkbox" id="mic_enabled" ${state.formData.mic_enabled ? 'checked' : ''} class="w-5 h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2">
+                            <input type="checkbox" id="mic_enabled" ${state.formData.mic_enabled ? 'checked' : ''} class="w-4 h-4 sm:w-5 sm:h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2">
                             <div class="flex-1">
                                 <div class="text-white font-medium">Mikrofon mevcut</div>
                                 <div class="text-gray-400 text-sm">Sesli iletişim kurabilirim</div>
