@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "LOGOYU https://i.hizliresim.com/g9v1rqh.png İLE DEĞİŞTİR" (Replace logo with https://i.hizliresim.com/g9v1rqh.png)
+user_problem_statement: "mobilde ve webde sayfa aşağı kaydırılmıyor bunu düzelt ve mobilde oyuncu arama ve filtrele kısmı üst baraın içine giriyor bunuda düzelt ayrıca sadece mikrofonlu kutucuğu mobilde biraz büyük onu küçült bu düzeltmeleri cpanel dosyasına yap" (Fix mobile and web page scrolling issue, fix mobile search and filter section overlapping with top bar, and make microphone checkbox smaller on mobile - apply these fixes to cpanel files)
 
 backend:
   - task: "Update cleanup time to 30 minutes in backend"
