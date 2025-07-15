@@ -76,6 +76,18 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+        
+        /* Mobile-specific fixes */
+        @media (max-width: 640px) {
+            .mobile-scroll-fix {
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+            
+            .mobile-header-spacing {
+                padding-top: 100px;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative">
