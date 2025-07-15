@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALOMATE - Valorant Takım Arkadaşı Bul</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom animations */
+        @keyframes slide-in {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .animate-slide-in {
+            animation: slide-in 0.3s ease-out;
+        }
+        
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+        
+        .animate-shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+        
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-0 w-72 h-72 bg-red-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-gradient-to-r text-white px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-md border border-white/10">
+            <div class="flex items-center space-x-3">
+                <div id="toast-icon" class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold"></div>
+                <span id="toast-message" class="font-medium"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 sticky top-0 z-40 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-center">
+                <img src="https://i.hizliresim.com/g9v1rqh.png" alt="VALOMATE" class="h-10 w-auto" 
+                     style="filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.2))">
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 py-6 relative z-10">
+        <!-- Enhanced Search and Filters -->
+        <div class="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-6 mb-6 border border-gray-800/50 shadow-2xl">
+            <div class="space-y-6">
+                <!-- Search Bar -->
+                <div class="relative">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Oyuncu ara..." 
+                               class="w-full bg-black/50 text-white rounded-xl px-4 py-3 pl-12 pr-32 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm">
+                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                            <svg id="searchIcon" class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <div id="searchSpinner" class="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin hidden"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Player Count Badge -->
+                    <div class="absolute right-2 top-2 bottom-2 flex items-center">
+                        <div id="playerCountBadge" class="group relative border rounded-xl px-3 py-1.5 transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-sm">
+                            <div class="flex items-center space-x-2">
+                                <div class="relative">
+                                    <span id="statusIcon" class="text-sm font-bold animate-pulse">😴</span>
+                                    <div id="activeDot" class="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-ping hidden"></div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span id="statusText" class="text-xs font-bold leading-tight">Oyuncu yok</span>
+                                    <span id="totalText" class="text-xs opacity-75 leading-tight hidden"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Hover Tooltip -->
+                            <div class="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                <div class="bg-gray-900/95 backdrop-blur-sm text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap border border-gray-700/50 shadow-xl">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                                            <span id="tooltipActive">Aktif: 0</span>
+                                        </div>
+                                        <div id="tooltipTotal" class="flex items-center space-x-2 hidden">
+                                            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                                            <span id="tooltipTotalText">Toplam: 0</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                            <span>Otomatik yenileme: 30s</span>
+                                        </div>
+                                    </div>
+                                    <div class="absolute top-full right-4 border-4 border-transparent border-t-gray-900/95"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filter Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-white text-sm font-semibold">Oyun Modu</label>
+                        <select id="gameModeFilter" class="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm">
+                            <option value="Tümü">Tümü</option>
+                            <option value="Dereceli">Dereceli</option>
+                            <option value="Premier">Premier</option>
+                            <option value="Derecesiz">Derecesiz</option>
+                            <option value="Tam Gaz">Tam Gaz</option>
+                            <option value="Özel Oyun">Özel Oyun</option>
+                            <option value="1vs1">1vs1</option>
+                            <option value="2vs2">2vs2</option>
+                        </select>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="block text-white text-sm font-semibold">Aranan Kişi</label>
+                        <select id="lookingForFilter" class="w-full bg-black/50 text-white rounded-xl px-4 py-3 border border-gray-700 focus:border-red-500 focus:outline-none transition-all backdrop-blur-sm">
+                            <option value="Tümü">Tümü</option>
+                            <option value="1 Kişi">1 Kişi</option>
+                            <option value="2 Kişi">2 Kişi</option>
+                            <option value="3 Kişi">3 Kişi</option>
+                            <option value="4 Kişi">4 Kişi</option>
+                            <option value="5 Kişi">5 Kişi</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-white text-sm font-semibold">Mikrofon</label>
+                        <div class="flex items-center space-x-3 h-12">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" id="micOnlyFilter" class="w-5 h-5 text-red-600 rounded focus:ring-red-500 focus:ring-2">
+                                <span class="text-white font-medium">🎤 Sadece mikrofonlu</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex items-end">
+                        <button id="refreshBtn" class="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 w-full shadow-lg flex items-center justify-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            <span>Yenile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Players Table -->
+        <div class="bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-gray-800/50 overflow-hidden shadow-2xl">
+            <!-- Desktop Table -->
+            <div class="hidden lg:block overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-black/50 backdrop-blur-sm">
+                        <tr>
+                            <th class="text-left text-white px-6 py-4 font-semibold">KULLANICI</th>
+                            <th class="text-left text-white px-6 py-4 font-semibold">LOBİ KODU</th>
+                            <th class="text-center text-white px-6 py-4 font-semibold">RANK</th>
+                            <th class="text-left text-white px-6 py-4 font-semibold">ARANAN</th>
+                            <th class="text-left text-white px-6 py-4 font-semibold">OYUN MODU</th>
+                            <th class="text-left text-white px-6 py-4 font-semibold">MİKROFON</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playersTableBody" class="divide-y divide-gray-800/50">
+                        <!-- Players will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Card Layout -->
+            <div class="lg:hidden space-y-4 p-4">
+                <div id="playersCardContainer">
+                    <!-- Mobile cards will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Player Button -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <button id="addPlayerBtn" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 group">
+                <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Multi-step Form Modal -->
+    <div id="addPlayerModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-start justify-center z-[9999] p-4 hidden">
+        <div class="bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl p-8 w-full max-w-3xl border border-gray-700/50 shadow-2xl max-h-[80vh] overflow-y-auto mt-16">
+            <!-- Form content will be loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
